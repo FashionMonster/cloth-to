@@ -3,7 +3,12 @@ import Head from 'next/Head'
 import Header from './header';
 import Footer from './footer';
 
+const MyButton = ({ children, onClick }) => {
+  return <button className='bg-red-700 font-semibold text-white py-2 px-4 rounded' onClick={onClick}>{children}</button>
+}
+
 class Index extends React.Component {
+  
   render() {
     return <div>
       <Head>
@@ -11,9 +16,10 @@ class Index extends React.Component {
       </Head>
       <Header />
       <main>
+      <MyButton onClick={() => { alert("hello") }}>"Hello"</MyButton>
         <form action="./api/user" method="get">
           <input type="text" name="test" />
-          <input type="submit" value="api" className="btn-blue"/>
+          <input type="submit" value="api"/>
         </form>
       </main>
       <Footer />

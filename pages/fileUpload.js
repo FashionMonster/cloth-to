@@ -1,4 +1,5 @@
 import React from 'react'
+import {FileBtn} from './components/common'
 
 class FileUpload extends React.Component {
 
@@ -9,16 +10,15 @@ class FileUpload extends React.Component {
 
     render() {
         return <div>
-            <div className="pictureWrapper">
-
-                <img className="preview_main" />
-                <img className="preview_sub" />
-                <img className="preview_sub" />
-                <img className="preview_sub" />
-                <img className="preview_sub" />
-                <label for="uploadBtn" className="uploadLabel">
-                    ファイルを選択<input type="file" id="uploadBtn" />
-                </label>
+            <div className="grid grid-rows-fileUpload gap-8">
+                <img className="w-490 h-490" />
+                <div className="grid grid-cols-fileUpload gap-3">
+                    <img className="w-109 h-109" />
+                    <img className="w-109 h-109" />
+                    <img className="w-109 h-109" />
+                    <img className="w-109 h-109" />
+                </div>
+                <FileBtn value="ファイルを選択" />
             </div>
         </div>;
 

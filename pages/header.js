@@ -1,5 +1,6 @@
 import React from 'react';
 import Link from 'next/Link'
+import Image from 'next/image'
 
 class Header extends React.Component {
 
@@ -10,22 +11,12 @@ class Header extends React.Component {
 
     render() {
         return <div>
-            <nav>
-                <ul>
-                    <li>
-                        <Link href="/search">一覧/検索</Link>
-                    </li>
-                    <li>
-                        <Link href="/contribute">投稿</Link>
-                    </li>
-                    <li>
-                        <Link href="/edit">履歴/編集</Link>
-                    </li>
-                    <li>
-                        <Link href="/setting">設定</Link>
-                    </li>
-                </ul>
-            </nav>
+            <header className="bg-purple-400 grid grid-cols-20 h-16">
+                <div className="col-start-1 h-16">
+                    <Image src="/logo.png" alt="ロゴ" width="64px" height="64px" />
+                </div>
+                <p className="text-lg font-black col-start-2 col-end-6 h-16 leading-16">アパレル生産関係者のための情報共有ツール</p>
+            </header>
         </div>;
     }
 }
