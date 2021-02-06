@@ -1,5 +1,7 @@
 import React from "react";
 import { SubmitBtn } from "../components/common";
+// import axios from "axios";
+// import {useMutation } from "react-query";
 
 const SettingItem = ({ id, children }) => {
   return (
