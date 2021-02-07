@@ -1,37 +1,21 @@
 import axios from "axios";
 import React from "react";
-import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useQuery } from "react-query";
 import { SubmitBtn } from "../components/common";
 import Footer from "./footer";
 import Header from "./header";
 import Navigation from "./navigation";
 
 export default function Search() {
-  const queryClient = useQueryClient();
-
-  const { isLoading, error, data, isFetching } = useQuery(
-    "getContribution",
-    () => axios.get("./api/getContribution").then((res) => res.data)
+  const { isLoading, error, data, isFetching } = useQuery("test", () =>
+    axios
+      .get("./api/getContribution", {
+        params: {
+          reqTest: "テストです",
+        },
+      })
+      .then((res) => res.data)
   );
-
-  const mutation = useMutation(
-    (formData) =>
-      axios
-        .get("./api/getContribution", {
-          params: {
-            reqData: formData.get("keyword"),
-          },
-        })
-        .then((res) => {}),
-    {
-      onSuccess: () => queryClient.invalidateQueries("getContribution"),
-    }
-  );
-
-  const getContribution = (e) => {
-    e.preventDefault();
-    mutation.mutate(new FormData(e.target));
-  };
 
   if (isLoading) return "Loading...";
 
@@ -53,7 +37,7 @@ export default function Search() {
           <div className="col-start-2 col-end-3">
             <div className="">
               <form
-                onSubmit={getContribution}
+                onSubmit={}
                 className="h-8 grid grid-cols-3 justify-between"
               >
                 <div className="col-start-2 col-end-3 flex justify-between">
@@ -77,11 +61,6 @@ export default function Search() {
               </form>
 
               <div className="">
-                <ul>
-                  {data.resData.map((item) => (
-                    <li key={item}>{item}</li>
-                  ))}
-                </ul>
                 {/* <img className="w-109 h-109" />
                                 <div className="">
                                     <p className="">【素材・製品名】</p>

@@ -1,5 +1,6 @@
+import axios from "axios";
 import React from "react";
-import { useQuery } from "react-query";
+import { useMutation } from "react-query";
 import { SubmitBtn } from "../components/common";
 import Footer from "./footer";
 import Header from "./header";
@@ -25,13 +26,22 @@ const SettingInput = ({ type, name }) => {
 };
 
 export default function Setting() {
-  const { isLoading, error, data, isFetching } = useQuery("queryKey", () =>
-    fetch("http://localhost:3000/api/updateUser").then((res) => res.json())
-  );
-
-  if (isLoading) return "Loading...";
-
-  if (error) return "An error has occurred: " + error.message;
+  const mutation = useMutation((formData) => {
+    return axios
+      .post("./api/updateUser", {
+        compId: formData.get("compId"),
+        compPass: formData.get("compPass"),
+        userId: formData.get("userId"),
+        userPass: formData.get("userPass"),
+      })
+      .then((res) => {
+        console.log(res.data);
+      });
+  });
+  const formSubmit = (e) => {
+    e.preventDefault();
+    mutation.mutate(new FormData(e.target));
+  };
 
   return (
     <div>
@@ -43,7 +53,7 @@ export default function Setting() {
         <p className="text-center">
           ユーザー情報またはそれに紐づく企業情報の変更を行います。
           <br />
-          変更したい場合は以下の情報を編集して下さい。{data.name}
+          変更したい場合は以下の情報を編集して下さい。
         </p>
 
         <main className="grid grid-cols-layout grid-rows-3">
@@ -51,8 +61,7 @@ export default function Setting() {
             <div className="grid grid-cols-2">
               <div className="grid grid-cols-auto3x">
                 <form
-                  method="post"
-                  action="./api/updateComp"
+                  onSubmit={formSubmit}
                   className="col-start-2 col-end-3 grid grid-rows-3 gap-8"
                 >
                   <div className="grid grid-cols-settingForm">
@@ -70,10 +79,9 @@ export default function Setting() {
                   </div>
                 </form>
               </div>
-
               <div className="grid grid-cols-auto3x">
                 <form
-                  onSubmit={updateUser}
+                  onSubmit={formSubmit}
                   className="col-start-2 col-end-3 grid grid-rows-3 gap-8"
                 >
                   <div className="grid grid-cols-settingForm">

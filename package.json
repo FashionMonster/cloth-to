@@ -3,12 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "cross-env NODE_OPTIONS='--inspect' next dev",
     "build": "next build",
     "start": "next start"
   },
   "dependencies": {
     "axios": "^0.21.1",
+    "cross-env": "^7.0.3",
     "framer-motion": "^3.2.2-rc.1",
     "next": "10.0.5",
     "react": "17.0.1",
