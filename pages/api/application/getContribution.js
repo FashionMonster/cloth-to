@@ -12,9 +12,14 @@ const models = require("../../models");
 let list = [];
 export default function handler(req, res) {
   try {
-    models.User.findAll().then(function (results) {
-      console.log(results);
-    });
+    models.User.findAll().then((user) =>
+      user.map((user) => {
+        console.log(user.firstName, user.lastName, user.email);
+        list.push(user.firstName);
+        list.push(user.lastName);
+        list.push(user.email);
+      })
+    );
   } catch (e) {
     console.log("ERROR!", e);
   }
