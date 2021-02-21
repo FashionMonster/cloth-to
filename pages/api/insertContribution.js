@@ -8,17 +8,17 @@ export default function handler(req, res) {
     res.json({ resData: "" });
   } else {
     //domain
-    let contribution = new Contribution(
-      req.body.materialName,
-      req.body.category,
-      req.body.fabricStructure,
-      req.body.color,
-      req.body.pattern,
-      req.body.unitPrice,
-      req.body.supplier,
-      req.body.comment,
-      "0"
-    );
+    let contribution = new Contribution({
+      materialName: req.body.materialName,
+      category: req.body.category,
+      fabricStructure: req.body.fabricStructure,
+      color: req.body.color,
+      pattern: req.body.pattern,
+      unitPrice: req.body.unitPrice,
+      supplier: req.body.supplier,
+      comment: req.body.comment,
+      isDeleted: false,
+    });
 
     //infrastructure(insert処理)
     insertContribution(contribution);

@@ -4,7 +4,7 @@ export function insertContribution(contribution) {
   try {
     //insert処理
     models.ContributionInfo.create({
-      contribution_id: 6,
+      contribution_id: 9,
       company_id: "test_company",
       user_id: "test_user",
       material_name: contribution.materialName,
@@ -15,7 +15,7 @@ export function insertContribution(contribution) {
       unit_price: contribution.unitPrice,
       supplier: contribution.supplier,
       comment: contribution.comment,
-      is_del: "0",
+      is_del: "0", //後で項目名is_deleted、型：booleanに変更予定
     }).then(console.log("【SUCCESS!!】"));
   } catch (e) {
     console.log("【ERROR!!】", e);
