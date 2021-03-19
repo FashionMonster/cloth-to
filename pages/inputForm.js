@@ -27,7 +27,7 @@ const SelectComposition = () => {
   );
 };
 
-export default function InputForm() {
+export function InputForm() {
   const queryClient = useQueryClient();
 
   const { isLoading, error, data, isFetching } = useQuery(

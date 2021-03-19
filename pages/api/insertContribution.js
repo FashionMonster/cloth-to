@@ -1,28 +1,52 @@
-import { Contribution } from "../../domain/contribution";
-import { insertContribution } from "../../infrastructure/insertContribution";
+import { ContributionImage } from "../../domain/contributionImage";
+import { ContributionInfo } from "../../domain/contributionInfo";
+import { insertContributionImages } from "../../infrastructure/insertContributionImages";
+import { insertContributionInfos } from "../../infrastructure/insertContributionInfos";
+import { selectContributionId } from "../../infrastructure/selectContributionId";
 
-export default function handler(req, res) {
-  console.log("isInit：" + req.body.isInit);
+export default async function handler(req, res) {
   //初期表示
-  if (req.body.isInit === 1) {
-    res.json({ resData: "" });
+  if (req.body.isInit) {
+    res.json({ res: "" });
   } else {
-    //domain
-    let contribution = new Contribution({
+    //投稿情報ドメイン
+    const contributionInfo = new ContributionInfo({
       materialName: req.body.materialName,
-      category: req.body.category,
+      category: parseInt(req.body.category),
+      composition1: parseInt(req.body.composition1),
+      compositionRatio1: parseInt(req.body.compositionRatio1),
+      composition2: parseInt(req.body.composition2),
+      compositionRatio2: parseInt(req.body.compositionRatio2),
+      composition3: parseInt(req.body.composition3),
+      compositionRatio3: parseInt(req.body.compositionRatio3),
       fabricStructure: req.body.fabricStructure,
-      color: req.body.color,
+      color: parseInt(req.body.color),
       pattern: req.body.pattern,
-      unitPrice: req.body.unitPrice,
+      processing: req.body.processing,
+      unitPrice: parseInt(req.body.unitPrice),
       supplier: req.body.supplier,
       comment: req.body.comment,
       isDeleted: false,
     });
+    //投稿情報登録
+    insertContributionInfos(contributionInfo);
 
-    //infrastructure(insert処理)
-    insertContribution(contribution);
+    //投稿情報登録時の投稿IDを取得
+    const contributeId = await selectContributionId();
 
-    res.json({ resData: "" });
+    //投稿画像ドメイン
+    const contributionImage = new ContributionImage({
+      contributionId: contributeId,
+      imageUrl1: req.body.imageUrl1,
+      imageUrl2: req.body.imageUrl2,
+      imageUrl3: req.body.imageUrl3,
+      imageUrl4: req.body.imageUrl4,
+      imageUrl5: req.body.imageUrl5,
+    });
+
+    //投稿画像
+    insertContributionImages(contributionImage);
+
+    res.json({ res: "" });
   }
 }

@@ -1,9 +1,16 @@
-class Contribution {
+class ContributionInfo {
   materialName;
   category;
+  composition1;
+  compositionRatio1;
+  composition2;
+  compositionRatio2;
+  composition3;
+  compositionRatio3;
   fabricStructure;
   color;
   pattern;
+  processing;
   unitPrice;
   supplier;
   comment;
@@ -15,4 +22,4 @@ class Contribution {
   }
 }
 
-export { Contribution };
+export { ContributionInfo };

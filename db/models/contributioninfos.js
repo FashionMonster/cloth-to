@@ -1,6 +1,6 @@
 const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
-  class ContributionInfo extends Model {
+  class ContributionInfos extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -8,31 +8,43 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      ContributionInfos.belongsTo(models.ContributionImages, {
+        foreignKey: "contribution_id",
+        targetKey: "contribution_id",
+      });
     }
   }
-  ContributionInfo.init(
+  ContributionInfos.init(
     {
       contribution_id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
+        autoIncrement: true,
       },
       company_id: DataTypes.STRING,
       user_id: DataTypes.STRING,
       material_name: DataTypes.STRING,
       category: DataTypes.INTEGER,
+      composition_1: DataTypes.INTEGER,
+      composition_ratio_1: DataTypes.INTEGER,
+      composition_2: DataTypes.INTEGER,
+      composition_ratio_2: DataTypes.INTEGER,
+      composition_3: DataTypes.INTEGER,
+      composition_ratio_3: DataTypes.INTEGER,
       fabric_structure: DataTypes.STRING,
       color: DataTypes.INTEGER,
       pattern: DataTypes.STRING,
-      unit_price: DataTypes.STRING,
+      processing: DataTypes.STRING,
+      unit_price: DataTypes.INTEGER,
       supplier: DataTypes.STRING,
       comment: DataTypes.STRING,
-      is_del: DataTypes.INTEGER,
+      is_deleted: DataTypes.BOOLEAN,
     },
     {
       sequelize,
-      modelName: "ContributionInfo",
+      modelName: "ContributionInfos",
       underscored: true,
     }
   );
-  return ContributionInfo;
+  return ContributionInfos;
 };

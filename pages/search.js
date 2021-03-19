@@ -1,36 +1,110 @@
+/* eslint-disable jsx-a11y/no-onchange */
 import axios from "axios";
-import React from "react";
-import { useMutation, useQuery, useQueryClient } from "react-query";
-import { SubmitBtn } from "../components/common";
-import Footer from "./footer";
-import Header from "./header";
-import Navigation from "./navigation";
+// import Link from "next/link";
+import React, { useState } from "react";
+import { useQuery } from "react-query";
+import { SubmitBtn } from "../components/button/submitBtn";
+import { SelectCategory } from "../components/selectBox/selectCategory";
+import { SelectColor } from "../components/selectBox/selectColor";
+import { SelectCompareCondfition } from "../components/selectBox/selectCompareCondfition";
+import { SelectComposition } from "../components/selectBox/selectComposition";
+import { InputCompositionRatio } from "../components/textBox/inputCompositionRatio";
+import { InputText } from "../components/textBox/inputText";
+import { Footer } from "./footer";
+import { Header } from "./header";
+import { Navigation } from "./navigation";
+
+//入力エリアコンポーネント
+const SearchInput = ({ category }) => {
+  if (["1", "4", "6", "7", "9", "10"].includes(category)) {
+    return <InputText name="keyword" id="keyword" placeholder="" />;
+  } else if (category === "2") {
+    return <SelectCategory name="keyword" id="keyword" />;
+  } else if (category === "3") {
+    return (
+      <div>
+        <SelectComposition name="keyword" id="keyword" />
+        <InputCompositionRatio name="compositionRatio" id="compositionRatio" />
+        <SelectCompareCondfition name="compareCondfition" />
+      </div>
+    );
+  } else if (category === "5") {
+    return <SelectColor name="keyword" id="keyword" />;
+  } else if (category === "8") {
+    return (
+      <div>
+        <InputText name="keyword" id="keyword" placeholder="" />
+        <SelectCompareCondfition name="compareCondfition" />
+      </div>
+    );
+  }
+};
+
+//検索結果のセット
+// const SearchResult = (props) => {
+//   console.log(props);
+//   return (
+//     <div>
+//       <Link href={`/contributionDetail?contributionId=${props.contributionId}`}>
+//         <img className="w-270 h-270 inline-block" alt="イメージ" />
+//       </Link>
+//     </div>
+//   );
+// };
 
 export default function Search() {
-  const queryClient = useQueryClient();
+  // const [searchResult, setSearchResult] = useState("");
+  const [category, setCategory] = useState("1");
+  const [apiParams, setApiParams] = useState({
+    searchCategory: "",
+    keyword: "",
+    compositionRatio: "",
+    compareCondfition: "",
+  });
+
+  //分類セレクトボックスの変更時
+  const searchCategory = (e) => {
+    setCategory(e.target.value);
+  };
 
   const { isLoading, error, data, isFetching } = useQuery(
     "getContribution",
-    () => axios.get("./api/getContribution").then((res) => res.data)
-  );
-
-  const mutation = useMutation(
-    (formData) =>
+    () =>
       axios
         .get("./api/getContribution", {
           params: {
-            reqData: formData.get("keyword"),
+            searchCategory: apiParams.searchCategory,
+            keyword: apiParams.keyword,
+            compositionRatio: apiParams.compositionRatio,
+            compareCondfition: apiParams.compareCondfition,
           },
         })
-        .then((res) => {}),
-    {
-      onSuccess: () => queryClient.invalidateQueries("getContribution"),
-    }
+        .then((res) => {})
   );
 
+  //パラメータのセット
   const getContribution = (e) => {
     e.preventDefault();
-    mutation.mutate(new FormData(e.target));
+    const formData = new FormData(e.target);
+
+    const params = {
+      searchCategory:
+        formData.get("searchCategory") === null
+          ? ""
+          : formData.get("searchCategory"),
+      keyword: formData.get("keyword") === null ? "" : formData.get("keyword"),
+      compositionRatio:
+        formData.get("compositionRatio") === null
+          ? ""
+          : formData.get("compositionRatio"),
+      compareCondfition:
+        formData.get("compareCondfition") === null
+          ? ""
+          : formData.get("compareCondfition"),
+    };
+
+    // console.log(params);
+    setApiParams(params);
   };
 
   if (isLoading) return "Loading...";
@@ -59,34 +133,33 @@ export default function Search() {
                 <div className="col-start-2 col-end-3 flex justify-between">
                   <select
                     name="searchCategory"
-                    className="w-24 border border-solid rounded-sm border-gray-400"
+                    onChange={searchCategory}
+                    className="w-28 border border-solid rounded-sm border-gray-400"
                   >
-                    <option value="name">名称</option>
-                    <option value="material">素材</option>
-                    <option value="price">単価</option>
-                    <option value="supplier">仕入先</option>
-                    <option value="contributer">投稿者</option>
+                    <option value="1">素材・製品名</option>
+                    <option value="2">分類</option>
+                    <option value="3">主組成</option>
+                    <option value="4">織・編地</option>
+                    <option value="5">色</option>
+                    <option value="6">柄</option>
+                    <option value="7">加工</option>
+                    <option value="8">単価</option>
+                    <option value="9">仕入先</option>
+                    <option value="10">投稿者</option>
                   </select>
-                  <input
-                    type="text"
-                    name="keyword"
-                    className="w-48 border border-solid rounded-sm border-gray-400"
-                  ></input>
+                  <SearchInput category={category} />
                   <SubmitBtn value="検索" />
                 </div>
               </form>
-
               <div className="">
-                <ul>
-                  {data.resData.map((item) => (
-                    <li key={item}>{item}</li>
+                {/* <ul>
+                  {data.map((item) => (
+                    <li>{item.contributionId}</li>
                   ))}
-                </ul>
-                {/* <img className="w-109 h-109" />
-                                <div className="">
-                                    <p className="">【素材・製品名】</p>
-                                    <button className="">【詳細/メッセージ】</button>
-                                </div> */}
+                </ul> */}
+                {/* {{ searchResult } !== "" && (
+                  <SearchResult searchResult={searchResult} />
+                )} */}
               </div>
             </div>
           </div>

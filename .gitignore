@@ -3,7 +3,7 @@
 /.pnp
 .pnp.js
 
-# .vscodeフォルダを無視する
+# .vscode
 /.vscode
 
 # testing
@@ -33,3 +33,7 @@ yarn-error.log*
 
 # vercel
 .vercel
+
+
+#DB接続定義
+/db/config

@@ -1,31 +1,24 @@
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable("contribution_compositions", {
+    await queryInterface.createTable("contribution_images", {
       contribution_id: {
-        references: {
-          model: "contribution_infos",
-          key: "contribution_id",
-        },
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      composition_name_1: {
+      image_url_1: {
         type: Sequelize.STRING,
       },
-      composition_percentage_1: {
-        type: Sequelize.INTEGER,
-      },
-      composition_name_2: {
+      image_url_2: {
         type: Sequelize.STRING,
       },
-      composition_percentage_2: {
-        type: Sequelize.INTEGER,
-      },
-      composition_name_3: {
+      image_url_3: {
         type: Sequelize.STRING,
       },
-      composition_percentage_3: {
-        type: Sequelize.INTEGER,
+      image_url_4: {
+        type: Sequelize.STRING,
+      },
+      image_url_5: {
+        type: Sequelize.STRING,
       },
       created_at: {
         allowNull: false,
@@ -38,6 +31,6 @@ module.exports = {
     });
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable("contribution_compositions");
+    await queryInterface.dropTable("contribution_images");
   },
 };
