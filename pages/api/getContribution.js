@@ -1,29 +1,21 @@
-// import { selectContributionInfos } from "../../infrastructure/selectContributionInfos";
+import { selectContributionInfos } from "../../infrastructure/selectContributionInfos";
 
 export default async function handler(req, res) {
-  console.log(req.query);
-  res.json("");
-  // if (parseBool(req.query.isInit)) {
-  //   res.json([{ contributionId: "0" }]);
-  // } else {
-  //   try {
-  //     const conditions = makeQueryConditions(req.query);
-  //     const dataList = await selectContributionInfos(conditions);
-  //     res.json(dataList);
-  //   } catch (e) {
-  //     console.log("ERROR!", e);
-  //   }
-  // }
-}
-
-//初期表示判定
-function parseBool(param) {
-  if (param === "true") {
-    return true;
-  } else if (param === "false") {
-    return false;
+  if (req.query.searchCategory === "") {
+    let dataList = [];
+    dataList.push({
+      contributionId: "",
+      imageUrl: "",
+    });
+    res.json(dataList);
   } else {
-    return true;
+    try {
+      const conditions = makeQueryConditions(req.query);
+      const dataList = await selectContributionInfos(conditions);
+      res.json(dataList);
+    } catch (e) {
+      console.log("ERROR!", e);
+    }
   }
 }
 
@@ -72,7 +64,6 @@ function makeQueryConditions(param) {
     //   conditions = { user_name: param.keyword };
     //   break;
     default:
-      console.log("");
   }
 
   return conditions;
