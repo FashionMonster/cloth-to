@@ -1,5 +1,5 @@
 //比較条件選択コンポーネント
-const SelectCompareCondfition = (props) => {
+const SelectCompareCondition = (props) => {
   return (
     <select
       name={props.name}
@@ -13,4 +13,4 @@ const SelectCompareCondfition = (props) => {
   );
 };
 
-export { SelectCompareCondfition };
+export { SelectCompareCondition };

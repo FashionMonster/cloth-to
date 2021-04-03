@@ -1,70 +1,26 @@
-/* eslint-disable jsx-a11y/no-onchange */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import axios from "axios";
-import firebase from "firebase/app";
-import "firebase/storage";
-import Link from "next/link";
 import React, { useState } from "react";
+import ReactPaginate from "react-paginate";
 import { useQuery } from "react-query";
 import { SubmitBtn } from "../components/button/submitBtn";
 import { SearchInput } from "../components/pageSearch/searchInput";
+import { SearchResult } from "../components/pageSearch/searchResult";
+import { SelectCategory } from "../components/pageSearch/selectCategory";
+import { downloadImage } from "../utils/downloadImage";
+import { nvl } from "../utils/nvl";
 import { Footer } from "./footer";
 import { Header } from "./header";
 import { Navigation } from "./navigation";
 
-//試しーーーーーーーーーーーーーーーーーーーーーー
-
-//Firebase 設定
-var firebaseConfig = {
-  apiKey: process.env.FIREBASE_KEY,
-  authDomain: process.env.FIREBASE_DOMAIN,
-  projectId: process.env.FIREBASE_PROJECT_ID,
-  storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: process.env.FIREBASE_SENDER_ID,
-  appId: process.env.FIREBASE_APP_ID,
-  measurementId: process.env.FIREBASE_MEASUREMENT_ID,
-};
-
-//Firebase Storage 初期化
-if (firebase.apps.length === 0) {
-  firebase.initializeApp(firebaseConfig);
-  firebase.storage();
-}
-
-//試しーーーーーーーーーーーーーーーーーーーーーー
-function downloadImage(fileName) {
-  var storageRef = firebase.storage().ref();
-
-  return new Promise(function (resolve) {
-    storageRef
-      .child(fileName)
-      .getDownloadURL()
-      .then(function (url) {
-        resolve(url);
-      });
-    // .catch(function (error) {
-    //   switch (error.code) {
-    //     case "storage/object-not-found":
-    //       // File doesn't exist
-    //       break;
-    //     case "storage/unauthorized":
-    //       // User doesn't have permission to access the object
-    //       break;
-    //     case "storage/canceled":
-    //       // User canceled the upload
-    //       break;
-    //     case "storage/unknown":
-    //       // Unknown error occurred, inspect the server response
-    //       break;
-    //     default:
-    //   }
-    // });
-  });
-}
+const ONE_PAGE_DISPLAY_DATA = 9;
 
 //データフェッチ
-async function fetchContributions(apiParams) {
+async function fetchContributions(pageNum, apiParams) {
   const { data } = await axios.get("./api/getContribution", {
     params: {
+      page: pageNum,
       searchCategory: apiParams.searchCategory,
       keyword: apiParams.keyword,
       compositionRatio: apiParams.compositionRatio,
@@ -72,8 +28,9 @@ async function fetchContributions(apiParams) {
     },
   });
 
-  if (data.length >= 2) {
-    for (let res of data) {
+  //downloadUrlを取得、dataにセットする
+  if (data.pageCount > 0) {
+    for (let res of data.images) {
       const src = await downloadImage(res.imageUrl);
       res.src = src;
     }
@@ -81,25 +38,21 @@ async function fetchContributions(apiParams) {
   return data;
 }
 
-//検索結果のセット
-const SearchResult = (props) => {
-  return (
-    <div>
-      <Link
-        href={`/contributionDetail?contributionId=${props.data.contributionId}`}
-      >
-        <img
-          src={props.data.src}
-          className="w-270 h-270 inline-block"
-          alt="イメージ"
-        />
-      </Link>
-    </div>
-  );
-};
+// const useEffectCustom = (page, {data})=>{
+//   useEffect(()=>{
+//     if(page >= 1){
+//       QueryClient.prefetchQuery(["page", page],() => fetchContributions(apiParams));
+//     }
+//   },[page,data]
+//   );
+// }
+
+//検索処理時に実行
+// useEffectCustom(pageNum, {data});
 
 export default function Search() {
   const [category, setCategory] = useState("1");
+  const [pageNum, setPageNum] = useState(0);
   const [apiParams, setApiParams] = useState({
     searchCategory: "",
     keyword: "",
@@ -108,13 +61,25 @@ export default function Search() {
   });
 
   const { isLoading, error, data, isFetching } = useQuery(
-    ["apiParams", apiParams],
-    () => fetchContributions(apiParams)
+    ["page", pageNum],
+    () => fetchContributions(pageNum, apiParams)
   );
 
   //分類セレクトボックスの変更時
   const searchCategory = (e) => {
     setCategory(e.target.value);
+  };
+
+  //ページ選択
+  const selectPage = (e) => {
+    const selectedPage = e.selected + 1;
+    console.log(selectedPage);
+    setPageNum(selectedPage);
+  };
+
+  // ページ数の計算
+  const calculatePageCount = () => {
+    return Math.ceil(data.totalCount / ONE_PAGE_DISPLAY_DATA);
   };
 
   //パラメータのセット
@@ -123,22 +88,38 @@ export default function Search() {
     const formData = new FormData(e.target);
 
     const params = {
-      searchCategory:
-        formData.get("searchCategory") === null
-          ? ""
-          : formData.get("searchCategory"),
-      keyword: formData.get("keyword") === null ? "" : formData.get("keyword"),
-      compositionRatio:
-        formData.get("compositionRatio") === null
-          ? ""
-          : formData.get("compositionRatio"),
-      compareCondfition:
-        formData.get("compareCondfition") === null
-          ? ""
-          : formData.get("compareCondfition"),
+      searchCategory: nvl(formData.get("searchCategory")),
+      keyword: nvl(formData.get("keyword")),
+      compositionRatio: nvl(formData.get("compositionRatio")),
+      compareCondfition: nvl(formData.get("compareCondfition")),
     };
 
     setApiParams(params);
+    setPageNum(1);
+  };
+
+  //ページネーションの両端アイコン
+  const arrowIcon = (iconName, currentPage) => {
+    let page;
+    if (iconName === "<") {
+      page = currentPage - 1;
+    } else if (iconName === ">") {
+      page = currentPage + 1;
+    }
+
+    //ページが存在しない場合
+    if (currentPage === 0) {
+      return <></>;
+    }
+
+    return (
+      <div
+        onClick={() => setPageNum(page)}
+        className="w-7 h-7 bg-purple-200 mx-2 text-center rounded-3xl font-semibold hover:bg-purple-600 hover:text-white"
+      >
+        {iconName}
+      </div>
+    );
   };
 
   if (isLoading) return "Loading...";
@@ -159,42 +140,42 @@ export default function Search() {
         </p>
         <main className="grid grid-cols-layout">
           <div className="col-start-2 col-end-3">
-            <div className="">
+            <div className="grid grid-rows-search gap-4">
               <form
                 onSubmit={getContribution}
-                className="h-8 grid grid-cols-3 justify-between"
+                className="w-full flex justify-center grid grid-cols-searchForm gap-4"
               >
-                <div className="col-start-2 col-end-3 flex justify-between">
-                  <select
-                    name="searchCategory"
-                    onChange={searchCategory}
-                    className="w-28 border border-solid rounded-sm border-gray-400"
-                  >
-                    <option value="1">素材・製品名</option>
-                    <option value="2">分類</option>
-                    <option value="3">主組成</option>
-                    <option value="4">織・編地</option>
-                    <option value="5">色</option>
-                    <option value="6">柄</option>
-                    <option value="7">加工</option>
-                    <option value="8">単価</option>
-                    <option value="9">仕入先</option>
-                    <option value="10">投稿者</option>
-                  </select>
-                  <SearchInput category={category} />
-                  <SubmitBtn value="検索" />
-                </div>
+                {/* <div className="grid grid-cols-3 gap-3"> */}
+                {/* <div className=""> */}
+                <SelectCategory onChange={searchCategory} />
+                <SearchInput category={category} />
+                <SubmitBtn value="検索" />
+                {/* </div> */}
               </form>
-              <div className="">
-                <ul>
-                  {data[0].contributionId === ""
-                    ? ""
-                    : data.map((item) => (
-                        <li>
-                          <SearchResult data={item} />
-                        </li>
-                      ))}
-                </ul>
+              <div className="grid grid-cols-3 grid-rows-3 gap-2">
+                {data.pageCount === 0
+                  ? ""
+                  : data.images.map((item) => <SearchResult data={item} />)}
+              </div>
+              <div>
+                <div>
+                  <ReactPaginate
+                    previousLabel={arrowIcon("<", pageNum)}
+                    nextLabel={arrowIcon(">", pageNum)}
+                    marginPagesDisplayed={1}
+                    pageRangeDisplayed={4}
+                    breakLabel={"..."}
+                    breakClassName={"break"}
+                    pageCount={calculatePageCount()}
+                    onPageChange={selectPage}
+                    containerClassName={"flex w-full justify-center"}
+                    pageClassName={
+                      "w-7 h-7 bg-purple-200 mx-2 text-center rounded-3xl font-semibold hover:bg-purple-600 hover:text-white"
+                    }
+                    activeClassName={"w-7 h-7 bg-purple-400 font-semibold"}
+                    disabledClassName={"hidden"}
+                  />
+                </div>
               </div>
             </div>
           </div>

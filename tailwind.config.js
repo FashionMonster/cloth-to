@@ -29,6 +29,8 @@ module.exports = {
       width: {
         100: "100px",
         109: "109px",
+        120: "120px",
+        200: "200px",
         220: "220px",
         270: "270px",
         490: "490px",
@@ -38,14 +40,16 @@ module.exports = {
         100: "100px",
         109: "109px",
         116: "116px",
+        200: "200px",
         220: "220px",
         490: "490px",
       },
       gridTemplateRows: {
         layout: "110px auto 1fr 48px",
-        contributeMain: "10px 1fr 10px",
+        // contributeMain: "10px 1fr 10px",
         fileUpload: "490px 114px 32px",
-        search: "48px auto",
+        // search: "48px auto",
+        search: "32px auto 32px",
         auto3x: "auto auto auto",
       },
       gridTemplateColumns: {
@@ -54,6 +58,9 @@ module.exports = {
         contributeForm: "100px 408px",
         fileUpload: "109px 109px 109px 109px",
         settingForm: "150px 350px",
+        searchForm: "120px 280px 48px",
+        inputComposition: "120px 80px 64px",
+        inputUnitPrice: "192px 72px",
         auto3x: "auto auto auto",
       },
       lineHeight: {

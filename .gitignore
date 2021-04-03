@@ -37,3 +37,7 @@ yarn-error.log*
 
 #DB接続定義
 /db/config
+
+
+#firebase初期化
+/utils/firebase.js

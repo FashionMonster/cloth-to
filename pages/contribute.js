@@ -12,11 +12,12 @@ import { SelectColor } from "../components/selectBox/selectColor";
 import { SelectComposition } from "../components/selectBox/selectComposition";
 import { InputCompositionRatio } from "../components/textBox/inputCompositionRatio";
 import { InputText } from "../components/textBox/inputText";
+import { fb } from "../utils/firebase";
 import { Footer } from "./footer";
 import { Header } from "./header";
 import { Navigation } from "./navigation";
 
-// // //Firebase 設定
+// //Firebase 設定
 // var firebaseConfig = {
 //   apiKey: process.env.FIREBASE_KEY,
 //   authDomain: process.env.FIREBASE_DOMAIN,
@@ -135,7 +136,7 @@ export default function Contribute() {
     for (const file of imgFile) {
       const id = nanoid();
       idList.push(id);
-      let storageRef = firebase.storage().ref(id);
+      let storageRef = fb.storage().ref(id);
       storageRef.put(file.imgFileBlob);
     }
     return idList;

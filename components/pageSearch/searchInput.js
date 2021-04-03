@@ -1,6 +1,6 @@
 import { SelectCategory } from "../selectBox/selectCategory";
 import { SelectColor } from "../selectBox/selectColor";
-import { SelectCompareCondfition } from "../selectBox/selectCompareCondfition";
+import { SelectCompareCondition } from "../selectBox/selectCompareCondition";
 import { SelectComposition } from "../selectBox/selectComposition";
 import { InputCompositionRatio } from "../textBox/inputCompositionRatio";
 import { InputText } from "../textBox/inputText";
@@ -14,19 +14,19 @@ const SearchInput = ({ category }) => {
     return <SelectCategory name="keyword" id="keyword" />;
   } else if (category === "3") {
     return (
-      <div>
+      <div className="grid grid-cols-inputComposition gap-2">
         <SelectComposition name="keyword" id="keyword" />
         <InputCompositionRatio name="compositionRatio" id="compositionRatio" />
-        <SelectCompareCondfition name="compareCondfition" />
+        <SelectCompareCondition name="compareCondfition" />
       </div>
     );
   } else if (category === "5") {
     return <SelectColor name="keyword" id="keyword" />;
   } else if (category === "8") {
     return (
-      <div>
+      <div className="grid grid-cols-inputUnitPrice gap-4">
         <InputText name="keyword" id="keyword" placeholder="" />
-        <SelectCompareCondfition name="compareCondfition" />
+        <SelectCompareCondition name="compareCondfition" />
       </div>
     );
   }
