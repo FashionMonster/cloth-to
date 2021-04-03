@@ -38,18 +38,6 @@ async function fetchContributions(pageNum, apiParams) {
   return data;
 }
 
-// const useEffectCustom = (page, {data})=>{
-//   useEffect(()=>{
-//     if(page >= 1){
-//       QueryClient.prefetchQuery(["page", page],() => fetchContributions(apiParams));
-//     }
-//   },[page,data]
-//   );
-// }
-
-//検索処理時に実行
-// useEffectCustom(pageNum, {data});
-
 export default function Search() {
   const [category, setCategory] = useState("1");
   const [pageNum, setPageNum] = useState(0);
@@ -60,9 +48,8 @@ export default function Search() {
     compareCondfition: "",
   });
 
-  const { isLoading, error, data, isFetching } = useQuery(
-    ["page", pageNum],
-    () => fetchContributions(pageNum, apiParams)
+  const { isLoading, error, data } = useQuery(["page", pageNum], () =>
+    fetchContributions(pageNum, apiParams)
   );
 
   //分類セレクトボックスの変更時
@@ -73,7 +60,6 @@ export default function Search() {
   //ページ選択
   const selectPage = (e) => {
     const selectedPage = e.selected + 1;
-    console.log(selectedPage);
     setPageNum(selectedPage);
   };
 
@@ -145,12 +131,9 @@ export default function Search() {
                 onSubmit={getContribution}
                 className="w-full flex justify-center grid grid-cols-searchForm gap-4"
               >
-                {/* <div className="grid grid-cols-3 gap-3"> */}
-                {/* <div className=""> */}
                 <SelectCategory onChange={searchCategory} />
                 <SearchInput category={category} />
                 <SubmitBtn value="検索" />
-                {/* </div> */}
               </form>
               <div className="grid grid-cols-3 grid-rows-3 gap-2">
                 {data.pageCount === 0
@@ -172,7 +155,13 @@ export default function Search() {
                     pageClassName={
                       "w-7 h-7 bg-purple-200 mx-2 text-center rounded-3xl font-semibold hover:bg-purple-600 hover:text-white"
                     }
+                    pageLinkClassName={
+                      "inline-block w-7 h-7 text-center rounded-3xl font-semibold"
+                    }
                     activeClassName={"w-7 h-7 bg-purple-400 font-semibold"}
+                    activeLinkClassName={
+                      "inline-block w-7 h-7 text-center rounded-3xl font-semibold"
+                    }
                     disabledClassName={"hidden"}
                   />
                 </div>
