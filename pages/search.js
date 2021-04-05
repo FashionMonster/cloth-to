@@ -142,6 +142,7 @@ export default function Search() {
               </div>
               <div>
                 <div>
+                  {/* ページネーション */}
                   <ReactPaginate
                     previousLabel={arrowIcon("<", pageNum)}
                     nextLabel={arrowIcon(">", pageNum)}
