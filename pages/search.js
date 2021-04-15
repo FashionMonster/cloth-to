@@ -2,19 +2,20 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import axios from "axios";
 import React, { useState } from "react";
+import { useForm } from "react-hook-form";
 import ReactPaginate from "react-paginate";
 import { useQuery } from "react-query";
-import { SubmitBtn } from "../components/button/submitBtn";
+import { SubmitBtn } from "../components/common/button/submitBtn";
+import { Footer } from "../components/common/footer";
+import { Header } from "../components/common/header";
+import { Navigation } from "../components/common/navigation";
 import { SearchInput } from "../components/pageSearch/searchInput";
 import { SearchResult } from "../components/pageSearch/searchResult";
 import { SelectCategory } from "../components/pageSearch/selectCategory";
+import { ONE_PAGE_DISPLAY_DATA } from "../constants/const";
+import { calculatePageCount } from "../utils/calculatePageCount";
 import { downloadImage } from "../utils/downloadImage";
 import { nvl } from "../utils/nvl";
-import { Footer } from "./footer";
-import { Header } from "./header";
-import { Navigation } from "./navigation";
-
-const ONE_PAGE_DISPLAY_DATA = 9;
 
 //データフェッチ
 async function fetchContributions(pageNum, apiParams) {
@@ -29,7 +30,7 @@ async function fetchContributions(pageNum, apiParams) {
   });
 
   //downloadUrlを取得、dataにセットする
-  if (data.pageCount > 0) {
+  if (data.totalCount > 0) {
     for (let res of data.images) {
       const src = await downloadImage(res.imageUrl);
       res.src = src;
@@ -39,6 +40,7 @@ async function fetchContributions(pageNum, apiParams) {
 }
 
 export default function Search() {
+  const { handleSubmit, register, errors } = useForm();
   const [category, setCategory] = useState("1");
   const [pageNum, setPageNum] = useState(0);
   const [apiParams, setApiParams] = useState({
@@ -48,39 +50,22 @@ export default function Search() {
     compareCondfition: "",
   });
 
-  const { isLoading, error, data } = useQuery(["page", pageNum], () =>
-    fetchContributions(pageNum, apiParams)
+  const { isLoading, error, data } = useQuery(
+    ["page", pageNum, apiParams],
+    () => fetchContributions(pageNum, apiParams)
   );
 
-  //分類セレクトボックスの変更時
-  const searchCategory = (e) => {
-    setCategory(e.target.value);
-  };
-
-  //ページ選択
-  const selectPage = (e) => {
-    const selectedPage = e.selected + 1;
-    setPageNum(selectedPage);
-  };
-
-  // ページ数の計算
-  const calculatePageCount = () => {
-    return Math.ceil(data.totalCount / ONE_PAGE_DISPLAY_DATA);
-  };
-
   //パラメータのセット
-  const getContribution = (e) => {
-    e.preventDefault();
-    const formData = new FormData(e.target);
-
+  const getContribution = (data) => {
     const params = {
-      searchCategory: nvl(formData.get("searchCategory")),
-      keyword: nvl(formData.get("keyword")),
-      compositionRatio: nvl(formData.get("compositionRatio")),
-      compareCondfition: nvl(formData.get("compareCondfition")),
+      searchCategory: nvl(data.searchCategory),
+      keyword: nvl(data.keyword),
+      compositionRatio: nvl(data.compositionRatio),
+      compareCondfition: nvl(data.compareCondfition),
     };
 
     setApiParams(params);
+    setCategory("1");
     setPageNum(1);
   };
 
@@ -93,8 +78,8 @@ export default function Search() {
       page = currentPage + 1;
     }
 
-    //ページが存在しない場合
-    if (currentPage === 0) {
+    //初期表示 又は ページが存在しない場合
+    if (currentPage === 0 || data.totalCount === 0) {
       return <></>;
     }
 
@@ -128,15 +113,24 @@ export default function Search() {
           <div className="col-start-2 col-end-3">
             <div className="grid grid-rows-search gap-4">
               <form
-                onSubmit={getContribution}
-                className="w-full flex justify-center grid grid-cols-searchForm gap-4"
+                onSubmit={handleSubmit(getContribution)}
+                className="w-full h-16 flex justify-center grid grid-cols-searchForm gap-4"
               >
-                <SelectCategory onChange={searchCategory} />
-                <SearchInput category={category} />
+                <SelectCategory
+                  onChange={(e) => {
+                    setCategory(e.target.value);
+                  }}
+                  register={register()}
+                />
+                <SearchInput
+                  category={category}
+                  register={register}
+                  errors={errors}
+                />
                 <SubmitBtn value="検索" />
               </form>
               <div className="grid grid-cols-3 grid-rows-3 gap-2">
-                {data.pageCount === 0
+                {data.totalCount === 0
                   ? ""
                   : data.images.map((item) => <SearchResult data={item} />)}
               </div>
@@ -150,8 +144,13 @@ export default function Search() {
                     pageRangeDisplayed={4}
                     breakLabel={"..."}
                     breakClassName={"break"}
-                    pageCount={calculatePageCount()}
-                    onPageChange={selectPage}
+                    pageCount={calculatePageCount(
+                      data.totalCount,
+                      ONE_PAGE_DISPLAY_DATA
+                    )}
+                    onPageChange={(e) => {
+                      setPageNum(e.selected + 1);
+                    }}
                     containerClassName={"flex w-full justify-center"}
                     pageClassName={
                       "w-7 h-7 bg-purple-200 mx-2 text-center rounded-3xl font-semibold hover:bg-purple-600 hover:text-white"

@@ -1,60 +1,30 @@
 import axios from "axios";
-// import firebase from "firebase/app";
-// import "firebase/storage";
-import { nanoid } from "nanoid";
 import React, { useState } from "react";
+import { useForm } from "react-hook-form";
 import { useMutation, useQuery, useQueryClient } from "react-query";
-import { SubmitBtn } from "../components/button/submitBtn";
-import { PreviewMainArea } from "../components/preview/previewMainArea";
-import { PreviewSubArea } from "../components/preview/previewSubArea";
-import { SelectCategory } from "../components/selectBox/selectCategory";
-import { SelectColor } from "../components/selectBox/selectColor";
-import { SelectComposition } from "../components/selectBox/selectComposition";
-import { InputCompositionRatio } from "../components/textBox/inputCompositionRatio";
-import { InputText } from "../components/textBox/inputText";
-import { fb } from "../utils/firebase";
-import { Footer } from "./footer";
-import { Header } from "./header";
-import { Navigation } from "./navigation";
-
-// //Firebase 設定
-// var firebaseConfig = {
-//   apiKey: process.env.FIREBASE_KEY,
-//   authDomain: process.env.FIREBASE_DOMAIN,
-//   projectId: process.env.FIREBASE_PROJECT_ID,
-//   storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
-//   messagingSenderId: process.env.FIREBASE_SENDER_ID,
-//   appId: process.env.FIREBASE_APP_ID,
-//   measurementId: process.env.FIREBASE_MEASUREMENT_ID,
-// };
-
-// //Firebase Storage 初期化
-// if (firebase.apps.length === 0) {
-//   firebase.initializeApp(firebaseConfig);
-//   firebase.storage();
-// }
-
-//ファイル読み込み処理
-const readFile = (blob) => {
-  return new Promise((resolve) => {
-    // FileReaderの生成
-    const reader = new FileReader();
-
-    // ファイルの読み込み
-    reader.readAsDataURL(blob);
-
-    // reader.resultでファイル内容にアクセスできる
-    reader.onload = () => {
-      resolve(reader.result);
-    };
-  });
-};
+import { FileSelectBtn } from "../components/common/button/fileSelectBtn";
+import { Footer } from "../components/common/footer";
+import { Header } from "../components/common/header";
+import { Navigation } from "../components/common/navigation";
+import { PreviewMainArea } from "../components/common/preview/previewMainArea";
+import { PreviewSubArea } from "../components/common/preview/previewSubArea";
+import ContributionForm from "../components/pagecontribute/contributionForm";
+import { readFile } from "../utils/readFile";
+import { uploadImage } from "../utils/uploadImage";
 
 export default function Contribute() {
   const [imgFile, setImgFile] = useState([]);
+  const {
+    handleSubmit,
+    register,
+    errors,
+    getValues,
+    setError,
+    clearErrors,
+  } = useForm();
 
   //ファイル選択イベント
-  const fileSelect = async (e) => {
+  const selectFile = async (e) => {
     e.preventDefault();
 
     //ファイルオブジェクトを取得
@@ -79,68 +49,27 @@ export default function Contribute() {
         .then((res) => res.contributionId)
   );
 
+  //投稿イベント
+  const insertContribution = (data) => {
+    //FireBase Storageに画像アップロード
+    const idList = uploadImage(imgFile);
+
+    for (let i = 0; i < 5; i++) {
+      data[`imageUrl${i + 1}`] = idList[i] === undefined ? "" : idList[i];
+    }
+
+    data.isInit = false;
+
+    mutation.mutate(data);
+  };
+
   const mutation = useMutation(
     (formData) =>
-      axios
-        .post("./api/insertContribution", {
-          isInit: false,
-          materialName: formData.get("materialName"),
-          category: formData.get("category"),
-          composition1: formData.get("composition1"),
-          compositionRatio1: formData.get("compositionRatio1"),
-          composition2: formData.get("composition2"),
-          compositionRatio2: formData.get("compositionRatio2"),
-          composition3: formData.get("composition3"),
-          compositionRatio3: formData.get("compositionRatio3"),
-          fabricStructure: formData.get("fabricStructure"),
-          color: formData.get("color"),
-          pattern: formData.get("pattern"),
-          processing: formData.get("processing"),
-          unitPrice: formData.get("unitPrice"),
-          supplier: formData.get("supplier"),
-          comment: formData.get("comment"),
-          imageUrl1: formData.get("imageUrl1"),
-          imageUrl2: formData.get("imageUrl2"),
-          imageUrl3: formData.get("imageUrl3"),
-          imageUrl4: formData.get("imageUrl4"),
-          imageUrl5: formData.get("imageUrl5"),
-        })
-        .then((res) => {}),
+      axios.post("./api/insertContribution", formData).then((res) => {}),
     {
       onSuccess: () => queryClient.invalidateQueries("insertContribution"),
     }
   );
-
-  //投稿イベント
-  const insertContribution = (e) => {
-    e.preventDefault();
-    //FireBase Storageに画像アップロード
-    const idList = putImage();
-
-    //リクエストデータ作成
-    let formData = new FormData(e.target);
-
-    for (let i = 0; i < 5; i++) {
-      formData.append(
-        `imageUrl${i + 1}`,
-        idList[i] === undefined ? "" : idList[i]
-      );
-    }
-
-    mutation.mutate(formData);
-  };
-
-  //FireBase Storageに画像アップロード
-  const putImage = () => {
-    let idList = [];
-    for (const file of imgFile) {
-      const id = nanoid();
-      idList.push(id);
-      let storageRef = fb.storage().ref(id);
-      storageRef.put(file.imgFileBlob);
-    }
-    return idList;
-  };
 
   if (isLoading) return "Loading...";
 
@@ -160,136 +89,48 @@ export default function Contribute() {
         </p>
         <main className="grid grid-cols-layout">
           <form
-            onSubmit={insertContribution}
+            onSubmit={handleSubmit(insertContribution)}
             className="col-start-2 col-end-3 grid grid-cols-2"
           >
-            <div>
-              <div className="grid grid-rows-fileUpload gap-8">
-                <PreviewMainArea
-                  imgFileUrl={
-                    imgFile[0] === undefined ? "" : imgFile[0].imgFileUrl
+            {/* ファイル選択(画面左) */}
+            <div className="grid grid-rows-fileUpload gap-6">
+              {/* メインイメージ */}
+              <PreviewMainArea
+                imgFileUrl={
+                  imgFile[0] === undefined ? "" : imgFile[0].imgFileUrl
+                }
+              />
+              {/* サブイメージ */}
+              <div className="grid grid-cols-previewSubArea gap-3">
+                {(() => {
+                  var previewSubArea = [];
+                  for (let i = 1; i <= 4; i++) {
+                    previewSubArea.push(
+                      <PreviewSubArea
+                        imgFileUrl={
+                          imgFile[i] === undefined ? "" : imgFile[i].imgFileUrl
+                        }
+                      />
+                    );
                   }
-                />
-                <div className="grid grid-cols-fileUpload gap-3">
-                  <PreviewSubArea
-                    imgFileUrl={
-                      imgFile[1] === undefined ? "" : imgFile[1].imgFileUrl
-                    }
-                  />
-                  <PreviewSubArea
-                    imgFileUrl={
-                      imgFile[2] === undefined ? "" : imgFile[2].imgFileUrl
-                    }
-                  />
-                  <PreviewSubArea
-                    imgFileUrl={
-                      imgFile[3] === undefined ? "" : imgFile[3].imgFileUrl
-                    }
-                  />
-                  <PreviewSubArea
-                    imgFileUrl={
-                      imgFile[4] === undefined ? "" : imgFile[4].imgFileUrl
-                    }
-                  />
-                </div>
-
-                <label
-                  for="uploadBtn"
-                  className="bg-purple-700 text-white rounded w-32 text-center px-2 py-1 hover:bg-purple-800 hover:text-white"
-                >
-                  ファイルを選択
-                  <input
-                    type="file"
-                    multiple="multiple"
-                    name="imageFiles"
-                    id="uploadBtn"
-                    className="hidden"
-                    onChange={fileSelect}
-                  />
-                </label>
+                  return previewSubArea;
+                })()}
               </div>
+              <FileSelectBtn
+                register={register}
+                errors={errors.imageFiles}
+                selectFile={selectFile}
+              />
             </div>
-
-            <div>
-              <div className="grid grid-rows-11 grid-cols-contributeForm gap-8">
-                <label htmlFor="materialName">素材・製品名</label>
-                <InputText
-                  name="materialName"
-                  id="materialName"
-                  placeholder="例：2020SS シャツ用生地"
-                />
-
-                <label htmlFor="category">分類</label>
-                <SelectCategory name="category" id="category" />
-
-                <label htmlFor="composition">主組成</label>
-                <div className="grid grid-cols-3 gap-1">
-                  <div className="grid grid-cols-2 gap-1">
-                    <SelectComposition name="composition1" id="composition" />
-                    <InputCompositionRatio name="compositionRatio1" />
-                  </div>
-                  <div className="grid grid-cols-2 gap-1">
-                    <SelectComposition name="composition2" id="composition" />
-                    <InputCompositionRatio name="compositionRatio2" />
-                  </div>
-                  <div className="grid grid-cols-2 gap-1">
-                    <SelectComposition name="composition3" id="composition" />
-                    <InputCompositionRatio name="compositionRatio3" />
-                  </div>
-                </div>
-
-                <label htmlFor="fabricStructure">織・編地</label>
-                <InputText
-                  name="fabricStructure"
-                  id="fabricStructure"
-                  placeholder="例：サテン"
-                />
-
-                <label htmlFor="color">色</label>
-                <SelectColor name="color" id="color" />
-
-                <label htmlFor="pattern">柄</label>
-                <InputText
-                  name="pattern"
-                  id="pattern"
-                  placeholder="例：ストライプ"
-                />
-
-                <label htmlFor="processing">加工</label>
-                <InputText
-                  name="processing"
-                  id="processing"
-                  placeholder="例：撥水加工、防汚加工"
-                />
-
-                <label htmlFor="unitPrice">単価</label>
-                <InputText
-                  name="unitPrice"
-                  id="unitPrice"
-                  placeholder="例：480"
-                />
-
-                <label htmlFor="supplier">仕入先</label>
-                <InputText
-                  name="supplier"
-                  id="supplier"
-                  placeholder="例：株式会社 〇〇"
-                />
-
-                <label htmlFor="comment">コメント</label>
-                <textarea
-                  name="comment"
-                  className="h-116 border border-solid rounded-sm border-gray-400"
-                  id="comment"
-                  placeholder="記載した内容以外の情報があれば記入します。"
-                />
-
-                <div></div>
-                <div className="flex justify-around">
-                  <SubmitBtn value="一時保存する" />
-                  <SubmitBtn value="投稿する" />
-                </div>
-              </div>
+            {/* フォーム(画面右) */}
+            <div className="grid grid-rows-contributeForm grid-cols-contributeForm gap-6">
+              <ContributionForm
+                register={register}
+                errors={errors}
+                getValues={getValues}
+                setError={setError}
+                clearErrors={clearErrors}
+              />
             </div>
           </form>
         </main>

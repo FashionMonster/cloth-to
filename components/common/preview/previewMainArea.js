@@ -2,11 +2,11 @@
 const PreviewMainArea = ({ imgFileUrl }) => {
   if (imgFileUrl === "") {
     return (
-      <div className="w-490 h-490 border border-solid border-gray-400"></div>
+      <div className="w-480 h-480 border border-solid border-gray-400"></div>
     );
   } else {
     return (
-      <img src={imgFileUrl} alt="メインイメージ" className="w-490 h-490" />
+      <img src={imgFileUrl} alt="メインイメージ" className="w-480 h-480" />
     );
   }
 };

@@ -4,7 +4,8 @@ const SelectCompareCondition = (props) => {
     <select
       name={props.name}
       id={props.id}
-      className="border border-solid rounded-sm border-gray-400"
+      className="h-8 border border-solid rounded-sm border-gray-400"
+      ref={props.register}
     >
       <option value="1">等しい</option>
       <option value="2">以上</option>

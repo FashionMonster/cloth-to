@@ -1,15 +1,6 @@
-import Link from "next/Link";
-import React from "react";
+import { NavLink } from "./navLink";
 
-const NavLink = ({ href, children }) => {
-  return (
-    <li className="bg-purple-100 font-black h-12 leading-12 text-center hover:bg-purple-300">
-      <Link href={href}>{children}</Link>
-    </li>
-  );
-};
-
-export function Navigation() {
+const Navigation = () => {
   return (
     <div>
       <nav className="bg-purple-100 h-12 grid grid-cols-layout">
@@ -24,4 +15,6 @@ export function Navigation() {
       </nav>
     </div>
   );
-}
+};
+
+export { Navigation };

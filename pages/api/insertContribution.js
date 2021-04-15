@@ -5,6 +5,8 @@ import { insertContributionInfos } from "../../infrastructure/insertContribution
 import { selectContributionId } from "../../infrastructure/selectContributionId";
 
 export default async function handler(req, res) {
+  console.log(req.body);
+
   //初期表示
   if (req.body.isInit) {
     res.json({ res: "" });

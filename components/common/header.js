@@ -1,7 +1,7 @@
 import Image from "next/image";
 import React from "react";
 
-export function Header() {
+const Header = () => {
   return (
     <div>
       <header className="bg-purple-400 grid grid-cols-20 h-16">
@@ -14,4 +14,6 @@ export function Header() {
       </header>
     </div>
   );
-}
+};
+
+export { Header };

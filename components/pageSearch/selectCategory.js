@@ -6,7 +6,8 @@ const SelectCategory = (props) => {
     <select
       name="searchCategory"
       onChange={props.onChange}
-      className="w-120 border border-solid rounded-sm border-gray-400 inline-block"
+      className="w-120 h-8 border border-solid rounded-sm border-gray-400 inline-block"
+      ref={props.register}
     >
       <option value="1">素材・製品名</option>
       <option value="2">分類</option>

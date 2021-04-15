@@ -19,9 +19,6 @@ export default async function handler(req, res) {
       //全取得件数
       const totalCount = await selectCountContributionInfos(conditions);
 
-      //表示ページ数取得
-      const pageCount = Math.ceil(totalCount / IMAGE_DISPLAY_LIMIT);
-
       const offset = (req.query.page - 1) * IMAGE_DISPLAY_LIMIT;
 
       //Xページのデータ取得
@@ -33,7 +30,6 @@ export default async function handler(req, res) {
 
       res.json({
         images: dataList,
-        pageCount: pageCount,
         totalCount: totalCount,
       });
     } catch (e) {
