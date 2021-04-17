@@ -12,20 +12,20 @@ import { Navigation } from "../components/common/navigation";
 import { SearchInput } from "../components/pageSearch/searchInput";
 import { SearchResult } from "../components/pageSearch/searchResult";
 import { SelectCategory } from "../components/pageSearch/selectCategory";
-import { ONE_PAGE_DISPLAY_DATA } from "../constants/const";
+import { CONST } from "../constants/const";
 import { calculatePageCount } from "../utils/calculatePageCount";
 import { downloadImage } from "../utils/downloadImage";
 import { nvl } from "../utils/nvl";
 
 //データフェッチ
-async function fetchContributions(pageNum, apiParams) {
+async function fetchContributions(searchInfo) {
   const { data } = await axios.get("./api/getContribution", {
     params: {
-      page: pageNum,
-      searchCategory: apiParams.searchCategory,
-      keyword: apiParams.keyword,
-      compositionRatio: apiParams.compositionRatio,
-      compareCondfition: apiParams.compareCondfition,
+      page: searchInfo.pageNum,
+      searchCategory: searchInfo.apiParam.searchCategory,
+      keyword: searchInfo.apiParam.keyword,
+      compositionRatio: searchInfo.apiParam.compositionRatio,
+      compareCondfition: searchInfo.apiParam.compareCondfition,
     },
   });
 
@@ -42,17 +42,18 @@ async function fetchContributions(pageNum, apiParams) {
 export default function Search() {
   const { handleSubmit, register, errors } = useForm();
   const [category, setCategory] = useState("1");
-  const [pageNum, setPageNum] = useState(0);
-  const [apiParams, setApiParams] = useState({
-    searchCategory: "",
-    keyword: "",
-    compositionRatio: "",
-    compareCondfition: "",
+  const [searchInfo, setSearchInfo] = useState({
+    pageNum: 0,
+    apiParam: {
+      searchCategory: "",
+      keyword: "",
+      compositionRatio: "",
+      compareCondfition: "",
+    },
   });
 
-  const { isLoading, error, data } = useQuery(
-    ["page", pageNum, apiParams],
-    () => fetchContributions(pageNum, apiParams)
+  const { isLoading, error, data } = useQuery(["searchInfo", searchInfo], () =>
+    fetchContributions(searchInfo)
   );
 
   //パラメータのセット
@@ -64,9 +65,11 @@ export default function Search() {
       compareCondfition: nvl(data.compareCondfition),
     };
 
-    setApiParams(params);
+    //初期化
     setCategory("1");
-    setPageNum(1);
+
+    //検索に入力した情報をセット
+    setSearchInfo({ pageNum: 1, apiParam: params });
   };
 
   //ページネーションの両端アイコン
@@ -85,7 +88,9 @@ export default function Search() {
 
     return (
       <div
-        onClick={() => setPageNum(page)}
+        onClick={() =>
+          setSearchInfo({ pageNum: page, apiParam: searchInfo.apiParam })
+        }
         className="w-7 h-7 bg-purple-200 mx-2 text-center rounded-3xl font-semibold hover:bg-purple-600 hover:text-white"
       >
         {iconName}
@@ -138,18 +143,21 @@ export default function Search() {
                 <div>
                   {/* ページネーション */}
                   <ReactPaginate
-                    previousLabel={arrowIcon("<", pageNum)}
-                    nextLabel={arrowIcon(">", pageNum)}
+                    previousLabel={arrowIcon("<", searchInfo.pageNum)}
+                    nextLabel={arrowIcon(">", searchInfo.pageNum)}
                     marginPagesDisplayed={1}
                     pageRangeDisplayed={4}
                     breakLabel={"..."}
                     breakClassName={"break"}
                     pageCount={calculatePageCount(
                       data.totalCount,
-                      ONE_PAGE_DISPLAY_DATA
+                      CONST.ONE_PAGE_DISPLAY_DATA
                     )}
                     onPageChange={(e) => {
-                      setPageNum(e.selected + 1);
+                      setSearchInfo({
+                        pageNum: e.selected + 1,
+                        apiParam: searchInfo.apiParam,
+                      });
                     }}
                     containerClassName={"flex w-full justify-center"}
                     pageClassName={

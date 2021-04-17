@@ -1,3 +1,5 @@
+import { CONST } from "../../apiConstants/const";
+import { appLogInfo } from "../../apiUtils/appLogInfo";
 import { ContributionImage } from "../../domain/contributionImage";
 import { ContributionInfo } from "../../domain/contributionInfo";
 import { insertContributionImages } from "../../infrastructure/insertContributionImages";
@@ -5,10 +7,12 @@ import { insertContributionInfos } from "../../infrastructure/insertContribution
 import { selectContributionId } from "../../infrastructure/selectContributionId";
 
 export default async function handler(req, res) {
-  console.log(req.body);
+  appLogInfo(CONST.FILE_NAME_INSERTCONTRIBUTION, "start");
+  appLogInfo(CONST.FILE_NAME_INSERTCONTRIBUTION, "requestData", req.body);
 
   //初期表示
   if (req.body.isInit) {
+    appLogInfo(CONST.FILE_NAME_INSERTCONTRIBUTION, "end");
     res.json({ res: "" });
   } else {
     //投稿情報ドメイン
@@ -48,6 +52,8 @@ export default async function handler(req, res) {
 
     //投稿画像
     insertContributionImages(contributionImage);
+
+    appLogInfo(CONST.FILE_NAME_INSERTCONTRIBUTION, "end");
 
     res.json({ res: "" });
   }

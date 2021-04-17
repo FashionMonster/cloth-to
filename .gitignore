@@ -34,10 +34,11 @@ yarn-error.log*
 # vercel
 .vercel
 
-
 #DB接続定義
 /db/config
 
-
 #firebase初期化
 /utils/firebase.js
+
+#logファイル
+/log
