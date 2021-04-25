@@ -10,8 +10,8 @@ const appLogError = (fileName, category, e) => {
   //２つのファイルにそれぞれエラー内容を出力する
   switch (category) {
     case "database":
-      getAppLogger.info(`${fileName}：database\r\n${e}`);
-      getErrLogger.info(`${fileName}：database\r\n${e}`);
+      getAppLogger.error(`${fileName}：database\r\n${e.stack}`);
+      getErrLogger.error(`${fileName}：database\r\n${e.stack}`);
       break;
     default:
   }

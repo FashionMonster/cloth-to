@@ -1,13 +1,12 @@
 import { CONST } from "../../apiConstants/const";
-import { appLogError } from "../../apiUtils/appLogError";
 import { appLogInfo } from "../../apiUtils/appLogInfo";
 import { makeQueryConditions } from "../../apiUtils/makeQueryConditions";
 import { selectContributionInfos } from "../../infrastructure/selectContributionInfos";
 import { selectCountContributionInfos } from "../../infrastructure/selectCountContributionInfos";
 
 export default async function handler(req, res) {
-  appLogInfo(CONST.FILE_NAME_GETCONTRIBUTION, "start");
-  appLogInfo(CONST.FILE_NAME_GETCONTRIBUTION, "requestData", req.query);
+  appLogInfo(CONST.FILE_NAME.GET_CONTRIBUTION, "start");
+  appLogInfo(CONST.FILE_NAME.GET_CONTRIBUTION, "requestData", req.query);
 
   if (req.query.searchCategory === "") {
     let dataList = [];
@@ -16,7 +15,7 @@ export default async function handler(req, res) {
       imageUrl: "",
     });
 
-    appLogInfo(CONST.FILE_NAME_GETCONTRIBUTION, "end");
+    appLogInfo(CONST.FILE_NAME.GET_CONTRIBUTION, "end");
     res.json({ images: dataList, pageCount: 0, totalCount: 0 });
   } else {
     try {
@@ -35,7 +34,7 @@ export default async function handler(req, res) {
         CONST.IMAGE_DISPLAY_LIMIT
       );
 
-      appLogInfo(CONST.FILE_NAME_GETCONTRIBUTION, "end");
+      appLogInfo(CONST.FILE_NAME.GET_CONTRIBUTION, "end");
 
       res.json({
         images: dataList,
@@ -43,7 +42,8 @@ export default async function handler(req, res) {
         totalCount: totalCount,
       });
     } catch (e) {
-      appLogError.error(CONST.FILE_NAME_GETCONTRIBUTION, "database", e);
+      //画面にエラー情報を返却
+      throw e;
     }
   }
 }

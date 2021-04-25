@@ -1,3 +1,6 @@
+import { CONST } from "../apiConstants/const";
+import { appLogError } from "../apiUtils/appLogError";
+
 const models = require("../db/models");
 
 export function selectContributionInfos(conditions, offset, limit) {
@@ -10,9 +13,14 @@ export function selectContributionInfos(conditions, offset, limit) {
     where: conditions,
     offset: offset,
     limit: limit,
-  }).then((result) => {
-    return getResultData(result);
-  });
+  })
+    .then((result) => {
+      return getResultData(result);
+    })
+    .catch((e) => {
+      appLogError(CONST.FILE_NAME.SELECT_CONTRIBUTION_INFOS, "database", e);
+      throw e;
+    });
 }
 
 //検索結果をセットする

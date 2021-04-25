@@ -55,10 +55,11 @@ module.exports = {
           "32px 32px 32px 32px 32px 32px 32px 32px 32px 112px 32px",
         search: "32px auto 32px",
         auto3x: "auto auto auto",
+        error: "64px auto 48px",
       },
       gridTemplateColumns: {
         20: "repeat(20, minmax(0, 1fr))",
-        layout: "auto 1080px auto",
+        main: "auto 1080px auto",
         contributeForm: "100px 408px",
         previewSubArea: "112px 112px 112px 112px",
         settingForm: "150px 350px",

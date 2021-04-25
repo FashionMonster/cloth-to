@@ -6,8 +6,10 @@ import { useForm } from "react-hook-form";
 import ReactPaginate from "react-paginate";
 import { useQuery } from "react-query";
 import { SubmitBtn } from "../components/common/button/submitBtn";
+import { Error } from "../components/common/error";
 import { Footer } from "../components/common/footer";
 import { Header } from "../components/common/header";
+import { Loading } from "../components/common/loading/loading";
 import { Navigation } from "../components/common/navigation";
 import { SearchInput } from "../components/pageSearch/searchInput";
 import { SearchResult } from "../components/pageSearch/searchResult";
@@ -52,8 +54,9 @@ export default function Search() {
     },
   });
 
-  const { isLoading, error, data } = useQuery(["searchInfo", searchInfo], () =>
-    fetchContributions(searchInfo)
+  const { isFetching, isLoading, error, data } = useQuery(
+    ["searchInfo", searchInfo],
+    () => fetchContributions(searchInfo)
   );
 
   //パラメータのセット
@@ -98,9 +101,9 @@ export default function Search() {
     );
   };
 
-  if (isLoading) return "Loading...";
+  if (isFetching || isLoading) return <Loading />;
 
-  if (error) return "An error has occurred: " + error.message;
+  if (error) return <Error href="/search" errorMsg={error.message} />;
 
   return (
     <div>
@@ -114,7 +117,7 @@ export default function Search() {
           <br />
           新しいアイデアが湧いたり、創りたい商品を実現するキッカケになります。
         </p>
-        <main className="grid grid-cols-layout">
+        <main className="grid grid-cols-main">
           <div className="col-start-2 col-end-3">
             <div className="grid grid-rows-search gap-4">
               <form

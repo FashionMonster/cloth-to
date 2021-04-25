@@ -16,6 +16,9 @@ const appLogInfo = (fileName, category, data) => {
     case "requestData":
       getAppLogger.info(`${fileName}：requestData\r\n${makeReqDataLog(data)}`);
       break;
+    case "sql":
+      getAppLogger.info(`${fileName}：sql\r\n${data}`);
+      break;
     default:
   }
 };

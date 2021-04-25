@@ -1,10 +1,13 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useMutation } from "react-query";
 import { FileSelectBtn } from "../components/common/button/fileSelectBtn";
+import { Error } from "../components/common/error";
 import { Footer } from "../components/common/footer";
 import { Header } from "../components/common/header";
+import { Loading } from "../components/common/loading/loading";
+import { ModalWindow } from "../components/common/modal/modalWindow";
 import { Navigation } from "../components/common/navigation";
 import { PreviewMainArea } from "../components/common/preview/previewMainArea";
 import { PreviewSubArea } from "../components/common/preview/previewSubArea";
@@ -14,6 +17,7 @@ import { uploadImage } from "../utils/uploadImage";
 
 export default function Contribute() {
   const [imgFile, setImgFile] = useState([]);
+  const [modalIsOpen, setIsOpen] = useState(false);
   const {
     handleSubmit,
     register,
@@ -40,15 +44,6 @@ export default function Contribute() {
     setImgFile(fileList);
   };
 
-  const queryClient = useQueryClient();
-  const { isLoading, error, data, isFetching } = useQuery(
-    "insertContribution",
-    () =>
-      axios
-        .post("./api/insertContribution", { isInit: true })
-        .then((res) => res.contributionId)
-  );
-
   //投稿イベント
   const insertContribution = (data) => {
     //FireBase Storageに画像アップロード
@@ -63,21 +58,21 @@ export default function Contribute() {
     mutation.mutate(data);
   };
 
-  const mutation = useMutation(
-    (formData) =>
-      axios.post("./api/insertContribution", formData).then((res) => {}),
-    {
-      onSuccess: () => queryClient.invalidateQueries("insertContribution"),
-    }
+  const mutation = useMutation((formData) =>
+    axios.post("./api/insertContribution", formData).then(() => {
+      setImgFile([]); //初期化
+      setIsOpen(true);
+    })
   );
 
-  if (isLoading) return "Loading...";
+  if (mutation.isFetching || mutation.isLoading) return <Loading />;
 
-  if (error) return "An error has occurred: " + error.message;
+  if (mutation.isError)
+    return <Error href="/contribute" errorMsg={mutation.error.message} />;
 
   return (
     <div>
-      <body className="grid grid-rows-layout gap-4 min-h-screen">
+      <body className="grid grid-rows-layout gap-4 min-h-screen relative">
         <div id="headerWrapper">
           <Header />
           <Navigation />
@@ -87,7 +82,7 @@ export default function Contribute() {
           <br />
           あなたの投稿内容は、他メンバーの新たなクリエイションに役立てることができます。
         </p>
-        <main className="grid grid-cols-layout">
+        <main className="grid grid-cols-main">
           <form
             onSubmit={handleSubmit(insertContribution)}
             className="col-start-2 col-end-3 grid grid-cols-2"
@@ -136,6 +131,11 @@ export default function Contribute() {
         </main>
         <Footer />
       </body>
+      <ModalWindow
+        modalIsOpen={modalIsOpen}
+        setIsOpen={setIsOpen}
+        message="投稿完了しました"
+      />
     </div>
   );
 }
