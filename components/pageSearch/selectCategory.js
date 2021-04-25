@@ -5,6 +5,7 @@ const SelectCategory = (props) => {
   return (
     <select
       name="searchCategory"
+      id="searchCategory"
       onChange={props.onChange}
       className="w-120 h-8 border border-solid rounded-sm border-gray-400 inline-block"
       ref={props.register}

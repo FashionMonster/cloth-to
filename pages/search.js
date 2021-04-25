@@ -69,6 +69,7 @@ export default function Search() {
     };
 
     //初期化
+    document.getElementById("searchCategory").options[0].selected = true;
     setCategory("1");
 
     //検索に入力した情報をセット
