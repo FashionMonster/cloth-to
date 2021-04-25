@@ -6,6 +6,7 @@ const CONST = {
     SELECT_CONTRIBUTION_INFOS: "selectContributionInfos.js",
     INSERT_CONTRIBUTION: "insertContribution.js",
     INSERT_CONTRIBUTION_INFOS: "insertContributionInfos.js",
+    INSERT_CONTRIBUTION_IMAGES: "insertContributionImages.js",
     SELECT_CONTRIBUTION_ID: "selectContributionId.js",
   },
 };

@@ -9,9 +9,9 @@ const getErrLogger = Log4js.getLogger("error");
 const appLogError = (fileName, category, e) => {
   //２つのファイルにそれぞれエラー内容を出力する
   switch (category) {
-    case "database":
-      getAppLogger.error(`${fileName}：database\r\n${e.stack}`);
-      getErrLogger.error(`${fileName}：database\r\n${e.stack}`);
+    case "DATABASE":
+      getAppLogger.error(`${fileName}：DATABASE\r\n${e.stack}`);
+      getErrLogger.error(`${fileName}：DATABASE\r\n${e.stack}`);
       break;
     default:
   }

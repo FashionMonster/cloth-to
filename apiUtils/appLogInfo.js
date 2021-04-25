@@ -7,17 +7,20 @@ const getAppLogger = Log4js.getLogger("application");
 //出力レベル、出力カテゴリ、データ
 const appLogInfo = (fileName, category, data) => {
   switch (category) {
-    case "start":
-      getAppLogger.info(`${fileName}：start`);
+    case "START":
+      getAppLogger.info(`${fileName}：START`);
       break;
-    case "end":
-      getAppLogger.info(`${fileName}：end`);
+    case "END":
+      getAppLogger.info(`${fileName}：END`);
       break;
-    case "requestData":
-      getAppLogger.info(`${fileName}：requestData\r\n${makeReqDataLog(data)}`);
+    case "REQUEST_DATA":
+      getAppLogger.info(`${fileName}：REQUEST_DATA\r\n${makeReqDataLog(data)}`);
       break;
-    case "sql":
-      getAppLogger.info(`${fileName}：sql\r\n${data}`);
+    case "SQL":
+      getAppLogger.info(`${fileName}：SQL\r\n${data}`);
+      break;
+    case "RESULT":
+      getAppLogger.info(`${fileName}：RESULT\r\n${makeGetDataLog(data)}`);
       break;
     default:
   }
@@ -31,6 +34,25 @@ const makeReqDataLog = (data) => {
   }
 
   return reqDataLog;
+};
+
+//取得データが配列の場合、ログ出力文字列に変換
+const makeGetDataLog = (data) => {
+  if (!Array.isArray(data)) {
+    return data;
+  }
+
+  var getDataLog = "";
+
+  //配列のデータ数だけループ
+  for (let array of data) {
+    //オブジェクトのキーの数だけループ
+    for (let key in array) {
+      getDataLog += `${key}：${array[key]}\r\n`;
+    }
+  }
+
+  return getDataLog;
 };
 
 export { appLogInfo };

@@ -1,24 +1,34 @@
 import { CONST } from "../apiConstants/const";
 import { appLogError } from "../apiUtils/appLogError";
+import { appLogInfo } from "../apiUtils/appLogInfo";
 
 const models = require("../db/models");
 
 export function selectContributionInfos(conditions, offset, limit) {
+  appLogInfo(CONST.FILE_NAME.SELECT_CONTRIBUTION_INFOS, "START");
+
   //select処理
   return models.ContributionInfos.findAll({
-    attributes: ["contribution_id", "created_at"],
+    attributes: ["contribution_id"],
     include: [
-      { model: models.ContributionImages, attributes: ["image_url_1"] },
+      {
+        model: models.ContributionImages,
+        attributes: ["image_url_1"],
+      },
     ],
     where: conditions,
     offset: offset,
     limit: limit,
+    order: [["contribution_id", "ASC"]],
   })
-    .then((result) => {
-      return getResultData(result);
+    .then((res) => {
+      const resData = getResultData(res);
+      appLogInfo(CONST.FILE_NAME.SELECT_CONTRIBUTION_INFOS, "RESULT", resData);
+      appLogInfo(CONST.FILE_NAME.SELECT_CONTRIBUTION_INFOS, "END");
+      return resData;
     })
     .catch((e) => {
-      appLogError(CONST.FILE_NAME.SELECT_CONTRIBUTION_INFOS, "database", e);
+      appLogError(CONST.FILE_NAME.SELECT_CONTRIBUTION_INFOS, "DATABASE", e);
       throw e;
     });
 }
@@ -29,7 +39,6 @@ function getResultData(result) {
   for (let data of result) {
     arrayData.push({
       contributionId: data.dataValues.contribution_id,
-      created_at: data.dataValues.created_at,
       imageUrl: data.dataValues.ContributionImage.dataValues.image_url_1,
     });
   }

@@ -9,11 +9,9 @@ const db = {};
 
 //ログ設定
 config.logging = function (str) {
-  const sql = str.replace(
-    "Executing (default): SET search_path to cloth_to;",
-    ""
-  );
-  appLogInfo("index.js(dbConfigFile)", "sql", sql);
+  //不要なデフォルトを除去
+  const sql = str.replace("SET search_path to cloth_to;", "");
+  appLogInfo("index.js(dbConfigFile)", "SQL", sql);
 };
 
 let sequelize;

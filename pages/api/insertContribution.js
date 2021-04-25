@@ -6,16 +6,20 @@ import { ContributionInfo } from "../../domain/contributionInfo";
 import { insertContributionImages } from "../../infrastructure/insertContributionImages";
 import { insertContributionInfos } from "../../infrastructure/insertContributionInfos";
 import { selectContributionId } from "../../infrastructure/selectContributionId";
+const db = require("../../db/models/index.js");
 
 export default async function handler(req, res) {
-  appLogInfo(CONST.FILE_NAME.INSERT_CONTRIBUTION, "start");
-  appLogInfo(CONST.FILE_NAME.INSERT_CONTRIBUTION, "requestData", req.body);
+  appLogInfo(CONST.FILE_NAME.INSERT_CONTRIBUTION, "START");
+  appLogInfo(CONST.FILE_NAME.INSERT_CONTRIBUTION, "REQUEST_DATA", req.body);
 
   //初期表示
   if (req.body.isInit) {
-    appLogInfo(CONST.FILE_NAME.INSERT_CONTRIBUTION, "end");
+    appLogInfo(CONST.FILE_NAME.INSERT_CONTRIBUTION, "END");
     res.json({ res: "" });
   } else {
+    //トランザクション
+    const trn = await db.sequelize.transaction();
+
     try {
       //投稿情報ドメイン
       const contributionInfo = new ContributionInfo({
@@ -38,7 +42,7 @@ export default async function handler(req, res) {
       });
 
       //投稿情報登録
-      await insertContributionInfos(contributionInfo);
+      await insertContributionInfos(contributionInfo, trn);
 
       //投稿情報登録時の投稿IDを取得
       const contributeId = await selectContributionId();
@@ -54,12 +58,17 @@ export default async function handler(req, res) {
       });
 
       //投稿画像
-      await insertContributionImages(contributionImage);
+      await insertContributionImages(contributionImage, trn);
 
-      appLogInfo(CONST.FILE_NAME.INSERT_CONTRIBUTION, "end");
+      await trn.commit();
+
+      appLogInfo(CONST.FILE_NAME.INSERT_CONTRIBUTION, "END");
 
       res.json({ res: "" });
     } catch (e) {
+      //ロールバック
+      await trn.rollback();
+
       //画面にエラー情報を返却
       throw e;
     }

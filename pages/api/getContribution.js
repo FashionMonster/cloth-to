@@ -5,8 +5,8 @@ import { selectContributionInfos } from "../../infrastructure/selectContribution
 import { selectCountContributionInfos } from "../../infrastructure/selectCountContributionInfos";
 
 export default async function handler(req, res) {
-  appLogInfo(CONST.FILE_NAME.GET_CONTRIBUTION, "start");
-  appLogInfo(CONST.FILE_NAME.GET_CONTRIBUTION, "requestData", req.query);
+  appLogInfo(CONST.FILE_NAME.GET_CONTRIBUTION, "START");
+  appLogInfo(CONST.FILE_NAME.GET_CONTRIBUTION, "REQUEST_DATA", req.query);
 
   if (req.query.searchCategory === "") {
     let dataList = [];
@@ -15,7 +15,7 @@ export default async function handler(req, res) {
       imageUrl: "",
     });
 
-    appLogInfo(CONST.FILE_NAME.GET_CONTRIBUTION, "end");
+    appLogInfo(CONST.FILE_NAME.GET_CONTRIBUTION, "END");
     res.json({ images: dataList, pageCount: 0, totalCount: 0 });
   } else {
     try {
@@ -34,7 +34,7 @@ export default async function handler(req, res) {
         CONST.IMAGE_DISPLAY_LIMIT
       );
 
-      appLogInfo(CONST.FILE_NAME.GET_CONTRIBUTION, "end");
+      appLogInfo(CONST.FILE_NAME.GET_CONTRIBUTION, "END");
 
       res.json({
         images: dataList,
