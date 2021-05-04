@@ -21,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
         primaryKey: true,
         autoIncrement: true,
       },
-      company_id: DataTypes.STRING,
+      group_id: DataTypes.STRING,
       user_id: DataTypes.STRING,
       material_name: DataTypes.STRING,
       category: DataTypes.INTEGER,

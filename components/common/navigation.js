@@ -1,8 +1,9 @@
+import { LogoutBtn } from "./button/logoutBtn";
 import { NavLink } from "./navLink";
 
 const Navigation = () => {
   return (
-    <div>
+    <div className="relative">
       <nav className="bg-purple-100 h-12 grid grid-cols-layout">
         <div className="col-start-2 col-end-3">
           <ul className="grid grid-cols-4 h-12 items-center w-1080">
@@ -13,6 +14,7 @@ const Navigation = () => {
           </ul>
         </div>
       </nav>
+      <LogoutBtn />
     </div>
   );
 };

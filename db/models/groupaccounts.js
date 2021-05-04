@@ -1,6 +1,6 @@
 const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
-  class CompanyAccount extends Model {
+  class GroupAccounts extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -10,17 +10,20 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
     }
   }
-  CompanyAccount.init(
+  GroupAccounts.init(
     {
-      company_id: DataTypes.STRING,
-      company_pass: DataTypes.STRING,
-      company_name: DataTypes.STRING,
+      group_id: {
+        type: DataTypes.STRING,
+        primaryKey: true,
+      },
+      group_pass: DataTypes.STRING,
+      group_name: DataTypes.STRING,
     },
     {
       sequelize,
-      modelName: "CompanyAccount",
+      modelName: "GroupAccounts",
       underscored: true,
     }
   );
-  return CompanyAccount;
+  return GroupAccounts;
 };

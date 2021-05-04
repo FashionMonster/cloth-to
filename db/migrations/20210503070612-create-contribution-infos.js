@@ -6,10 +6,10 @@ module.exports = {
         autoIncrement: true,
         type: Sequelize.INTEGER,
       },
-      company_id: {
+      group_id: {
         references: {
-          model: "company_accounts",
-          key: "company_id",
+          model: "group_accounts",
+          key: "group_id",
         },
         allowNull: false,
         type: Sequelize.STRING,

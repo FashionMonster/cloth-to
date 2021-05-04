@@ -10,8 +10,7 @@ const login = async (email, password) => {
       return fb.auth().signInWithEmailAndPassword(email, password);
     })
     .catch((error) => {
-      alert(error.code);
-      alert(error.message);
+      throw error;
     });
 
   //ログイン後画面遷移
