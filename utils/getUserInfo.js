@@ -14,13 +14,15 @@ export const getUserInfo = async () => {
       email = "";
     });
 
-  await getUserName(email)
-    .then((res) => {
-      userName = res;
-    })
-    .catch((e) => {
-      userName = "";
-    });
+  if (email !== "") {
+    await getUserName(email)
+      .then((res) => {
+        userName = res;
+      })
+      .catch((e) => {
+        userName = "";
+      });
+  }
 
   return { userId: email, userName: userName };
 };

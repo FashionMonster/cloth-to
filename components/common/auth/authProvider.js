@@ -10,7 +10,7 @@ const AuthProvider = ({ children }) => {
     getUserInfo().then((res) => {
       setUserInfo({ userId: res.userId, userName: res.userName });
     });
-  }, []);
+  });
 
   return (
     <AuthContext.Provider value={userInfo}>{children}</AuthContext.Provider>

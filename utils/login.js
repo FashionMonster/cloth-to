@@ -1,4 +1,3 @@
-import Router from "next/router";
 import { fb } from "./firebase";
 
 //ログイン
@@ -12,9 +11,6 @@ const login = async (email, password) => {
     .catch((error) => {
       throw error;
     });
-
-  //ログイン後画面遷移
-  Router.push("/search");
 };
 
 export { login };

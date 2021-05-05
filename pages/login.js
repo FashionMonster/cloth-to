@@ -1,3 +1,4 @@
+import Router from "next/router";
 import React, { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { SubmitBtn } from "../components/common/button/submitBtn";
@@ -15,23 +16,28 @@ export default function Login() {
   const modalMessage = useRef("");
 
   const submit = async (data) => {
-    await login(data.email, data.password).catch((error) => {
-      //モーダルを開く
-      setIsOpen(true);
+    await login(data.email, data.password)
+      .then(() => {
+        //ログイン後画面遷移
+        Router.push("/search");
+      })
+      .catch((error) => {
+        //モーダルを開く
+        setIsOpen(true);
 
-      //エラーメッセージをセット
-      if (error.code === "auth/invalid-email") {
-        modalMessage.current = CONST.ERR_MSG.INVALID_EMAIL;
-      } else if (error.code === "auth/user-disabled") {
-        modalMessage.current = CONST.ERR_MSG.USER_DISABLED;
-      } else if (error.code === "auth/user-not-found") {
-        modalMessage.current = CONST.ERR_MSG.USER_NOT_FOUND;
-      } else if (error.code === "auth/wrong-password") {
-        modalMessage.current = CONST.ERR_MSG.WRONG_PASSWORD;
-      } else {
-        modalMessage.current = CONST.ERR_MSG.OTHER;
-      }
-    });
+        //エラーメッセージをセット
+        if (error.code === "auth/invalid-email") {
+          modalMessage.current = CONST.ERR_MSG.INVALID_EMAIL;
+        } else if (error.code === "auth/user-disabled") {
+          modalMessage.current = CONST.ERR_MSG.USER_DISABLED;
+        } else if (error.code === "auth/user-not-found") {
+          modalMessage.current = CONST.ERR_MSG.USER_NOT_FOUND;
+        } else if (error.code === "auth/wrong-password") {
+          modalMessage.current = CONST.ERR_MSG.WRONG_PASSWORD;
+        } else {
+          modalMessage.current = CONST.ERR_MSG.OTHER;
+        }
+      });
   };
 
   return (
