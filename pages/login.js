@@ -1,6 +1,7 @@
 import Router from "next/router";
-import React, { useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
+import { AuthContext } from "../components/common/auth/authProvider";
 import { SubmitBtn } from "../components/common/button/submitBtn";
 import { Footer } from "../components/common/footer";
 import { Header } from "../components/common/header";
@@ -14,10 +15,14 @@ export default function Login() {
   const { handleSubmit, register, errors } = useForm();
   const [modalIsOpen, setIsOpen] = useState(false);
   const modalMessage = useRef("");
+  const { setLoginUserInfo } = useContext(AuthContext);
 
   const submit = async (data) => {
     await login(data.email, data.password)
       .then(() => {
+        //コンテキストにユーザー情報をセット
+        setLoginUserInfo();
+
         //ログイン後画面遷移
         Router.push("/search");
       })

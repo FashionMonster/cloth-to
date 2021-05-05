@@ -3,6 +3,7 @@ const CONST = {
   OK_MSG: {
     FIN_CONTRIBUTION: "投稿完了しました",
     FIN_CREATE_USER: "ユーザー登録完了しました",
+    FIN_UPDATE_USER: "ユーザー更新完了しました",
     FIN_CREATE_GROUP: "グループ登録完了しました",
   },
   ERR_MSG: {

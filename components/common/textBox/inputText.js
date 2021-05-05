@@ -6,7 +6,7 @@ const InputText = (props) => {
         type="text"
         name={props.name}
         id={props.id}
-        value={props.value}
+        defaultValue={props.defaultValue}
         placeholder={props.placeholder}
         className={`w-${props.width} h-8 border border-solid rounded-sm border-gray-400`}
         ref={props.register}

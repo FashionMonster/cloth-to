@@ -14,8 +14,7 @@ import { InputEmail } from "../components/common/textBox/inputEmail";
 import { InputPassword } from "../components/common/textBox/inputPassword";
 import { InputText } from "../components/common/textBox/inputText";
 import { CONST } from "../constants/const";
-import { deleteUser } from "../utils/deleteUser";
-import { signup } from "../utils/signup";
+import { updateUserInfo } from "../utils/updateUserInfo";
 import { usePreviousValue } from "../utils/usePreviousValue";
 
 export default function Setting() {
@@ -28,10 +27,13 @@ export default function Setting() {
 
   //ユーザー情報更新イベント
   const updateUserAccount = async (data) => {
-    //firebaseにユーザー登録
-    await signup(data.email, data.password)
+    //更新条件のキー情報
+    data.previousUserId = value.userId;
+
+    //firebaseのユーザー更新
+    await updateUserInfo(data.email, data.password)
       .then(
-        //DBにユーザー登録(ユーザー名含)
+        //DBのユーザー更新(ユーザー名含)
         mutation.mutate(data)
       )
       .catch((error) => {
@@ -39,32 +41,21 @@ export default function Setting() {
         setIsOpen(true);
 
         //エラーメッセージをセット
-        if (error.code === "auth/email-already-in-use") {
-          modalMessage.current = CONST.ERR_MSG.EMAIL_ALREADY_IN_USE;
-        } else if (error.code === "auth/invalid-email") {
-          modalMessage.current = CONST.ERR_MSG.INVALID_EMAIL;
-        } else if (error.code === "auth/operation-not-allowed") {
-          modalMessage.current = CONST.ERR_MSG.OPERATION_NOT_ALLOWED;
-        } else if (error.code === "auth/weak-password") {
-          modalMessage.current = CONST.ERR_MSG.WEAK_PASSWORD;
-        } else {
-          modalMessage.current = CONST.ERR_MSG.OTHER;
-        }
+        modalMessage.current = CONST.ERR_MSG.OTHER;
       });
   };
 
   const mutation = useMutation((formData) =>
     axios
-      .post("./api/signup", formData)
+      .post("./api/updateUserInfo", formData)
       .then(() => {
         //成功メッセージ表示設定
         setIsCreateSuccess(true);
         setIsOpen(true);
-        modalMessage.current = "ユーザー登録完了しました";
+        modalMessage.current = CONST.OK_MSG.FIN_UPDATE_USER;
       })
       .catch((error) => {
-        //firebaseに登録したユーザー削除
-        deleteUser();
+        //firebaseのデータを更新前データで再更新
       })
   );
 
@@ -100,7 +91,7 @@ export default function Setting() {
               <InputText
                 name="userName"
                 id="userName"
-                value={value.userName}
+                defaultValue={value.userName}
                 placeholder=""
                 register={register({ required: true })}
                 errors={errors.userName}
@@ -111,7 +102,7 @@ export default function Setting() {
               <InputEmail
                 name="email"
                 id="email"
-                value={value.userId}
+                defaultValue={value.userId}
                 placeholder=""
                 register={register({ required: true })}
                 errors={errors.email}

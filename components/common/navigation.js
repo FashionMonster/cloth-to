@@ -9,7 +9,7 @@ const Navigation = () => {
   return (
     <div className="relative">
       <div className=" absolute left-4 top-3">
-        ようこそ　{value.userName} さん
+        ようこそ　{value.userInfo.userName} さん
       </div>
       <nav className="bg-purple-100 h-12 grid grid-cols-layout">
         <div className="col-start-2 col-end-3">
