@@ -8,6 +8,7 @@ import { InputEmail } from "../components/common/textBox/inputEmail";
 import { InputPassword } from "../components/common/textBox/inputPassword";
 import { CONST } from "../constants/const";
 import { login } from "../utils/login";
+
 export default function Login() {
   const { handleSubmit, register, errors } = useForm();
   const [modalIsOpen, setIsOpen] = useState(false);
@@ -50,7 +51,7 @@ export default function Login() {
               onSubmit={handleSubmit(submit)}
               className=" row-start-2 row-end-3 grid grid-cols-2 gap-8 m-auto"
             >
-              <label htmlFor="email">メールアドレス</label>
+              <label htmlFor="email">メールアドレス（ID）</label>
               <InputEmail
                 name="email"
                 id="email"

@@ -12,6 +12,7 @@ import { Navigation } from "../components/common/navigation";
 import { PreviewMainArea } from "../components/common/preview/previewMainArea";
 import { PreviewSubArea } from "../components/common/preview/previewSubArea";
 import ContributionForm from "../components/pagecontribute/contributionForm";
+import { CONST } from "../constants/const";
 import { readFile } from "../utils/readFile";
 import { uploadImage } from "../utils/uploadImage";
 
@@ -134,7 +135,7 @@ export default function Contribute() {
       <ModalWindow
         modalIsOpen={modalIsOpen}
         setIsOpen={setIsOpen}
-        message="投稿完了しました"
+        message={CONST.OK_MSG.FIN_CONTRIBUTION}
       />
     </div>
   );

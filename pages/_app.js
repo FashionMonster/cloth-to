@@ -1,5 +1,7 @@
+import React from "react";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
+import { AuthProvider } from "../components/common/auth/authProvider";
 import "../styles/globals.css";
 
 const defaultOptions = {
@@ -17,7 +19,9 @@ const queryClient = new QueryClient(defaultOptions);
 function MyApp({ Component, pageProps }) {
   return (
     <QueryClientProvider client={queryClient}>
-      <Component {...pageProps} />
+      <AuthProvider>
+        <Component {...pageProps} />
+      </AuthProvider>
       <ReactQueryDevtools initialIsOpen />
     </QueryClientProvider>
   );

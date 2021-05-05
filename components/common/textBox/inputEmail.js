@@ -6,6 +6,7 @@ const InputEmail = (props) => {
         type="email"
         name={props.name}
         id={props.id}
+        value={props.value}
         placeholder={props.placeholder}
         className={`w-${props.width} h-8 border border-solid rounded-sm border-gray-400`}
         ref={props.register}

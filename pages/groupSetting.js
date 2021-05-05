@@ -1,10 +1,10 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import axios from "axios";
-import Router from "next/router";
-import React, { useContext, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useMutation } from "react-query";
-import { AuthContext } from "../components/common/auth/authProvider";
 import { SubmitBtn } from "../components/common/button/submitBtn";
+import { Error } from "../components/common/error";
 import { Footer } from "../components/common/footer";
 import { Header } from "../components/common/header";
 import { Loading } from "../components/common/loading/loading";
@@ -14,69 +14,35 @@ import { InputEmail } from "../components/common/textBox/inputEmail";
 import { InputPassword } from "../components/common/textBox/inputPassword";
 import { InputText } from "../components/common/textBox/inputText";
 import { CONST } from "../constants/const";
-import { deleteUser } from "../utils/deleteUser";
-import { signup } from "../utils/signup";
-import { usePreviousValue } from "../utils/usePreviousValue";
 
-export default function Setting() {
+export default function groupSetting() {
   const { handleSubmit, register, errors } = useForm();
   const [modalIsOpen, setIsOpen] = useState(false);
-  const [isCreateSuccess, setIsCreateSuccess] = useState(false);
-  const previousModalIsOpen = usePreviousValue(modalIsOpen);
   const modalMessage = useRef("");
-  const value = useContext(AuthContext);
 
-  //ユーザー情報更新イベント
-  const updateUserAccount = async (data) => {
-    //firebaseにユーザー登録
-    await signup(data.email, data.password)
-      .then(
-        //DBにユーザー登録(ユーザー名含)
-        mutation.mutate(data)
-      )
-      .catch((error) => {
-        //モーダルを開く
-        setIsOpen(true);
-
-        //エラーメッセージをセット
-        if (error.code === "auth/email-already-in-use") {
-          modalMessage.current = CONST.ERR_MSG.EMAIL_ALREADY_IN_USE;
-        } else if (error.code === "auth/invalid-email") {
-          modalMessage.current = CONST.ERR_MSG.INVALID_EMAIL;
-        } else if (error.code === "auth/operation-not-allowed") {
-          modalMessage.current = CONST.ERR_MSG.OPERATION_NOT_ALLOWED;
-        } else if (error.code === "auth/weak-password") {
-          modalMessage.current = CONST.ERR_MSG.WEAK_PASSWORD;
-        } else {
-          modalMessage.current = CONST.ERR_MSG.OTHER;
-        }
-      });
+  //グループアカウント登録イベント
+  const createGroupAccount = async (data) => {
+    mutation.mutate(data);
   };
 
   const mutation = useMutation((formData) =>
-    axios
-      .post("./api/signup", formData)
-      .then(() => {
-        //成功メッセージ表示設定
-        setIsCreateSuccess(true);
-        setIsOpen(true);
-        modalMessage.current = "ユーザー登録完了しました";
-      })
-      .catch((error) => {
-        //firebaseに登録したユーザー削除
-        deleteUser();
-      })
+    axios.post("./api/createGroupAccount", formData).then((res) => {
+      setIsOpen(true);
+
+      if (res.data.errorCode === null) {
+        modalMessage.current = CONST.OK_MSG.FIN_CREATE_GROUP;
+      } else if (res.data.errorCode === "23505") {
+        modalMessage.current = CONST.ERR_MSG.ID_DUPLICATION;
+      } else {
+        modalMessage.current = CONST.ERR_MSG.OTHER;
+      }
+    })
   );
 
   if (mutation.isFetching || mutation.isLoading) return <Loading />;
 
-  // if (mutation.isError)
-  // return <Error href="/signup" errorMsg={mutation.error.message} />;
-
-  //登録完了メッセージが開いた状態から閉じる時
-  if (previousModalIsOpen && !modalIsOpen && isCreateSuccess) {
-    Router.push("/login");
-  }
+  if (mutation.isError)
+    return <Error href="/groupSetting" errorMsg={mutation.error.message} />;
 
   return (
     <div>
@@ -86,21 +52,20 @@ export default function Setting() {
           <Navigation />
         </div>
         <p className="text-center">
-          ユーザー情報を変更できます。
+          グループ情報を登録します。
           <br />
-          下記の項目を入力して更新して下さい。
+          下記の項目を入力して登録して下さい。
         </p>
         <main className="grid grid-cols-main">
           <div className="col-start-2 col-end-3 grid grid-rows-3">
             <form
-              onSubmit={handleSubmit(updateUserAccount)}
+              onSubmit={handleSubmit(createGroupAccount)}
               className=" row-start-2 row-end-3 grid grid-cols-2 gap-8 m-auto"
             >
-              <label htmlFor="userName">ユーザー名</label>
+              <label htmlFor="userName">グループ名</label>
               <InputText
-                name="userName"
-                id="userName"
-                value={value.userName}
+                name="groupName"
+                id="groupName"
                 placeholder=""
                 register={register({ required: true })}
                 errors={errors.userName}
@@ -111,7 +76,6 @@ export default function Setting() {
               <InputEmail
                 name="email"
                 id="email"
-                value={value.userId}
                 placeholder=""
                 register={register({ required: true })}
                 errors={errors.email}
@@ -128,7 +92,7 @@ export default function Setting() {
                 width="48"
               />
               <div className="col-start-2 col-end-3 flex justify-center">
-                <SubmitBtn value="ユーザー情報更新" />
+                <SubmitBtn value="グループ情報登録" />
               </div>
             </form>
           </div>

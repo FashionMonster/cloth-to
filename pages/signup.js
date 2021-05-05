@@ -57,7 +57,7 @@ export default function Signup() {
         //成功メッセージ表示設定
         setIsCreateSuccess(true);
         setIsOpen(true);
-        modalMessage.current = "ユーザー登録完了しました";
+        modalMessage.current = CONST.OK_MSG.FIN_CREATE_USER;
       })
       .catch((error) => {
         //firebaseに登録したユーザー削除
@@ -102,7 +102,7 @@ export default function Signup() {
                 width="48"
               />
 
-              <label htmlFor="email">メールアドレス</label>
+              <label htmlFor="email">メールアドレス（ID）</label>
               <InputEmail
                 name="email"
                 id="email"
