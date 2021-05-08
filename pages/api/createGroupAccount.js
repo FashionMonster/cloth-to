@@ -8,13 +8,10 @@ export default async function handler(req, res) {
   appLogInfo(CONST.FILE_NAME.CREATE_GROUP_ACCOUNT, "START");
   appLogInfo(CONST.FILE_NAME.CREATE_GROUP_ACCOUNT, "REQUEST_DATA", req.body);
 
-  //パスワードをハッシュ化
-  var hashedPass = null;
-  await createHashPass(req.body.password).then((res) => {
-    hashedPass = res;
-  });
-
   try {
+    //パスワードをハッシュ化
+    const hashedPass = await createHashPass(req.body.password);
+
     //グループ情報ドメイン
     const groupAccount = new GroupAccount({
       groupId: req.body.email,

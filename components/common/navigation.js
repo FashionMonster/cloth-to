@@ -17,7 +17,7 @@ const Navigation = () => {
             <NavLink href="/search">一覧/検索</NavLink>
             <NavLink href="/contribute">投稿</NavLink>
             <NavLink href="/edit">履歴/編集</NavLink>
-            <NavLink href="/setting">設定</NavLink>
+            <NavLink href="/userSetting">設定</NavLink>
           </ul>
         </div>
       </nav>

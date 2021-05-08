@@ -17,7 +17,7 @@ import { CONST } from "../constants/const";
 import { updateUserInfo } from "../utils/updateUserInfo";
 import { usePreviousValue } from "../utils/usePreviousValue";
 
-export default function Setting() {
+export default function UserSetting() {
   const { handleSubmit, register, errors } = useForm();
   const [modalIsOpen, setIsOpen] = useState(false);
   const [isUpdateSuccess, setIsUpdateSuccess] = useState(false);

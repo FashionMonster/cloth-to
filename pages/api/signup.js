@@ -1,6 +1,6 @@
 import { CONST } from "../../apiConstants/const";
 import { appLogInfo } from "../../apiUtils/appLogInfo";
-import { uvl } from "../../apiUtils/uvl";
+import { createHashPass } from "../../apiUtils/createHashPass";
 import { UserAccount } from "../../domain/userAccount";
 import { insertUserAccounts } from "../../infrastructure/insertUserAccounts";
 
@@ -9,11 +9,14 @@ export default async function handler(req, res) {
   appLogInfo(CONST.FILE_NAME.SIGNUP, "REQUEST_DATA", req.body);
 
   try {
+    //パスワードをハッシュ化
+    var hashedPass = await createHashPass(req.body.password);
+
     //ユーザー情報ドメイン
     const userAccount = new UserAccount({
-      userId: uvl(req.body.email),
-      userPass: uvl(req.body.password),
-      userName: uvl(req.body.userName),
+      userId: req.body.email,
+      userPass: hashedPass,
+      userName: req.body.userName,
       groupId: null,
     });
 
