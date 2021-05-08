@@ -1,6 +1,6 @@
 import { CONST } from "../../apiConstants/const";
 import { appLogInfo } from "../../apiUtils/appLogInfo";
-import { uvl } from "../../apiUtils/uvl";
+import { createHashPass } from "../../apiUtils/createHashPass";
 import { GroupAccount } from "../../domain/groupAccount";
 import { insertGroupAccounts } from "../../infrastructure/insertGroupAccounts";
 
@@ -8,12 +8,18 @@ export default async function handler(req, res) {
   appLogInfo(CONST.FILE_NAME.CREATE_GROUP_ACCOUNT, "START");
   appLogInfo(CONST.FILE_NAME.CREATE_GROUP_ACCOUNT, "REQUEST_DATA", req.body);
 
+  //パスワードをハッシュ化
+  var hashedPass = null;
+  await createHashPass(req.body.password).then((res) => {
+    hashedPass = res;
+  });
+
   try {
     //グループ情報ドメイン
     const groupAccount = new GroupAccount({
-      groupId: uvl(req.body.email),
-      groupPass: uvl(req.body.password),
-      groupName: uvl(req.body.groupName),
+      groupId: req.body.email,
+      groupPass: hashedPass,
+      groupName: req.body.groupName,
     });
 
     //グループ情報登録

@@ -16,7 +16,6 @@ export function insertGroupAccounts(param) {
       appLogInfo(CONST.FILE_NAME.INSERT_GROUP_ACCOUNTS, "END");
     })
     .catch((e) => {
-      console.log("エラーコード：" + e.parent.code);
       appLogError(CONST.FILE_NAME.INSERT_GROUP_ACCOUNTS, "DATABASE", e);
       throw e;
     });

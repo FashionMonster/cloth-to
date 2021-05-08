@@ -6,7 +6,7 @@ const models = require("../db/models");
 export function updateUserAccounts(param, previousUserId) {
   appLogInfo(CONST.FILE_NAME.UPDATE_USER_ACCOUNTS, "START");
 
-  //insert処理
+  //update処理
   return models.UserAccounts.update(
     {
       user_id: param.userId,

@@ -2,20 +2,25 @@ import axios from "axios";
 import Router from "next/router";
 import React, { useContext, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useMutation } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import { AuthContext } from "../components/common/auth/authProvider";
 import { SubmitBtn } from "../components/common/button/submitBtn";
+import { Error } from "../components/common/error";
 import { Footer } from "../components/common/footer";
 import { Header } from "../components/common/header";
 import { Loading } from "../components/common/loading/loading";
 import { ModalWindow } from "../components/common/modal/modalWindow";
 import { Navigation } from "../components/common/navigation";
-import { InputEmail } from "../components/common/textBox/inputEmail";
+import { SelectGroupName } from "../components/common/selectBox/selectGroupName";
 import { InputPassword } from "../components/common/textBox/inputPassword";
-import { InputText } from "../components/common/textBox/inputText";
 import { CONST } from "../constants/const";
-import { updateUserInfo } from "../utils/updateUserInfo";
 import { usePreviousValue } from "../utils/usePreviousValue";
+
+//データフェッチ
+async function fetchAllGroupInfo() {
+  const { data } = await axios.get("./api/getAllGroupInfo");
+  return data;
+}
 
 export default function Setting() {
   const { handleSubmit, register, errors } = useForm();
@@ -25,50 +30,48 @@ export default function Setting() {
   const modalMessage = useRef("");
   const value = useContext(AuthContext);
 
-  //ユーザー情報更新イベント
-  const updateUserAccount = async (data) => {
-    //更新条件のキー情報
-    data.previousUserId = value.userInfo.userId;
+  const query = useQuery("allGroupInfo", async () => fetchAllGroupInfo(value));
 
-    //firebaseのユーザー更新
-    await updateUserInfo(data.email, data.password)
-      .then(
-        //DBのユーザー更新(ユーザー名含)
-        mutation.mutate(data)
-      )
-      .catch((error) => {
-        //モーダルを開く
-        setIsOpen(true);
-
-        //エラーメッセージをセット
-        modalMessage.current = CONST.ERR_MSG.OTHER;
-      });
+  //グループ紐づけイベント
+  const linkUserToGroups = async (data) => {
+    data.userId = value.userInfo.userId;
+    mutation.mutate(data);
   };
 
   const mutation = useMutation((formData) =>
-    axios
-      .post("./api/updateUserInfo", formData)
-      .then(() => {
+    axios.post("./api/linkUserToGroup", formData).then((res) => {
+      setIsOpen(true);
+
+      if (res.data.errorCode === null) {
         //成功メッセージ表示設定
         setIsUpdateSuccess(true);
-        setIsOpen(true);
         modalMessage.current = CONST.OK_MSG.FIN_UPDATE_USER;
-      })
-      .catch((error) => {
-        //firebaseのデータを更新前データで再更新
-        // updateUserInfo(value.userInfo.userId, value.userInfo."パスワード。。");
-      })
+      } else if (res.data.errorCode === "WRONG_PASSWORD") {
+        modalMessage.current = CONST.ERR_MSG.WRONG_PASSWORD;
+      } else {
+        modalMessage.current = CONST.ERR_MSG.OTHER;
+      }
+    })
   );
-
-  if (mutation.isFetching || mutation.isLoading) return <Loading />;
-
-  // if (mutation.isError)
-  // return <Error href="/signup" errorMsg={mutation.error.message} />;
 
   //更新完了メッセージが開いた状態から閉じる時
   if (previousModalIsOpen && !modalIsOpen && isUpdateSuccess) {
     Router.push("/login");
   }
+
+  if (
+    query.isFetching ||
+    query.isLoading ||
+    mutation.isFetching ||
+    mutation.isLoading
+  )
+    return <Loading />;
+
+  if (query.error)
+    return <Error href="/linkUserToGroups" errorMsg={query.error.message} />;
+
+  if (mutation.isError)
+    return <Error href="/linkUserToGroups" errorMsg={mutation.error.message} />;
 
   return (
     <div>
@@ -78,49 +81,36 @@ export default function Setting() {
           <Navigation />
         </div>
         <p className="text-center">
-          ユーザー情報を変更できます。
+          自身がどのグループに所属するか選択します。
           <br />
-          下記の項目を入力して更新して下さい。
+          下記の項目を入力して登録・更新して下さい。
         </p>
         <main className="grid grid-cols-main">
           <div className="col-start-2 col-end-3 grid grid-rows-3">
             <form
-              onSubmit={handleSubmit(updateUserAccount)}
+              onSubmit={handleSubmit(linkUserToGroups)}
               className=" row-start-2 row-end-3 grid grid-cols-2 gap-8 m-auto"
             >
-              <label htmlFor="userName">ユーザー名</label>
-              <InputText
-                name="userName"
-                id="userName"
-                defaultValue={value.userName}
-                placeholder=""
+              <label htmlFor="groupId">グループ名</label>
+              <SelectGroupName
+                name="groupId"
+                id="groupId"
                 register={register({ required: true })}
-                errors={errors.userName}
+                errors={errors.groupId}
                 width="48"
-              />
-
-              <label htmlFor="email">メールアドレス（ID）</label>
-              <InputEmail
-                name="email"
-                id="email"
-                defaultValue={value.userId}
-                placeholder=""
-                register={register({ required: true })}
-                errors={errors.email}
-                width="48"
+                groupInfoList={query.data.groupInfoList}
               />
 
               <label htmlFor="password">パスワード</label>
               <InputPassword
                 name="password"
                 id="password"
-                placeholder=""
                 register={register({ required: true })}
                 errors={errors.password}
                 width="48"
               />
               <div className="col-start-2 col-end-3 flex justify-center">
-                <SubmitBtn value="ユーザー情報更新" />
+                <SubmitBtn value="実行" />
               </div>
             </form>
           </div>

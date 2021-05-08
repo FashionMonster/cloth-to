@@ -14,7 +14,6 @@ const CONST = {
     USER_DISABLED: "現在使用できないユーザーです",
     USER_NOT_FOUND: "存在しないユーザーです",
     WRONG_PASSWORD: "パスワードが誤っています",
-    ID_DUPLICATION: "ID(メールアドレス)が重複しています",
     OTHER: "予期しないエラーです。管理者に連絡して下さい",
   },
 };
