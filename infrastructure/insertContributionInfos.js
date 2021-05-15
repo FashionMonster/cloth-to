@@ -9,8 +9,8 @@ export function insertContributionInfos(param, trn) {
   //insert処理
   return models.ContributionInfos.create(
     {
-      group_id: "test_company",
-      user_id: "test_user",
+      group_id: param.groupId,
+      user_id: param.userId,
       material_name: param.materialName,
       category: param.category,
       composition_1: param.composition1,

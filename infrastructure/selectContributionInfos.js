@@ -34,7 +34,7 @@ export function selectContributionInfos(conditions, offset, limit) {
 }
 
 //検索結果をセットする
-function getResultData(result) {
+const getResultData = (result) => {
   let arrayData = [];
   for (let data of result) {
     arrayData.push({
@@ -43,4 +43,4 @@ function getResultData(result) {
     });
   }
   return arrayData;
-}
+};

@@ -23,7 +23,9 @@ export default async function handler(req, res) {
     try {
       //投稿情報ドメイン
       const contributionInfo = new ContributionInfo({
-        materialName: uvl(req.body.materialName),
+        groupId: req.body.groupId,
+        userId: req.body.userId,
+        materialName: req.body.materialName,
         category: uvl(req.body.category),
         composition1: uvl(req.body.composition1),
         compositionRatio1: uvl(req.body.compositionRatio1),

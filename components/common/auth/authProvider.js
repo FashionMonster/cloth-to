@@ -3,19 +3,31 @@ import { getUserInfo } from "../../../utils/getUserInfo";
 const AuthContext = React.createContext();
 
 const AuthProvider = ({ children }) => {
-  const [userInfo, setUserInfo] = useState({ userId: "", userName: "" });
+  const [userInfo, setUserInfo] = useState({
+    userId: "",
+    userName: "",
+    groupId: "",
+  });
 
   //ログイン時ユーザー情報を取得
   const setLoginUserInfo = () => {
     getUserInfo().then((res) => {
-      setUserInfo({ userId: res.userId, userName: res.userName });
+      setUserInfo({
+        userId: res.userId,
+        userName: res.userName,
+        groupId: res.groupId,
+      });
     });
   };
 
   //リロード、URL直叩き時
   useEffect(() => {
     getUserInfo().then((res) => {
-      setUserInfo({ userId: res.userId, userName: res.userName });
+      setUserInfo({
+        userId: res.userId,
+        userName: res.userName,
+        groupId: res.groupId,
+      });
     });
   }, []);
 

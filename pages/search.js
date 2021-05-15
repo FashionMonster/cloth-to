@@ -2,10 +2,11 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import axios from "axios";
 import Router from "next/router";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import ReactPaginate from "react-paginate";
 import { useQuery } from "react-query";
+import { AuthContext } from "../components/common/auth/authProvider";
 import { SubmitBtn } from "../components/common/button/submitBtn";
 import { Error } from "../components/common/error";
 import { Footer } from "../components/common/footer";
@@ -17,7 +18,6 @@ import { SearchResult } from "../components/pageSearch/searchResult";
 import { SelectCategory } from "../components/pageSearch/selectCategory";
 import { CONST } from "../constants/const";
 import { calculatePageCount } from "../utils/calculatePageCount";
-// import { fb } from "../utils/firebase";
 import { checkLogin } from "../utils/checkLogin";
 import { downloadImage } from "../utils/downloadImage";
 import { nvl } from "../utils/nvl";
@@ -27,6 +27,7 @@ async function fetchContributions(searchInfo) {
   const { data } = await axios.get("./api/getContribution", {
     params: {
       page: searchInfo.pageNum,
+      groupId: searchInfo.apiParam.groupId,
       searchCategory: searchInfo.apiParam.searchCategory,
       keyword: searchInfo.apiParam.keyword,
       compositionRatio: searchInfo.apiParam.compositionRatio,
@@ -52,11 +53,13 @@ export default function Search() {
     }
   });
 
+  const value = useContext(AuthContext);
   const { handleSubmit, register, errors } = useForm();
   const [category, setCategory] = useState("1");
   const [searchInfo, setSearchInfo] = useState({
     pageNum: 0,
     apiParam: {
+      groupId: "",
       searchCategory: "",
       keyword: "",
       compositionRatio: "",
@@ -72,6 +75,7 @@ export default function Search() {
   //パラメータのセット
   const getContribution = (data) => {
     const params = {
+      groupId: value.userInfo.groupId,
       searchCategory: nvl(data.searchCategory),
       keyword: nvl(data.keyword),
       compositionRatio: nvl(data.compositionRatio),

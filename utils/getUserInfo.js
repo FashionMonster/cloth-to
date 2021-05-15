@@ -3,28 +3,29 @@ import { fb } from "./firebase";
 
 //ユーザー情報取得
 export const getUserInfo = async () => {
-  var email = "";
-  var userName = "";
+  var userInfo = {};
 
   await loginData()
     .then((res) => {
-      email = res;
+      userInfo.userId = res;
     })
     .catch((e) => {
-      email = "";
+      userInfo.userId = "";
     });
 
-  if (email !== "") {
-    await getUserName(email)
+  if (userInfo.userId !== "") {
+    await getUserAccount(userInfo.userId)
       .then((res) => {
-        userName = res;
+        userInfo.userName = res.userName;
+        userInfo.groupId = res.groupId;
       })
       .catch((e) => {
-        userName = "";
+        userInfo.userName = "";
+        userInfo.groupId = "";
       });
   }
 
-  return { userId: email, userName: userName };
+  return userInfo;
 };
 
 //メールアドレス(ID)取得
@@ -40,8 +41,8 @@ const loginData = () => {
   });
 };
 
-//ユーザー名取得
-const getUserName = (param) => {
+//ユーザー名、グループID取得
+const getUserAccount = (param) => {
   return new Promise((resolve) => {
     axios
       .get("./api/getUserInfo", {
@@ -50,7 +51,7 @@ const getUserName = (param) => {
         },
       })
       .then((res) => {
-        resolve(res.data.userName);
+        resolve(res.data);
       });
   });
 };

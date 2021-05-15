@@ -8,13 +8,11 @@ export default async function handler(req, res) {
 
   try {
     //検索条件生成
-    const userName = await selectUserAccounts(req.query.email);
+    const userInfo = await selectUserAccounts(req.query.email);
 
     appLogInfo(CONST.FILE_NAME.GET_USER_INFO, "END");
 
-    res.json({
-      userName: userName,
-    });
+    res.json(userInfo);
   } catch (e) {
     //エラー情報を返却
     throw e;

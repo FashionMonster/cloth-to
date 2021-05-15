@@ -10,16 +10,23 @@ export function selectUserAccounts(email) {
   //select処理
   return models.UserAccounts.findByPk(email)
     .then((res) => {
-      appLogInfo(
-        CONST.FILE_NAME.SELECT_USER_ACCOUNTS,
-        "RESULT",
-        res.dataValues.user_name
-      );
+      const resData = getResultData(res);
+
+      appLogInfo(CONST.FILE_NAME.SELECT_USER_ACCOUNTS, "RESULT", resData);
       appLogInfo(CONST.FILE_NAME.SELECT_USER_ACCOUNTS, "END");
-      return res.dataValues.user_name;
+
+      return resData;
     })
     .catch((e) => {
       appLogError(CONST.FILE_NAME.SELECT_USER_ACCOUNTS, "DATABASE", e);
       throw e;
     });
 }
+
+//検索結果をセットする
+const getResultData = (result) => {
+  return {
+    userName: result.dataValues.user_name,
+    groupId: result.dataValues.group_id,
+  };
+};

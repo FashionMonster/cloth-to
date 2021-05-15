@@ -1,7 +1,9 @@
 import axios from "axios";
-import React, { useState } from "react";
+import Router from "next/router";
+import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useMutation } from "react-query";
+import { AuthContext } from "../components/common/auth/authProvider";
 import { FileSelectBtn } from "../components/common/button/fileSelectBtn";
 import { Error } from "../components/common/error";
 import { Footer } from "../components/common/footer";
@@ -13,10 +15,19 @@ import { PreviewMainArea } from "../components/common/preview/previewMainArea";
 import { PreviewSubArea } from "../components/common/preview/previewSubArea";
 import ContributionForm from "../components/pagecontribute/contributionForm";
 import { CONST } from "../constants/const";
+import { checkLogin } from "../utils/checkLogin";
 import { readFile } from "../utils/readFile";
 import { uploadImage } from "../utils/uploadImage";
 
 export default function Contribute() {
+  //ログインチェック実行
+  checkLogin().then((isLogin) => {
+    if (!isLogin) {
+      Router.push("/login");
+    }
+  });
+
+  const value = useContext(AuthContext);
   const [imgFile, setImgFile] = useState([]);
   const [modalIsOpen, setIsOpen] = useState(false);
   const {
@@ -54,7 +65,10 @@ export default function Contribute() {
       data[`imageUrl${i + 1}`] = idList[i] === undefined ? "" : idList[i];
     }
 
+    //フォームデータ以外のデータをセット
     data.isInit = false;
+    data.userId = value.userInfo.userId;
+    data.groupId = value.userInfo.groupId;
 
     mutation.mutate(data);
   };
