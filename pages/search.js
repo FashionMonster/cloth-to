@@ -36,7 +36,7 @@ async function fetchContributions(router, groupId) {
 
     reqData = {
       page: urlData.query.page,
-      groupId: "yhirookajpn@test.com", //groupId,
+      groupId: urlData.query.groupId,
       searchCategory: urlData.query.searchCategory,
       keyword: urlData.query.keyword,
       compositionRatio: urlData.query.compositionRatio,
