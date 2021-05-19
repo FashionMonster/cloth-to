@@ -8,15 +8,14 @@ export default async function handler(req, res) {
   appLogInfo(CONST.FILE_NAME.GET_CONTRIBUTION, "START");
   appLogInfo(CONST.FILE_NAME.GET_CONTRIBUTION, "REQUEST_DATA", req.query);
 
-  if (req.query.searchCategory === "") {
+  if (req.query.page === undefined || req.query.searchCategory === undefined) {
     let dataList = [];
     dataList.push({
-      contributionId: "",
       imageUrl: "",
     });
 
     appLogInfo(CONST.FILE_NAME.GET_CONTRIBUTION, "END");
-    res.json({ images: dataList, pageCount: 0, totalCount: 0 });
+    res.json({ images: dataList, totalCount: 0 });
   } else {
     try {
       //検索条件生成
@@ -38,7 +37,6 @@ export default async function handler(req, res) {
 
       res.json({
         images: dataList,
-        pageCount: req.query.page,
         totalCount: totalCount,
       });
     } catch (e) {

@@ -39,7 +39,7 @@ const makeQueryConditions = (param) => {
       conditions = { processing: { [op.like]: `%${param.keyword}%` } };
       break;
     case "8":
-      switch (param.compareCondfition) {
+      switch (param.compareCondition) {
         case "1":
           conditions = { unit_price: param.keyword };
           break;
@@ -70,7 +70,7 @@ const makeQueryConditions = (param) => {
 function makeCompareComposition(param) {
   let conditions = {};
 
-  switch (param.compareCondfition) {
+  switch (param.compareCondition) {
     //等しい
     case "1":
       conditions = {

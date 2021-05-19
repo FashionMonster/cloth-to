@@ -76,7 +76,12 @@ module.exports = {
     },
   },
   variants: {
-    extend: {},
+    extend: {
+      textColor: ["disabled"],
+      backgroundColor: ["disabled"],
+      borderColor: ["disabled"],
+      opacity: ["disabled"],
+    },
     visibility: ["group-hover"],
   },
   plugins: [],

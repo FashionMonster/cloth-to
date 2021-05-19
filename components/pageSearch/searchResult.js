@@ -6,7 +6,8 @@ const SearchResult = (props) => {
   return (
     <div className="w-200 h-200 text-center">
       <Link
-        href={`/contributionDetail?contributionId=${props.data.contributionId}`}
+        href="/contributionDetail/[contributionId]"
+        as={`/contributionDetail/${props.data.contributionId}`}
       >
         <img
           src={props.data.src}

@@ -8,7 +8,7 @@ const SelectComposition = (props) => {
       <select
         name={props.name}
         id={props.id}
-        className={`w-${props.width} h-8 border border-solid rounded-sm border-gray-400`}
+        className={`w-${props.width} h-8 border border-solid rounded-sm border-gray-400 disabled:bg-gray-100 disabled:text-black disabled:opacity-100`}
         ref={props.register}
         onChange={() =>
           chkCompositionDuplicate(
@@ -17,6 +17,8 @@ const SelectComposition = (props) => {
             props.clearErrors
           )
         }
+        disabled={props.isDisabled}
+        defaultValue={props.defaultValue}
       >
         <option value=""></option>
         <option value="1">綿</option>

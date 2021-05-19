@@ -15,8 +15,6 @@ export default function ContributionForm(props) {
         register={props.register({ required: true })}
         errors={props.errors.materialName}
         width="408"
-        isDisabled={props.isDisabled}
-        defaultValue={props.data.materialName}
       />
 
       <label htmlFor="category">分類</label>
@@ -26,8 +24,6 @@ export default function ContributionForm(props) {
         register={props.register({ required: true })}
         errors={props.errors.category}
         width="408"
-        isDisabled={props.isDisabled}
-        defaultValue={props.data.category}
       />
 
       <label htmlFor="composition1">主組成</label>
@@ -42,8 +38,6 @@ export default function ContributionForm(props) {
             clearErrors={props.clearErrors}
             errors={props.errors.composition1}
             width="16"
-            isDisabled={props.isDisabled}
-            defaultValue={props.data.composition1}
           />
           <InputCompositionRatio
             name="compositionRatio1"
@@ -53,8 +47,6 @@ export default function ContributionForm(props) {
             clearErrors={props.clearErrors}
             errors={props.errors.compositionRatio1}
             width="16"
-            isDisabled={props.isDisabled}
-            defaultValue={props.data.compositionRatio1}
           />
         </div>
         <div className="grid grid-cols-2 gap-1">
@@ -67,8 +59,6 @@ export default function ContributionForm(props) {
             clearErrors={props.clearErrors}
             errors={props.errors.composition2}
             width="16"
-            isDisabled={props.isDisabled}
-            defaultValue={props.data.composition2}
           />
           <InputCompositionRatio
             name="compositionRatio2"
@@ -78,8 +68,6 @@ export default function ContributionForm(props) {
             clearErrors={props.clearErrors}
             errors={props.errors.compositionRatio2}
             width="16"
-            isDisabled={props.isDisabled}
-            defaultValue={props.data.compositionRatio2}
           />
         </div>
         <div className="grid grid-cols-2 gap-1">
@@ -92,8 +80,6 @@ export default function ContributionForm(props) {
             clearErrors={props.clearErrors}
             errors={props.errors.composition3}
             width="16"
-            isDisabled={props.isDisabled}
-            defaultValue={props.data.composition3}
           />
           <InputCompositionRatio
             name="compositionRatio3"
@@ -103,8 +89,6 @@ export default function ContributionForm(props) {
             clearErrors={props.clearErrors}
             errors={props.errors.compositionRatio3}
             width="16"
-            isDisabled={props.isDisabled}
-            defaultValue={props.data.compositionRatio3}
           />
         </div>
       </div>
@@ -116,8 +100,6 @@ export default function ContributionForm(props) {
         placeholder="例：サテン"
         register={props.register()}
         width="408"
-        isDisabled={props.isDisabled}
-        defaultValue={props.data.fabricStructure}
       />
 
       <label htmlFor="color">色</label>
@@ -126,8 +108,6 @@ export default function ContributionForm(props) {
         id="color"
         register={props.register()}
         width="408"
-        isDisabled={props.isDisabled}
-        defaultValue={props.data.color}
       />
 
       <label htmlFor="pattern">柄</label>
@@ -137,8 +117,6 @@ export default function ContributionForm(props) {
         placeholder="例：ストライプ"
         register={props.register()}
         width="408"
-        isDisabled={props.isDisabled}
-        defaultValue={props.data.pattern}
       />
 
       <label htmlFor="processing">加工</label>
@@ -148,8 +126,6 @@ export default function ContributionForm(props) {
         placeholder="例：撥水加工、防汚加工"
         register={props.register()}
         width="408"
-        isDisabled={props.isDisabled}
-        defaultValue={props.data.processing}
       />
 
       <label htmlFor="unitPrice">単価</label>
@@ -160,8 +136,6 @@ export default function ContributionForm(props) {
         register={props.register({ pattern: /^[0-9]+$/ })}
         errors={props.errors.unitPrice}
         width="408"
-        isDisabled={props.isDisabled}
-        defaultValue={props.data.unitPrice}
       />
 
       <label htmlFor="supplier">仕入先</label>
@@ -171,20 +145,17 @@ export default function ContributionForm(props) {
         placeholder="例：株式会社 〇〇"
         register={props.register()}
         width="408"
-        isDisabled={props.isDisabled}
-        defaultValue={props.data.supplier}
       />
 
       <label htmlFor="comment">コメント</label>
       <textarea
         name="comment"
-        className="h-112 border border-solid rounded-sm border-gray-400 disabled:bg-gray-100 disabled:text-black"
+        className="h-112 border border-solid rounded-sm border-gray-400"
         id="comment"
         placeholder="記載した内容以外の情報があれば記入します。"
         ref={props.register()}
-        disabled={props.isDisabled}
-        defaultValue={props.data.comment}
       />
+
       <div />
     </>
   );

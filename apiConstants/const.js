@@ -10,6 +10,7 @@ const CONST = {
     UPDATE_USER_INFO: "updateUserInfo.js",
     CREATE_GROUP_ACCOUNT: "createGroupAccount.js",
     GET_CONTRIBUTION: "getContribution.js",
+    GET_CONTRIBUTION_DETAIL: "getContributionDetail.js",
     INSERT_CONTRIBUTION: "insertContribution.js",
 
     //インフラストラクチャ
@@ -22,6 +23,7 @@ const CONST = {
     INSERT_GROUP_ACCOUNTS: "insertGroupAccounts.js",
     SELECT_COUNT_CONTRIBUTION_INFOS: "selectCountContributionInfos.js",
     SELECT_CONTRIBUTION_INFOS: "selectContributionInfos.js",
+    SELECT_CONTRIBUTION_INFOS_DETAIL: "selectContributionInfosDetail.js",
     INSERT_CONTRIBUTION_INFOS: "insertContributionInfos.js",
     INSERT_CONTRIBUTION_IMAGES: "insertContributionImages.js",
     SELECT_CONTRIBUTION_ID: "selectContributionId.js",

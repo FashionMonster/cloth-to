@@ -7,7 +7,7 @@ const InputCompositionRatio = (props) => {
       <input
         type="number"
         name={props.name}
-        className={`w-${props.width} h-8 border border-solid rounded-sm border-gray-400`}
+        className={`w-${props.width} h-8 border border-solid rounded-sm border-gray-400 disabled:bg-gray-100 disabled:text-black`}
         ref={props.register}
         onChange={() =>
           checkCompositionRatioTotal(
@@ -16,6 +16,8 @@ const InputCompositionRatio = (props) => {
             props.clearErrors
           )
         }
+        disabled={props.isDisabled}
+        defaultValue={props.defaultValue}
       />
       {props.errors?.type === "totalRatioMax" && (
         <div className="text-red-600 text-sm w-40 relative">
