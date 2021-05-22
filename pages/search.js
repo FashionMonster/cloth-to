@@ -6,7 +6,7 @@ import queryString from "query-string";
 import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import ReactPaginate from "react-paginate";
-import { useQuery } from "react-query";
+import { useQuery, useQueryClient } from "react-query";
 import { AuthContext } from "../components/common/auth/authProvider";
 import { SubmitBtn } from "../components/common/button/submitBtn";
 import { Error } from "../components/common/error";
@@ -19,10 +19,10 @@ import { SearchResult } from "../components/pageSearch/searchResult";
 import { SelectCategory } from "../components/pageSearch/selectCategory";
 import { CONST } from "../constants/const";
 import { calculatePageCount } from "../utils/calculatePageCount";
+import { calculateRowCount } from "../utils/calculateRowCount";
 import { checkLogin } from "../utils/checkLogin";
 import { downloadImage } from "../utils/downloadImage";
 import { nvl } from "../utils/nvl";
-
 //データフェッチ
 async function fetchContributions(router, groupId) {
   //リクエストデータ
@@ -80,7 +80,7 @@ export default function Search() {
   const value = useContext(AuthContext);
   const { handleSubmit, register, errors } = useForm();
   const [category, setCategory] = useState("1");
-
+  const queryClient = useQueryClient();
   const { isFetching, isLoading, error, data } = useQuery(
     ["searchPath", router.asPath],
     () => fetchContributions(router, value.userInfo.groupId)
@@ -91,6 +91,9 @@ export default function Search() {
     //初期化
     document.getElementById("searchCategory").options[0].selected = true;
     setCategory("1");
+
+    //キャッシュキーを更新⇒検索内容が同じでも再fetchする
+    queryClient.invalidateQueries("searchPath");
 
     //クエリパラメータをセット
     router.push({
@@ -181,7 +184,13 @@ export default function Search() {
               />
               <SubmitBtn value="検索" />
             </form>
-            <div className="grid grid-cols-3 grid-rows-3 gap-2">
+            {/* <div className="grid grid-cols-5 grid-rows-4 gap-5"> */}
+            <div
+              className={`grid grid-cols-5 grid-rows-${calculateRowCount(
+                data.images.length,
+                CONST.ONE_ROW_DISPLAY_DATA
+              )}} gap-5`}
+            >
               {data.totalCount === 0
                 ? ""
                 : data.images.map((item) => <SearchResult data={item} />)}

@@ -4,7 +4,7 @@ import Link from "next/link";
 //検索結果表示
 const SearchResult = (props) => {
   return (
-    <div className="w-200 h-200 text-center">
+    <div className="mx-auto">
       <Link
         href="/contributionDetail/[contributionId]"
         as={`/contributionDetail/${props.data.contributionId}`}
@@ -15,6 +15,9 @@ const SearchResult = (props) => {
           alt="イメージ画像"
         />
       </Link>
+      <p className="font-medium w-200 text-center mt-4">
+        {props.data.materialName}
+      </p>
     </div>
   );
 };

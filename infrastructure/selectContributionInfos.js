@@ -9,7 +9,7 @@ export function selectContributionInfos(conditions, offset, limit) {
 
   //select処理
   return models.ContributionInfos.findAll({
-    attributes: ["contribution_id"],
+    attributes: ["contribution_id", "material_name"],
     include: [
       {
         model: models.ContributionImages,
@@ -39,6 +39,7 @@ const getResultData = (result) => {
   for (let data of result) {
     arrayData.push({
       contributionId: data.dataValues.contribution_id,
+      materialName: data.dataValues.material_name,
       imageUrl: data.dataValues.ContributionImage.dataValues.image_url_1,
     });
   }

@@ -1,5 +1,6 @@
 const CONST = {
-  ONE_PAGE_DISPLAY_DATA: 9, //検索・一覧ページの１ページ表示件数
+  ONE_PAGE_DISPLAY_DATA: 20, //検索・一覧ページの１ページ表示件数
+  ONE_ROW_DISPLAY_DATA: 5, //検索・一覧ページの１行の表示件数
   OK_MSG: {
     FIN_CONTRIBUTION: "投稿完了しました",
     FIN_CREATE_USER: "ユーザー登録完了しました",

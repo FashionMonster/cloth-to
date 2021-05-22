@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { useMutation } from "react-query";
 import { AuthContext } from "../components/common/auth/authProvider";
 import { FileSelectBtn } from "../components/common/button/fileSelectBtn";
+import { SubmitBtn } from "../components/common/button/submitBtn";
 import { Error } from "../components/common/error";
 import { Footer } from "../components/common/footer";
 import { Header } from "../components/common/header";
@@ -140,7 +141,12 @@ export default function Contribute() {
                 getValues={getValues}
                 setError={setError}
                 clearErrors={clearErrors}
+                isDisabled={false}
               />
+              <div className="flex justify-around">
+                <SubmitBtn value="一時保存" />
+                <SubmitBtn value="投稿する" />
+              </div>
             </div>
           </form>
         </main>
