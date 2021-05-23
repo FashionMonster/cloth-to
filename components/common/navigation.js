@@ -34,7 +34,7 @@ const Navigation = () => {
               </NavLink>
             </li>
             <li>
-              <NavLink href="/edit" currentUrl={router.pathname}>
+              <NavLink href="/contributionHistory" currentUrl={router.pathname}>
                 履歴/編集
               </NavLink>
             </li>

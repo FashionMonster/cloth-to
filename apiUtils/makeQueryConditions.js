@@ -61,8 +61,14 @@ const makeQueryConditions = (param) => {
     default:
   }
 
-  //必須条件となるグループID
+  //必須条件
+  conditions.is_deleted = false;
   conditions.group_id = param.groupId;
+
+  //自身の投稿履歴検索時、ユーザーIDを条件追加
+  if (param.userId !== undefined) {
+    conditions.user_id = param.userId;
+  }
 
   return conditions;
 };

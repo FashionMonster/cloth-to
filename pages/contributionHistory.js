@@ -24,7 +24,7 @@ import { checkLogin } from "../utils/checkLogin";
 import { fetchContributions } from "../utils/fetchContributions";
 import { nvl } from "../utils/nvl";
 
-export default function Search() {
+export default function ContributionHistory() {
   //ログインチェック実行
   checkLogin().then((isLogin) => {
     if (!isLogin) {
@@ -38,10 +38,10 @@ export default function Search() {
   const [category, setCategory] = useState("1");
   const queryClient = useQueryClient();
   const { isFetching, isLoading, error, data } = useQuery(
-    ["searchPath", router.asPath],
+    ["contributionHistoryPath", router.asPath],
     () =>
       fetchContributions(
-        CONST.API_PATH.GET_CONTRIBUTION,
+        CONST.API_PATH.GET_CONTRIBUTION_HISTORY,
         router,
         value.userInfo
       )
@@ -54,11 +54,11 @@ export default function Search() {
     setCategory("1");
 
     //キャッシュキーを更新⇒検索内容が同じでも再fetchする
-    queryClient.invalidateQueries("searchPath");
+    queryClient.invalidateQueries("contributionHistoryPath");
 
     //クエリパラメータをセット
     router.push({
-      pathname: "/search",
+      pathname: "/contributionHistory",
       query: {
         page: 1,
         searchCategory: data.searchCategory,
@@ -71,7 +71,8 @@ export default function Search() {
 
   if (isFetching || isLoading) return <Loading />;
 
-  if (error) return <Error href="/search" errorMsg={error.message} />;
+  if (error)
+    return <Error href="/contributionHistory" errorMsg={error.message} />;
 
   return (
     <body className="grid grid-rows-layout gap-4 min-h-screen">
@@ -113,7 +114,7 @@ export default function Search() {
               {data.totalCount === 0
                 ? ""
                 : data.images.map((item) => (
-                    <SearchResult data={item} path="contributionDetail" />
+                    <SearchResult data={item} path="edit" />
                   ))}
             </div>
             <div>
@@ -128,7 +129,7 @@ export default function Search() {
                       return (
                         <ArrowIcon
                           icon="<"
-                          pathName="/search"
+                          pathName="/contributionHistory"
                           router={router}
                         />
                       );
@@ -142,7 +143,7 @@ export default function Search() {
                       return (
                         <ArrowIcon
                           icon=">"
-                          pathName="/search"
+                          pathName="/contributionHistory"
                           router={router}
                         />
                       );
@@ -157,7 +158,11 @@ export default function Search() {
                     CONST.ONE_PAGE_DISPLAY_DATA
                   )}
                   onPageChange={(e) => {
-                    changePageNum(e.selected + 1, "/search", router);
+                    changePageNum(
+                      e.selected + 1,
+                      "/contributionHistory",
+                      router
+                    );
                   }}
                   containerClassName={"flex w-full justify-center"}
                   pageClassName={

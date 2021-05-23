@@ -1,4 +1,5 @@
 class ContributionInfo {
+  contributionId;
   groupId;
   userId;
   materialName;

@@ -155,7 +155,7 @@ export default function Contribute() {
       <ModalWindow
         modalIsOpen={modalIsOpen}
         setIsOpen={setIsOpen}
-        message={CONST.OK_MSG.FIN_CONTRIBUTION}
+        message={CONST.OK_MSG.FIN_CREATE_CONTRIBUTION}
       />
     </div>
   );

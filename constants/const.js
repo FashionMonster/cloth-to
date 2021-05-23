@@ -1,8 +1,13 @@
 const CONST = {
+  API_PATH: {
+    GET_CONTRIBUTION: "./api/getContribution",
+    GET_CONTRIBUTION_HISTORY: "./api/getContributionHistory",
+  },
   ONE_PAGE_DISPLAY_DATA: 20, //検索・一覧ページの１ページ表示件数
   ONE_ROW_DISPLAY_DATA: 5, //検索・一覧ページの１行の表示件数
   OK_MSG: {
-    FIN_CONTRIBUTION: "投稿完了しました",
+    FIN_CREATE_CONTRIBUTION: "投稿完了しました",
+    FIN_UPDATE_CONTRIBUTION: "投稿更新完了しました",
     FIN_CREATE_USER: "ユーザー登録完了しました",
     FIN_UPDATE_USER: "ユーザー更新完了しました",
     FIN_CREATE_GROUP: "グループ登録完了しました",

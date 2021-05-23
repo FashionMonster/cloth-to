@@ -6,8 +6,8 @@ const SearchResult = (props) => {
   return (
     <div className="mx-auto">
       <Link
-        href="/contributionDetail/[contributionId]"
-        as={`/contributionDetail/${props.data.contributionId}`}
+        href={`/${props.path}/[contributionId]`}
+        as={`/${props.path}/${props.data.contributionId}`}
       >
         <img
           src={props.data.src}

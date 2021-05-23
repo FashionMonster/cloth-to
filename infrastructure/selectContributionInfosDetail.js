@@ -100,7 +100,7 @@ export function selectContributionInfosDetail(contributionId) {
         ],
       },
     ],
-    where: { contribution_id: contributionId },
+    where: { contribution_id: contributionId, is_deleted: false },
   })
     .then((res) => {
       const resData = getResultData(res);
