@@ -22,7 +22,7 @@ const Navigation = () => {
               </NavLink>
             </li>
             <li>
-              <NavLink href="/contribute" isSettingNav={false}>
+              <NavLink href="/contribution" isSettingNav={false}>
                 投稿
               </NavLink>
             </li>

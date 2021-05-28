@@ -13,7 +13,7 @@ import { ModalWindow } from "../components/common/modal/modalWindow";
 import { Navigation } from "../components/common/navigation";
 import { PreviewMainArea } from "../components/common/preview/previewMainArea";
 import { PreviewSubArea } from "../components/common/preview/previewSubArea";
-import ContributionForm from "../components/pagecontribute/contributionForm";
+import ContributionForm from "../components/contributionPage/contributionForm";
 import { CONST } from "../constants/const";
 import { checkLogin } from "../utils/checkLogin";
 import { readFile } from "../utils/readFile";
