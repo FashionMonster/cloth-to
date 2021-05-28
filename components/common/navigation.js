@@ -2,62 +2,41 @@
 import { useRouter } from "next/router";
 import React, { useContext } from "react";
 import { AuthContext } from "../../components/common/auth/authProvider";
-import { isActiveUrl } from "../../utils/isActiveUrl";
-import { LogoutBtn } from "./button/logoutBtn";
-import { DropDownNavigation } from "./dropDownNavigation";
 import { NavLink } from "./navLink";
-
+import { SettingNav } from "./settingNav";
 const Navigation = () => {
   const value = useContext(AuthContext);
   const router = useRouter();
-
-  const activeStyle = "bg-purple-300 font-black h-12 leading-12 text-center";
-  const defaultStyle =
-    "bg-purple-100 font-black h-12 leading-12 text-center hover:bg-purple-300";
 
   return (
     <div className="relative">
       <div className=" absolute left-4 top-3">
         ようこそ　{value.userInfo.userName} さん
       </div>
-      <nav className="bg-purple-100 h-12 grid grid-cols-layout">
+      <nav className="bg-purple-200 h-12 grid grid-cols-layout">
         <div className="col-start-2 col-end-3">
           <ul className="grid grid-cols-4 h-12 items-center w-1080">
             <li>
-              <NavLink href="/search" currentUrl={router.pathname}>
+              <NavLink href="/search" isSettingNav={false}>
                 一覧/検索
               </NavLink>
             </li>
             <li>
-              <NavLink href="/contribute" currentUrl={router.pathname}>
+              <NavLink href="/contribute" isSettingNav={false}>
                 投稿
               </NavLink>
             </li>
             <li>
-              <NavLink href="/contributionHistory" currentUrl={router.pathname}>
+              <NavLink href="/contributionHistory" isSettingNav={false}>
                 履歴/編集
               </NavLink>
             </li>
             <li className="relative group">
-              <div
-                className={
-                  isActiveUrl("/userSetting", router.pathname) ||
-                  isActiveUrl("/groupSetting", router.pathname) ||
-                  isActiveUrl("/linkUserToGroup", router.pathname)
-                    ? activeStyle
-                    : defaultStyle
-                }
-              >
-                設定
-              </div>
-              <div className="absolute top-12 z-0 invisible group-hover:visible">
-                <DropDownNavigation />
-              </div>
+              <SettingNav router={router} />
             </li>
           </ul>
         </div>
       </nav>
-      <LogoutBtn />
     </div>
   );
 };

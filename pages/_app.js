@@ -1,6 +1,6 @@
 import React from "react";
 import { QueryClient, QueryClientProvider } from "react-query";
-import { ReactQueryDevtools } from "react-query/devtools";
+// import { ReactQueryDevtools } from "react-query/devtools";
 import { AuthProvider } from "../components/common/auth/authProvider";
 import "../styles/globals.css";
 
@@ -22,7 +22,7 @@ function MyApp({ Component, pageProps }) {
       <AuthProvider>
         <Component {...pageProps} />
       </AuthProvider>
-      <ReactQueryDevtools initialIsOpen />
+      {/* <ReactQueryDevtools initialIsOpen /> */}
     </QueryClientProvider>
   );
 }

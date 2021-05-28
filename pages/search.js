@@ -8,7 +8,6 @@ import { useQuery, useQueryClient } from "react-query";
 import { AuthContext } from "../components/common/auth/authProvider";
 import { SubmitBtn } from "../components/common/button/submitBtn";
 import { Error } from "../components/common/error";
-import { Footer } from "../components/common/footer";
 import { Header } from "../components/common/header";
 import { ArrowIcon } from "../components/common/icon/arrowIcon";
 import { Loading } from "../components/common/loading/loading";
@@ -74,9 +73,9 @@ export default function Search() {
   if (error) return <Error href="/search" errorMsg={error.message} />;
 
   return (
-    <body className="grid grid-rows-layout gap-4 min-h-screen">
+    <body className="grid grid-rows-layout gap-8 min-h-screen">
       <div id="headerWrapper">
-        <Header />
+        <Header isLogined={true} />
         <Navigation />
       </div>
       <p className="text-center">
@@ -86,7 +85,7 @@ export default function Search() {
       </p>
       <main className="grid grid-cols-main">
         <div className="col-start-2 col-end-3">
-          <div className="grid grid-rows-search gap-4">
+          <div className="grid grid-rows-search gap-8">
             <form
               onSubmit={handleSubmit(submit)}
               className="w-full h-16 flex justify-center grid grid-cols-searchForm gap-4"
@@ -177,7 +176,7 @@ export default function Search() {
           </div>
         </div>
       </main>
-      <Footer />
+      {/* <Footer /> */}
     </body>
   );
 }

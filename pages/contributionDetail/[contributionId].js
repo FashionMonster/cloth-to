@@ -6,7 +6,6 @@ import { useForm } from "react-hook-form";
 import { useQuery } from "react-query";
 import { BackBtn } from "../../components/common/button/backBtn";
 import { Error } from "../../components/common/error";
-import { Footer } from "../../components/common/footer";
 import { Header } from "../../components/common/header";
 import { Loading } from "../../components/common/loading/loading";
 import { Navigation } from "../../components/common/navigation";
@@ -85,9 +84,9 @@ export default function ContributionId() {
 
   return (
     <div>
-      <body className="grid grid-rows-layout gap-4 min-h-screen relative">
+      <body className="grid grid-rows-layout gap-8 min-h-screen relative">
         <div id="headerWrapper">
-          <Header />
+          <Header isLogined={true} />
           <Navigation />
         </div>
         <p className="text-center">
@@ -134,7 +133,6 @@ export default function ContributionId() {
             </div>
           </form>
         </main>
-        <Footer />
       </body>
     </div>
   );

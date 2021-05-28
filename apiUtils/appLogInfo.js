@@ -36,25 +36,6 @@ const makeReqDataLog = (data) => {
   return reqDataLog;
 };
 
-// //取得データが配列 又は オブジェクトの場合、ログ出力文字列に変換
-// const makeGetDataLog = (data) => {
-//   if (!Array.isArray(data)) {
-//     return data;
-//   }
-
-//   var getDataLog = "";
-
-//   //配列のデータ数だけループ
-//   for (let array of data) {
-//     //オブジェクトのキーの数だけループ
-//     for (let key in array) {
-//       getDataLog += `${key}：${array[key]}\r\n`;
-//     }
-//   }
-
-//   return getDataLog;
-// };
-
 //取得データが配列 又は オブジェクトの場合、ログ出力文字列に変換
 const makeGetDataLog = (data) => {
   var getDataLog = "";

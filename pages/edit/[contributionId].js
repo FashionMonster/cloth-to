@@ -7,7 +7,6 @@ import { useMutation, useQuery, useQueryClient } from "react-query";
 import { FileSelectBtn } from "../../components/common/button/fileSelectBtn";
 import { SubmitBtn } from "../../components/common/button/submitBtn";
 import { Error } from "../../components/common/error";
-import { Footer } from "../../components/common/footer";
 import { Header } from "../../components/common/header";
 import { Loading } from "../../components/common/loading/loading";
 import { ModalWindow } from "../../components/common/modal/modalWindow";
@@ -143,9 +142,9 @@ export default function ContributionId() {
 
   return (
     <div>
-      <body className="grid grid-rows-layout gap-4 min-h-screen relative">
+      <body className="grid grid-rows-layout gap-8 min-h-screen relative">
         <div id="headerWrapper">
-          <Header />
+          <Header isLogined={true} />
           <Navigation />
         </div>
         <p className="text-center">
@@ -209,7 +208,6 @@ export default function ContributionId() {
             </div>
           </form>
         </main>
-        <Footer />
       </body>
       <ModalWindow
         modalIsOpen={modalIsOpen}

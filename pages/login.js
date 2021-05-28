@@ -51,7 +51,7 @@ export default function Login() {
         <div id="headerWrapper">
           <Header />
         </div>
-        <p className="text-center">
+        <p className="text-center font-semibold">
           サービス利用にはログインが必要です。
           <br />
           下記の項目を入力してください。

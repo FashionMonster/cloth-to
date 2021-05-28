@@ -5,7 +5,6 @@ import { useForm } from "react-hook-form";
 import { useMutation } from "react-query";
 import { AuthContext } from "../components/common/auth/authProvider";
 import { SubmitBtn } from "../components/common/button/submitBtn";
-import { Footer } from "../components/common/footer";
 import { Header } from "../components/common/header";
 import { Loading } from "../components/common/loading/loading";
 import { ModalWindow } from "../components/common/modal/modalWindow";
@@ -72,9 +71,9 @@ export default function UserSetting() {
 
   return (
     <div>
-      <body className="grid grid-rows-layout gap-4 min-h-screen">
+      <body className="grid grid-rows-layout gap-8 min-h-screen">
         <div id="headerWrapper">
-          <Header />
+          <Header isLogined={true} />
           <Navigation />
         </div>
         <p className="text-center">
@@ -125,7 +124,6 @@ export default function UserSetting() {
             </form>
           </div>
         </main>
-        <Footer />
       </body>
       <ModalWindow
         modalIsOpen={modalIsOpen}

@@ -77,7 +77,7 @@ export default function Signup() {
 
   return (
     <div>
-      <body className="grid grid-rows-layout gap-4 min-h-screen">
+      <body className="grid grid-rows-layout gap-8 min-h-screen">
         <div id="headerWrapper">
           <Header />
         </div>
