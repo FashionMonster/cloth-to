@@ -151,6 +151,8 @@ export default function Search() {
                   pageRangeDisplayed={4}
                   breakLabel={"..."}
                   breakClassName={"break"}
+                  initialPage={router.query.page - 1}
+                  disableInitialCallback={true}
                   pageCount={calculatePageCount(
                     data.totalCount,
                     CONST.ONE_PAGE_DISPLAY_DATA
@@ -180,3 +182,5 @@ export default function Search() {
     </body>
   );
 }
+
+const makeQueryParameter = (data) => {};

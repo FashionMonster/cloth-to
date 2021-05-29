@@ -152,6 +152,8 @@ export default function ContributionHistory() {
                   pageRangeDisplayed={4}
                   breakLabel={"..."}
                   breakClassName={"break"}
+                  initialPage={router.query.page - 1}
+                  disableInitialCallback={true}
                   pageCount={calculatePageCount(
                     data.totalCount,
                     CONST.ONE_PAGE_DISPLAY_DATA
