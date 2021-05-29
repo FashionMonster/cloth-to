@@ -44,19 +44,19 @@ const makeQueryConditions = (param) => {
           conditions = { unit_price: param.keyword };
           break;
         case "2":
-          conditions = { unit_price: { [op.gte]: `%${param.keyword}%` } };
+          conditions = { unit_price: { [op.gte]: param.keyword } };
           break;
         case "3":
-          conditions = { unit_price: { [op.lte]: `%${param.keyword}%` } };
+          conditions = { unit_price: { [op.lte]: param.keyword } };
           break;
         default:
       }
       break;
     case "9":
-      conditions = { supplier: { [op.like]: `%${param.keyword}%` } };
+      conditions = { supplier: { [op.like]: param.keyword } };
       break;
     case "10":
-      conditions = { user_name: { [op.like]: `%${param.keyword}%` } };
+      conditions = { user_name: { [op.like]: param.keyword } };
       break;
     default:
   }

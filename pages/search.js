@@ -4,7 +4,7 @@ import Router, { useRouter } from "next/router";
 import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import ReactPaginate from "react-paginate";
-import { useQuery, useQueryClient } from "react-query";
+import { useQuery } from "react-query";
 import { AuthContext } from "../components/common/auth/authProvider";
 import { SubmitBtn } from "../components/common/button/submitBtn";
 import { Error } from "../components/common/error";
@@ -20,8 +20,8 @@ import { calculatePageCount } from "../utils/calculatePageCount";
 import { calculateRowCount } from "../utils/calculateRowCount";
 import { changePageNum } from "../utils/changePageNum";
 import { checkLogin } from "../utils/checkLogin";
-import { fetchContributions } from "../utils/fetchContributions";
-import { nvl } from "../utils/nvl";
+import { fetchContributions } from "../utils/getContributions/fetchContributions";
+import { setQueryParam } from "../utils/getContributions/setQueryParam";
 
 export default function Search() {
   //ログインチェック実行
@@ -35,7 +35,6 @@ export default function Search() {
   const value = useContext(AuthContext);
   const { handleSubmit, register, errors } = useForm();
   const [category, setCategory] = useState("1");
-  const queryClient = useQueryClient();
   const { isFetching, isLoading, error, data } = useQuery(
     ["searchPath", router.asPath],
     () =>
@@ -52,19 +51,10 @@ export default function Search() {
     document.getElementById("searchCategory").options[0].selected = true;
     setCategory("1");
 
-    //キャッシュキーを更新⇒検索内容が同じでも再fetchする
-    // queryClient.invalidateQueries("searchPath");
-
     //クエリパラメータをセット
     router.push({
       pathname: "/search",
-      query: {
-        page: 1,
-        searchCategory: data.searchCategory,
-        keyword: data.keyword,
-        compositionRatio: nvl(data.compositionRatio),
-        compareCondition: nvl(data.compareCondition),
-      },
+      query: setQueryParam(data),
     });
   };
 
@@ -182,5 +172,3 @@ export default function Search() {
     </body>
   );
 }
-
-const makeQueryParameter = (data) => {};

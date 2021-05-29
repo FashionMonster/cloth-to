@@ -1,7 +1,7 @@
 import axios from "axios";
 import queryString from "query-string";
-import { downloadImage } from "./downloadImage";
-import { getUserInfo } from "./getUserInfo";
+import { downloadImage } from "../downloadImage";
+import { getUserInfo } from "../getUserInfo";
 
 //検索条件を元に投稿情報を取得する
 const fetchContributions = async (apiPath, router, userInfo) => {
