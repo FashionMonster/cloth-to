@@ -11,9 +11,7 @@ export default async function handler(req, res) {
   );
 
   try {
-    const contributionDetail = await selectContributionInfosDetail(
-      req.query.contributionId
-    );
+    const contributionDetail = await selectContributionInfosDetail(req.query);
 
     appLogInfo(CONST.FILE_NAME.GET_CONTRIBUTION_DETAIL, "END");
 

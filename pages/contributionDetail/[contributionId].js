@@ -1,9 +1,8 @@
-import axios from "axios";
 import Router, { useRouter } from "next/router";
-import queryString from "query-string";
-import React from "react";
+import React, { useContext } from "react";
 import { useForm } from "react-hook-form";
 import { useQuery } from "react-query";
+import { AuthContext } from "../../components/common/auth/authProvider";
 import { BackBtn } from "../../components/common/button/backBtn";
 import { Error } from "../../components/common/error";
 import { Header } from "../../components/common/header";
@@ -13,47 +12,7 @@ import { PreviewMainArea } from "../../components/common/preview/previewMainArea
 import { PreviewSubArea } from "../../components/common/preview/previewSubArea";
 import ContributionForm from "../../components/contributionPage/contributionForm";
 import { checkLogin } from "../../utils/checkLogin";
-import { downloadImage } from "../../utils/downloadImage";
-
-//データフェッチ
-async function fetchContributionDetail(router) {
-  //リクエストデータ
-  let reqData;
-
-  //URL直叩きの場合 ※ToDo：router.query使えない
-  if (router.query.contributionId === undefined) {
-    const urlData = queryString.parseUrl(router.asPath, {
-      parseFragmentIdentifier: true,
-    });
-
-    reqData = {
-      contributionId: urlData.query.contributionId,
-    };
-    //通常の遷移
-  } else {
-    reqData = {
-      contributionId: router.query.contributionId,
-    };
-  }
-
-  const { data } = await axios.get("../api/getContributionDetail", {
-    params: reqData,
-  });
-
-  //downloadUrlを取得、dataにセットする
-  var imgFileUrlArray = [];
-  for (let res of data.imageUrl) {
-    if (res !== null) {
-      const src = await downloadImage(res);
-      imgFileUrlArray.push(src);
-    } else {
-      imgFileUrlArray.push("");
-    }
-  }
-  data.imgFileUrl = imgFileUrlArray;
-
-  return data;
-}
+import { fetchContributionDetail } from "../../utils/getContributionDetail/fetchContributionDetail";
 
 export default function ContributionId() {
   //ログインチェック実行
@@ -71,11 +30,12 @@ export default function ContributionId() {
     setError,
     clearErrors,
   } = useForm();
-
   const router = useRouter();
+  const value = useContext(AuthContext);
+
   const { isFetching, isLoading, error, data } = useQuery(
     ["contributionDetail", router.asPath],
-    () => fetchContributionDetail(router)
+    () => fetchContributionDetail(router, value.userInfo)
   );
 
   if (isFetching || isLoading) return <Loading />;

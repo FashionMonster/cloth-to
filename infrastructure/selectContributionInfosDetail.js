@@ -1,72 +1,10 @@
-// import { CONST } from "../apiConstants/const";
-// import { appLogError } from "../apiUtils/appLogError";
-// import { appLogInfo } from "../apiUtils/appLogInfo";
-
-// const models = require("../db/models");
-
-// export function selectContributionInfos(contributionId) {
-//   appLogInfo(CONST.FILE_NAME.SELECT_CONTRIBUTION_INFOS_DETAIL, "START");
-
-//   //select処理
-//   return models.ContributionInfos.findAll({
-//     attributes: [
-//       "material_name",
-//       "category",
-//       "composition_1",
-//       "composition_ratio_1",
-//       "composition_2",
-//       "composition_ratio_2",
-//       "composition_3",
-//       "composition_ratio_3",
-//       "fabric_structure",
-//       "color",
-//       "pattern",
-//       "processing",
-//       "unit_price",
-//       "supplier",
-//       "comment",
-//     ],
-//     include: [
-//       {
-//         model: models.ContributionImages,
-//         attributes: [
-//           "image_url_1",
-//           "image_url_2",
-//           "image_url_3",
-//           "image_url_4",
-//           "image_url_5",
-//         ],
-//       },
-//     ],
-//     where: contributionId,
-//   })
-//     .then((res) => {
-//       const resData = getResultData(res);
-//       appLogInfo(
-//         CONST.FILE_NAME.SELECT_CONTRIBUTION_INFOS_DETAIL,
-//         "RESULT",
-//         resData
-//       );
-//       appLogInfo(CONST.FILE_NAME.SELECT_CONTRIBUTION_INFOS_DETAIL, "END");
-//       return resData;
-//     })
-//     .catch((e) => {
-//       appLogError(
-//         CONST.FILE_NAME.SELECT_CONTRIBUTION_INFOS_DETAIL,
-//         "DATABASE",
-//         e
-//       );
-//       throw e;
-//     });
-// }
-
 import { CONST } from "../apiConstants/const";
 import { appLogError } from "../apiUtils/appLogError";
 import { appLogInfo } from "../apiUtils/appLogInfo";
 
 const models = require("../db/models");
 
-export function selectContributionInfosDetail(contributionId) {
+export function selectContributionInfosDetail(param) {
   appLogInfo(CONST.FILE_NAME.SELECT_CONTRIBUTION_INFOS_DETAIL, "START");
 
   //select処理
@@ -100,7 +38,12 @@ export function selectContributionInfosDetail(contributionId) {
         ],
       },
     ],
-    where: { contribution_id: contributionId, is_deleted: false },
+    where: {
+      group_id: param.groupId,
+      user_id: param.userId,
+      contribution_id: param.contributionId,
+      is_deleted: false,
+    },
   })
     .then((res) => {
       const resData = getResultData(res);
