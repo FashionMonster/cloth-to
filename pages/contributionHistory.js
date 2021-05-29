@@ -53,7 +53,7 @@ export default function ContributionHistory() {
     setCategory("1");
 
     //キャッシュキーを更新⇒検索内容が同じでも再fetchする
-    queryClient.invalidateQueries("contributionHistoryPath");
+    // queryClient.invalidateQueries("contributionHistoryPath");
 
     //クエリパラメータをセット
     router.push({
