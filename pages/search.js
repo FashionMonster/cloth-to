@@ -37,12 +37,7 @@ export default function Search() {
   const [category, setCategory] = useState("1");
   const { isFetching, isLoading, error, data } = useQuery(
     ["searchPath", router.asPath],
-    () =>
-      fetchContributions(
-        CONST.API_PATH.GET_CONTRIBUTION,
-        router,
-        value.userInfo
-      )
+    () => fetchContributions("./api/getContribution", router, value.userInfo)
   );
 
   //検索処理

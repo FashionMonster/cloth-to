@@ -38,11 +38,7 @@ export default function ContributionHistory() {
   const { isFetching, isLoading, error, data } = useQuery(
     ["contributionHistoryPath", router.asPath],
     () =>
-      fetchContributions(
-        CONST.API_PATH.GET_CONTRIBUTION_HISTORY,
-        router,
-        value.userInfo
-      )
+      fetchContributions("./api/getContributionHistory", router, value.userInfo)
   );
 
   //検索処理
