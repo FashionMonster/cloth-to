@@ -122,7 +122,7 @@ export default function Signup() {
                 width="48"
               />
               <div className="col-start-2 col-end-3 flex justify-center">
-                <SubmitBtn value="登録" />
+                <SubmitBtn value="登録" width={20} />
               </div>
             </form>
           </div>

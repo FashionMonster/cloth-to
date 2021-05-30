@@ -119,7 +119,7 @@ export default function UserSetting() {
                 width="48"
               />
               <div className="col-start-2 col-end-3 flex justify-center">
-                <SubmitBtn value="ユーザー情報更新" />
+                <SubmitBtn value="ユーザー情報更新" width={40} />
               </div>
             </form>
           </div>

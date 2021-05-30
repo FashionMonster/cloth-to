@@ -6,20 +6,23 @@ import { isActiveUrl } from "../../utils/isActiveUrl";
 const NavLink = ({ href, isSettingNav, children }) => {
   const router = useRouter();
 
-  const activeStyle =
-    "bg-purple-300 font-black h-12 leading-12 text-center border-l-2";
-
   let defaultStyle;
+  let activeStyle;
+  let width;
   //設定サブナビの場合
   if (isSettingNav) {
     defaultStyle =
       "bg-purple-200 font-black h-12 leading-12 text-center hover:bg-purple-300 border-t-2";
+    activeStyle =
+      "bg-purple-300 font-black h-12 leading-12 text-center border-t-2";
+    width = 266;
   } else {
     defaultStyle =
       "bg-purple-200 font-black h-12 leading-12 text-center hover:bg-purple-300 border-l-2";
+    activeStyle =
+      "bg-purple-300 font-black h-12 leading-12 text-center border-l-2";
+    width = 270;
   }
-
-  const width = isSettingNav ? 266 : 270;
 
   return (
     <li

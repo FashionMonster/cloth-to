@@ -82,7 +82,7 @@ export default function Login() {
                 width="48"
               />
               <div className="col-start-2 col-end-3 flex justify-center">
-                <SubmitBtn value="ログイン" />
+                <SubmitBtn value="ログイン" width={24} />
               </div>
             </form>
           </div>

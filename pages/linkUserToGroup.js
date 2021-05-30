@@ -109,7 +109,7 @@ export default function Setting() {
                 width="48"
               />
               <div className="col-start-2 col-end-3 flex justify-center">
-                <SubmitBtn value="実行" />
+                <SubmitBtn value="登録/更新" width={28} />
               </div>
             </form>
           </div>

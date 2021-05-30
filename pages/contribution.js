@@ -134,8 +134,8 @@ export default function Contribute() {
                 isDisabled={false}
               />
               <div className="flex justify-around">
-                <SubmitBtn value="一時保存" />
-                <SubmitBtn value="投稿する" />
+                {/* <SubmitBtn value="一時保存" /> */}
+                <SubmitBtn value="投稿する" width={24} />
               </div>
             </div>
           </form>

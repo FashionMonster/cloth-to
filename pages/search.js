@@ -78,7 +78,7 @@ export default function Search() {
                 register={register}
                 errors={errors}
               />
-              <SubmitBtn value="検索" />
+              <SubmitBtn value="検索" width={20} />
             </form>
             <div
               className={`grid grid-cols-5 grid-rows-${calculateRowCount(

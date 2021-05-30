@@ -70,7 +70,7 @@ module.exports = {
         contributeForm: "100px 408px",
         previewSubArea: "112px 112px 112px 112px",
         settingForm: "150px 350px",
-        searchForm: "120px 280px 96px",
+        searchForm: "120px 280px 80px",
         inputComposition: "120px 80px 64px",
         inputUnitPrice: "192px 72px",
         auto3x: "auto auto auto",

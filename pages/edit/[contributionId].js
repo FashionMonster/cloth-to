@@ -156,7 +156,7 @@ export default function ContributionId() {
                 data={data}
               />
               <div className="flex justify-around">
-                <SubmitBtn value="更新する" />
+                <SubmitBtn value="更新する" width={24} />
               </div>
             </div>
           </form>
