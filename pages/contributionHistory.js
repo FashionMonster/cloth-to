@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-import Router, { useRouter } from "next/router";
+import { useRouter } from "next/router";
 import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import ReactPaginate from "react-paginate";
@@ -19,18 +19,10 @@ import { CONST } from "../constants/const";
 import { calculatePageCount } from "../utils/calculatePageCount";
 import { calculateRowCount } from "../utils/calculateRowCount";
 import { changePageNum } from "../utils/changePageNum";
-import { checkLogin } from "../utils/checkLogin";
 import { fetchContributions } from "../utils/getContributions/fetchContributions";
 import { setQueryParam } from "../utils/getContributions/setQueryParam";
 
 export default function ContributionHistory() {
-  //ログインチェック実行
-  checkLogin().then((isLogin) => {
-    if (!isLogin) {
-      Router.push("/login");
-    }
-  });
-
   const router = useRouter();
   const value = useContext(AuthContext);
   const { handleSubmit, register, errors } = useForm();

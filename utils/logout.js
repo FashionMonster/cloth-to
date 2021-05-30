@@ -6,13 +6,13 @@ const logout = async () => {
   await fb
     .auth()
     .signOut()
+    .then(() => {
+      //ログアウト後画面遷移
+      Router.push("/login");
+    })
     .catch((error) => {
-      alert(error);
-      // throw error;
+      throw error;
     });
-
-  //ログアウト後画面遷移
-  Router.push("/login");
 };
 
 export { logout };

@@ -1,5 +1,5 @@
 import axios from "axios";
-import Router, { useRouter } from "next/router";
+import { useRouter } from "next/router";
 import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useMutation, useQuery, useQueryClient } from "react-query";
@@ -15,19 +15,11 @@ import { PreviewMainArea } from "../../components/common/preview/previewMainArea
 import { PreviewSubArea } from "../../components/common/preview/previewSubArea";
 import ContributionForm from "../../components/contributionPage/contributionForm";
 import { CONST } from "../../constants/const";
-import { checkLogin } from "../../utils/checkLogin";
 import { fetchContributionDetail } from "../../utils/getContributionDetail/fetchContributionDetail";
 import { readFile } from "../../utils/readFile";
 import { uploadImage } from "../../utils/uploadImage";
 
 export default function ContributionId() {
-  //ログインチェック実行
-  checkLogin().then((isLogin) => {
-    if (!isLogin) {
-      Router.push("/login");
-    }
-  });
-
   const [imgFile, setImgFile] = useState([]);
   const [modalIsOpen, setIsOpen] = useState(false);
   const {

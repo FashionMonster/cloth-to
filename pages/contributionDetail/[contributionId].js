@@ -1,4 +1,4 @@
-import Router, { useRouter } from "next/router";
+import { useRouter } from "next/router";
 import React, { useContext } from "react";
 import { useForm } from "react-hook-form";
 import { useQuery } from "react-query";
@@ -11,17 +11,9 @@ import { Navigation } from "../../components/common/navigation";
 import { PreviewMainArea } from "../../components/common/preview/previewMainArea";
 import { PreviewSubArea } from "../../components/common/preview/previewSubArea";
 import ContributionForm from "../../components/contributionPage/contributionForm";
-import { checkLogin } from "../../utils/checkLogin";
 import { fetchContributionDetail } from "../../utils/getContributionDetail/fetchContributionDetail";
 
 export default function ContributionId() {
-  //ログインチェック実行
-  checkLogin().then((isLogin) => {
-    if (!isLogin) {
-      Router.push("/login");
-    }
-  });
-
   const {
     handleSubmit,
     register,

@@ -1,5 +1,4 @@
 import axios from "axios";
-import Router from "next/router";
 import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useMutation } from "react-query";
@@ -15,18 +14,10 @@ import { PreviewMainArea } from "../components/common/preview/previewMainArea";
 import { PreviewSubArea } from "../components/common/preview/previewSubArea";
 import ContributionForm from "../components/contributionPage/contributionForm";
 import { CONST } from "../constants/const";
-import { checkLogin } from "../utils/checkLogin";
 import { readFile } from "../utils/readFile";
 import { uploadImage } from "../utils/uploadImage";
 
 export default function Contribute() {
-  //ログインチェック実行
-  checkLogin().then((isLogin) => {
-    if (!isLogin) {
-      Router.push("/login");
-    }
-  });
-
   const value = useContext(AuthContext);
   const [imgFile, setImgFile] = useState([]);
   const [modalIsOpen, setIsOpen] = useState(false);
