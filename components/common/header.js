@@ -1,6 +1,7 @@
 import Image from "next/image";
 import React, { useContext } from "react";
 import { AuthContext } from "../../components/common/auth/authProvider";
+import { makeDispUserName } from "../../utils/makeDispUserName";
 import { CreateUserBtn } from "./button/createUserBtn";
 import { LoginBtn } from "./button/loginBtn";
 import { LogoutBtn } from "./button/logoutBtn";
@@ -36,7 +37,7 @@ const Header = ({ isLogined }) => {
           アパレル事業者のための情報共有ツール
         </p>
         <div className="h-16 flex justify-center items-center min_2xl:hidden">
-          ようこそ　{value.userInfo.userName} さん
+          ようこそ　{makeDispUserName(value.userInfo.userName)} さん
         </div>
         <div className="absolute top-2 right-4">
           <LogoutBtn />

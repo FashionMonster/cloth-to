@@ -2,6 +2,7 @@
 import { useRouter } from "next/router";
 import React, { useContext } from "react";
 import { AuthContext } from "../../components/common/auth/authProvider";
+import { makeDispUserName } from "../../utils/makeDispUserName";
 import { NavLink } from "./navLink";
 import { SettingNav } from "./settingNav";
 
@@ -12,7 +13,7 @@ const Navigation = () => {
   return (
     <div className="relative">
       <div className=" absolute left-4 top-3 max_2xl:hidden">
-        ようこそ　{value.userInfo.userName} さん
+        ようこそ　{makeDispUserName(value.userInfo.userName)} さん
       </div>
       <nav className="bg-purple-200 h-12 w-full grid grid-cols-contents">
         <ul className="col-start-2 col-end-3 grid grid-cols-4 h-12 w-1080">
