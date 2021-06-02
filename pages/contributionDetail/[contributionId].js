@@ -46,7 +46,7 @@ export default function ContributionId() {
           <br />
           新たなクリエイションに役立てることができるかもしれません。
         </p>
-        <main className="grid grid-cols-main">
+        <main className="grid grid-cols-contents">
           <form
             onSubmit={handleSubmit()}
             className="col-start-2 col-end-3 grid grid-cols-2"

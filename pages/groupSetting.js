@@ -55,8 +55,8 @@ export default function groupSetting() {
           <br />
           下記の項目を入力して登録して下さい。
         </p>
-        <main className="grid grid-cols-main">
-          <div className="col-start-2 col-end-3 grid grid-rows-3">
+        <main className="grid grid-cols-contents">
+          <div className="col-start-2 col-end-3 grid grid-rows-form">
             <form
               onSubmit={handleSubmit(createGroupAccount)}
               className=" row-start-2 row-end-3 grid grid-cols-2 gap-8 m-auto"

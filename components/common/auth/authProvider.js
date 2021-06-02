@@ -31,7 +31,7 @@ const AuthProvider = ({ children }) => {
     //ログインが必要な画面の場合
     if (
       router.asPath !== "/" &&
-      router.asPath !== "/createUser" &&
+      router.asPath !== "/signup" &&
       router.asPath !== "/login"
     ) {
       //ログインチェック

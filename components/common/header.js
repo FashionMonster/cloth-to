@@ -1,10 +1,14 @@
 import Image from "next/image";
+import React, { useContext } from "react";
+import { AuthContext } from "../../components/common/auth/authProvider";
 import { CreateUserBtn } from "./button/createUserBtn";
 import { LoginBtn } from "./button/loginBtn";
 import { LogoutBtn } from "./button/logoutBtn";
 
 //ヘッダーコンポーネント
 const Header = ({ isLogined }) => {
+  const value = useContext(AuthContext);
+
   if (!isLogined) {
     return (
       <header className="relative w-full h-16 bg-gray-100">
@@ -31,6 +35,9 @@ const Header = ({ isLogined }) => {
         <p className="absolute top-0 left-20 h-16 leading-16 text-lg font-black">
           アパレル事業者のための情報共有ツール
         </p>
+        <div className="h-16 flex justify-center items-center min_2xl:hidden">
+          ようこそ　{value.userInfo.userName} さん
+        </div>
         <div className="absolute top-2 right-4">
           <LogoutBtn />
         </div>

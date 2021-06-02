@@ -1,4 +1,5 @@
 import axios from "axios";
+import Head from "next/Head";
 import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useMutation } from "react-query";
@@ -78,6 +79,10 @@ export default function Contribute() {
 
   return (
     <div>
+      <Head>
+        <title>アパレル事業者向けの情報共有ツール Cloth-To 投稿画面</title>
+        <meta name="viewport" content="width=device-width,initial-scale=1" />
+      </Head>
       <body className="grid grid-rows-layout gap-8 min-h-screen relative">
         <div id="headerWrapper">
           <Header isLogined={true} />
@@ -88,7 +93,7 @@ export default function Contribute() {
           <br />
           あなたの投稿内容は、他メンバーの新たなクリエイションに役立てることができます。
         </p>
-        <main className="grid grid-cols-main">
+        <main className="grid grid-cols-contents">
           <form
             onSubmit={handleSubmit(insertContribution)}
             className="col-start-2 col-end-3 grid grid-cols-2"

@@ -10,10 +10,11 @@ export default function Index() {
     <div>
       <Head>
         <title>アパレル事業者向けの情報共有ツール Cloth-To</title>
+        <meta name="viewport" content="width=device-width,initial-scale=1" />
       </Head>
       <body className="grid grid-rows-index gap-4 min-h-screen relative">
         <Header isLogined={false} />
-        <div className="grid grid-cols-main">
+        <div className="grid grid-cols-contents">
           <main className="col-start-2 col-end-3 grid  grid-rows-indexMain gap-12">
             <div>
               <Image

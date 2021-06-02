@@ -47,7 +47,7 @@ export default function Login() {
 
   return (
     <div>
-      <body className="grid grid-rows-layout gap-4 min-h-screen">
+      <body className="grid grid-rows-layout gap-8 min-h-screen">
         <div id="headerWrapper">
           <Header />
         </div>
@@ -56,8 +56,8 @@ export default function Login() {
           <br />
           下記の項目を入力してください。
         </p>
-        <main className="grid grid-cols-main">
-          <div className="col-start-2 col-end-3 grid grid-rows-3">
+        <main className="grid grid-cols-contents">
+          <div className="col-start-2 col-end-3 grid grid-rows-form">
             <form
               onSubmit={handleSubmit(submit)}
               className=" row-start-2 row-end-3 grid grid-cols-2 gap-8 m-auto"

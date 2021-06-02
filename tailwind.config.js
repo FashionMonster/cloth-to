@@ -32,6 +32,7 @@ module.exports = {
         120: "120px",
         200: "200px",
         220: "220px",
+        224: "224px",
         266: "266px",
         270: "270px",
         280: "280px",
@@ -62,10 +63,10 @@ module.exports = {
         search: "32px auto 28px",
         auto3x: "auto auto auto",
         error: "64px auto 48px",
+        form: "auto 1fr auto",
       },
       gridTemplateColumns: {
-        20: "repeat(20, minmax(0, 1fr))",
-        main: "auto 1080px auto",
+        contents: "auto 1080px auto",
         indexUl: "800px 200px",
         contributeForm: "100px 408px",
         previewSubArea: "112px 112px 112px 112px",
@@ -74,11 +75,30 @@ module.exports = {
         inputComposition: "120px 80px 64px",
         inputUnitPrice: "192px 72px",
         auto3x: "auto auto auto",
+        nav: "auto 1fr auto",
       },
       lineHeight: {
         12: "3rem",
         16: "4rem",
       },
+    },
+    screens: {
+      max_2xl: { max: "1536px" },
+      // => @media (max-width: 1536px) { ... }
+      max_xl: { max: "1279px" },
+      // => @media (max-width: 1279px) { ... }
+      max_lg: { max: "1023px" },
+      // => @media (max-width: 1023px) { ... }
+      max_sm: { max: "639px" },
+      // => @media (max-width: 639px) { ... }
+      min_2xl: "1536px",
+      // => @media (min-width: 1536px) { ... }
+      min_xl: "1279px",
+      // => @media (min-width: 1279px) { ... }
+      min_lg: "1023px",
+      // => @media (min-width: 1023px) { ... }
+      min_sm: "639px",
+      // => @media (min-width: 639px) { ... }
     },
   },
   variants: {

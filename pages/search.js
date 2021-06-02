@@ -60,7 +60,7 @@ export default function Search() {
         <br />
         新しいアイデアが湧いたり、創りたい商品を実現するキッカケになります。
       </p>
-      <main className="grid grid-cols-main">
+      <main className="grid grid-cols-contents">
         <div className="col-start-2 col-end-3">
           <div className="grid grid-rows-search gap-8">
             <form
