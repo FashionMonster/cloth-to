@@ -12,16 +12,15 @@ const customStyles = {
     padding: "0px",
     display: "grid",
     gridTemplateRows: "repeat(4, minmax(0, 1fr))",
-    // border: "1px solid purple",
-    border: "0px",
-    backgroundColor: "#F8E8FD",
+    borderRadius: "10px",
+    backgroundColor: "#F3F4F6",
   },
 };
 
 const ModalWindow = (props) => {
   return (
     <Modal isOpen={props.modalIsOpen} style={customStyles}>
-      <div className="row-start-2 row-end-3 mx-auto my-auto">
+      <div className="row-start-2 row-end-3 mx-auto my-auto font-medium">
         {props.message}
       </div>
       <button

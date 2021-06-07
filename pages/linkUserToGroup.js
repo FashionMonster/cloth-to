@@ -15,12 +15,6 @@ import { InputPassword } from "../components/common/textBox/inputPassword";
 import { CONST } from "../constants/const";
 import { usePreviousValue } from "../utils/usePreviousValue";
 
-//データフェッチ
-async function fetchAllGroupInfo() {
-  const { data } = await axios.get("./api/getAllGroupInfo");
-  return data;
-}
-
 export default function Setting() {
   const { handleSubmit, register, errors } = useForm();
   const [modalIsOpen, setIsOpen] = useState(false);
@@ -29,7 +23,10 @@ export default function Setting() {
   const modalMessage = useRef("");
   const value = useContext(AuthContext);
 
-  const query = useQuery("allGroupInfo", async () => fetchAllGroupInfo(value));
+  const query = useQuery("allGroupInfo", async () => {
+    const { data } = await axios.get("./api/getAllGroupInfo");
+    return data;
+  });
 
   //グループ紐づけイベント
   const linkUserToGroups = async (data) => {
@@ -47,8 +44,6 @@ export default function Setting() {
         modalMessage.current = CONST.OK_MSG.FIN_UPDATE_USER;
       } else if (res.data.errorCode === "WRONG_PASSWORD") {
         modalMessage.current = CONST.ERR_MSG.WRONG_PASSWORD;
-      } else {
-        modalMessage.current = CONST.ERR_MSG.OTHER;
       }
     })
   );

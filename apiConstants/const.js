@@ -8,6 +8,7 @@ const CONST = {
     GET_ALL_GROUP_INFO: "getAllGroupInfo.js",
     LINK_USER_TO_GROUP: "linkUserToGroup.js",
     UPDATE_USER_INFO: "updateUserInfo.js",
+    DELETE_USER_INFO: "deleteUserInfo.js",
     CREATE_GROUP_ACCOUNT: "createGroupAccount.js",
     GET_CONTRIBUTION: "getContribution.js",
     GET_CONTRIBUTION_HISTORY: "getContributionHistory.js",
@@ -31,6 +32,7 @@ const CONST = {
     UPDATE_USER_ACCOUNTS_FOR_LINK_GROUP: "updateUserAccountsForLinkGroup.js",
     UPDATE_CONTRIBUTION_INFOS: "updateContributionInfos.js",
     UPDATE_CONTRIBUTION_IMAGES: "updateContributionImages.js",
+    DELETE_USER_ACCOUNTS: "deleteUserAccounts.js",
   },
 };
 

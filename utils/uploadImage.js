@@ -22,11 +22,12 @@ const uploadImage = (imgFile) => {
         storageRef.put(blob);
       },
       error(err) {
-        console.log(err.message);
+        throw err;
       },
     };
 
-    new Compressor(file.imgFileBlob, payload);
+    new Compressor("", payload);
+    // new Compressor(file.imgFileBlob, payload);
   }
 
   return idList;

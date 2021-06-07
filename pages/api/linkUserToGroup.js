@@ -1,6 +1,5 @@
 import { CONST } from "../../apiConstants/const";
 import { appLogInfo } from "../../apiUtils/appLogInfo";
-import { uvl } from "../../apiUtils/uvl";
 import { verifyPass } from "../../apiUtils/verifyPass";
 import { GroupAccount } from "../../domain/groupAccount";
 import { UserAccount } from "../../domain/userAccount";
@@ -13,14 +12,14 @@ export default async function handler(req, res) {
 
   //グループ情報ドメイン
   const groupAccount = new GroupAccount({
-    groupId: uvl(req.body.groupId),
-    groupPass: uvl(req.body.password),
+    groupId: req.body.groupId,
+    groupPass: req.body.password,
   });
 
   //ユーザー情報ドメイン
   const userAccount = new UserAccount({
-    userId: uvl(req.body.userId),
-    groupId: uvl(req.body.groupId),
+    userId: req.body.userId,
+    groupId: req.body.groupId,
   });
 
   try {

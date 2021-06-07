@@ -39,14 +39,20 @@ const fetchContributions = async (apiPath, router, userInfo) => {
     };
   }
 
-  const { data } = await axios.get(apiPath, {
-    params: reqData,
-  });
+  const { data } = await axios
+    .get(apiPath, {
+      params: reqData,
+    })
+    .catch((error) => {
+      throw error;
+    });
 
   //downloadUrlを取得、dataにセットする
   if (data.totalCount > 0) {
     for (let res of data.images) {
-      const src = await downloadImage(res.imageUrl);
+      const src = await downloadImage(res.imageUrl).catch((errMsg) => {
+        throw new Error(errMsg);
+      });
       res.src = src;
     }
   }

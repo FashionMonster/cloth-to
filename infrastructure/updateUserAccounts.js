@@ -10,7 +10,6 @@ export function updateUserAccounts(param, previousUserId) {
   return models.UserAccounts.update(
     {
       user_id: param.userId,
-      user_pass: param.userPass,
       user_name: param.userName,
     },
     { where: { user_id: previousUserId } }

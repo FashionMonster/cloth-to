@@ -6,8 +6,8 @@ import { Header } from "./header";
 const Error = (props) => {
   return (
     <body className="min-h-screen grid grid-rows-error">
-      <Header />
-      <main className="grid grid-cols-main">
+      <Header isLogined={true} />
+      <main className="grid grid-cols-contents">
         <div className="col-start-2 col-end-3 grid grid-rows-6">
           <div className="flex justify-center items-center row-start-3 row-end-4">
             <p>{props.errorMsg}</p>

@@ -32,8 +32,6 @@ export default function groupSetting() {
         modalMessage.current = CONST.OK_MSG.FIN_CREATE_GROUP;
       } else if (res.data.errorCode === "23505") {
         modalMessage.current = CONST.ERR_MSG.EMAIL_ALREADY_IN_USE;
-      } else {
-        modalMessage.current = CONST.ERR_MSG.OTHER;
       }
     })
   );

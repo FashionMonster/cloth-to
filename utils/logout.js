@@ -9,9 +9,6 @@ const logout = async () => {
     .then(() => {
       //ログアウト後画面遷移
       Router.push("/login");
-    })
-    .catch((error) => {
-      throw error;
     });
 };
 

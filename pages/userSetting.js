@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { useMutation } from "react-query";
 import { AuthContext } from "../components/common/auth/authProvider";
 import { SubmitBtn } from "../components/common/button/submitBtn";
+import { Error } from "../components/common/error";
 import { Header } from "../components/common/header";
 import { Loading } from "../components/common/loading/loading";
 import { ModalWindow } from "../components/common/modal/modalWindow";
@@ -25,44 +26,49 @@ export default function UserSetting() {
   const value = useContext(AuthContext);
 
   //ユーザー情報更新イベント
-  const updateUserAccount = async (data) => {
+  const updateUserAccount = (data) => {
     //更新条件のキー情報
     data.previousUserId = value.userInfo.userId;
 
-    //firebaseのユーザー更新
-    await updateUserInfo(data.email, data.password)
-      .then(
-        //DBのユーザー更新(ユーザー名含)
-        mutation.mutate(data)
-      )
-      .catch((error) => {
-        //モーダルを開く
-        setIsOpen(true);
+    //ユーザー情報更新
+    const resData = mutation.mutate(data);
 
-        //エラーメッセージをセット
-        modalMessage.current = CONST.ERR_MSG.OTHER;
-      });
+    return resData;
   };
 
-  const mutation = useMutation((formData) =>
-    axios
-      .post("./api/updateUserInfo", formData)
-      .then(() => {
-        //成功メッセージ表示設定
-        setIsUpdateSuccess(true);
-        setIsOpen(true);
-        modalMessage.current = CONST.OK_MSG.FIN_UPDATE_USER;
-      })
-      .catch((error) => {
-        //firebaseのデータを更新前データで再更新
-        // updateUserInfo(value.userInfo.userId, value.userInfo."パスワード。。");
-      })
-  );
+  const mutation = useMutation(async (formData) => {
+    //DB更新(ID、名前)
+    const data = await axios.post("./api/updateUserInfo", formData);
+
+    try {
+      //firebase更新(ID、PW)
+      await updateUserInfo(formData.email, formData.password);
+    } catch (error) {
+      //DB更新(元々のID、名前)
+      const param = {
+        previousUserId: formData.email,
+        email: formData.previousUserId,
+        userName: value.userInfo.userName,
+      };
+      await axios.post("./api/updateUserInfo", param);
+
+      //mutation.isErrorがキャッチする
+      throw error;
+    }
+
+    //成功メッセージ表示設定
+    setIsUpdateSuccess(true);
+    setIsOpen(true);
+    modalMessage.current = CONST.OK_MSG.FIN_UPDATE_USER;
+
+    return data;
+  });
 
   if (mutation.isFetching || mutation.isLoading) return <Loading />;
 
-  // if (mutation.isError)
-  // return <Error href="/signup" errorMsg={mutation.error.message} />;
+  if (mutation.isError) {
+    return <Error href="/userSetting" errorMsg={mutation.error.message} />;
+  }
 
   //更新完了メッセージが開いた状態から閉じる時
   if (previousModalIsOpen && !modalIsOpen && isUpdateSuccess) {

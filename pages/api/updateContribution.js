@@ -19,7 +19,7 @@ export default async function handler(req, res) {
     const contributionInfo = new ContributionInfo({
       contributionId: req.body.contributionId,
       materialName: req.body.materialName,
-      category: uvl(req.body.category),
+      category: req.body.category,
       composition1: uvl(req.body.composition1),
       compositionRatio1: uvl(req.body.compositionRatio1),
       composition2: uvl(req.body.composition2),
