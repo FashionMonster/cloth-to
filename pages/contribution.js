@@ -233,7 +233,13 @@ export default function Contribute() {
   if (mutation.isFetching || mutation.isLoading) return <Loading />;
 
   if (mutation.isError)
-    return <Error href="/contribution" errorMsg={mutation.error.message} />;
+    return (
+      <Error
+        backType={CONST.BACK_TYPE.RELOAD}
+        href="/contribution"
+        errorMsg={mutation.error.message}
+      />
+    );
 
   return (
     <div>

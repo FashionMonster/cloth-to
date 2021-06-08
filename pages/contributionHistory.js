@@ -49,7 +49,9 @@ export default function ContributionHistory() {
   if (isFetching || isLoading) return <Loading />;
 
   if (error)
-    return <Error href="/contributionHistory" errorMsg={error.message} />;
+    return (
+      <Error backType={CONST.BACK_TYPE.BROWSER_BACK} errorMsg={error.message} />
+    );
 
   return (
     <body className="grid grid-rows-layout gap-8 min-h-screen">

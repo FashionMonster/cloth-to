@@ -62,10 +62,22 @@ export default function Setting() {
     return <Loading />;
 
   if (query.error)
-    return <Error href="/linkUserToGroups" errorMsg={query.error.message} />;
+    return (
+      <Error
+        backType={CONST.BACK_TYPE.RELOAD}
+        href="/linkUserToGroups"
+        errorMsg={query.error.message}
+      />
+    );
 
   if (mutation.isError)
-    return <Error href="/linkUserToGroups" errorMsg={mutation.error.message} />;
+    return (
+      <Error
+        backType={CONST.BACK_TYPE.RELOAD}
+        href="/linkUserToGroups"
+        errorMsg={mutation.error.message}
+      />
+    );
 
   return (
     <div>

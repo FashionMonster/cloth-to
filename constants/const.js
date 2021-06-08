@@ -1,6 +1,10 @@
 const CONST = {
   ONE_PAGE_DISPLAY_DATA: 20, //検索・一覧ページの１ページ表示件数
   ONE_ROW_DISPLAY_DATA: 5, //検索・一覧ページの１行の表示件数
+  BACK_TYPE: {
+    RELOAD: "reload",
+    BROWSER_BACK: "browserBack",
+  },
   OK_MSG: {
     FIN_CREATE_CONTRIBUTION: "投稿完了しました",
     FIN_UPDATE_CONTRIBUTION: "投稿更新完了しました",

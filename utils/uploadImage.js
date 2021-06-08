@@ -26,8 +26,7 @@ const uploadImage = (imgFile) => {
       },
     };
 
-    new Compressor("", payload);
-    // new Compressor(file.imgFileBlob, payload);
+    new Compressor(file.imgFileBlob, payload);
   }
 
   return idList;

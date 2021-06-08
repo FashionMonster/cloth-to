@@ -39,7 +39,13 @@ export default function groupSetting() {
   if (mutation.isFetching || mutation.isLoading) return <Loading />;
 
   if (mutation.isError)
-    return <Error href="/groupSetting" errorMsg={mutation.error.message} />;
+    return (
+      <Error
+        backType={CONST.BACK_TYPE.RELOAD}
+        href="/groupSetting"
+        errorMsg={mutation.error.message}
+      />
+    );
 
   return (
     <div>

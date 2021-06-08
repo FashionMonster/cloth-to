@@ -14,7 +14,14 @@ const Error = (props) => {
           </div>
           <div className="flex justify-center items-center row-start-4 row-end-5">
             <button
-              onClick={() => Router.reload(props.href)}
+              // onClick={() => Router.reload(props.href)}
+              onClick={() => {
+                if (props.backType === "browserBack") {
+                  Router.back();
+                } else if (props.backType === "reload") {
+                  Router.reload(props.href);
+                }
+              }}
               className="bg-purple-700 h-8 text-white rounded text-center px-2 py-1 hover:bg-purple-800 hover:text-white"
             >
               戻る

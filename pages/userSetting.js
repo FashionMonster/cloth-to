@@ -67,7 +67,13 @@ export default function UserSetting() {
   if (mutation.isFetching || mutation.isLoading) return <Loading />;
 
   if (mutation.isError) {
-    return <Error href="/userSetting" errorMsg={mutation.error.message} />;
+    return (
+      <Error
+        backType={CONST.BACK_TYPE.RELOAD}
+        href="/userSetting"
+        errorMsg={mutation.error.message}
+      />
+    );
   }
 
   //更新完了メッセージが開いた状態から閉じる時

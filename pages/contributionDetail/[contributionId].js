@@ -11,6 +11,7 @@ import { Navigation } from "../../components/common/navigation";
 import { PreviewMainArea } from "../../components/common/preview/previewMainArea";
 import { PreviewSubArea } from "../../components/common/preview/previewSubArea";
 import ContributionForm from "../../components/contributionPage/contributionForm";
+import { CONST } from "../../constants/const";
 import { fetchContributionDetail } from "../../utils/getContributionDetail/fetchContributionDetail";
 
 export default function ContributionId() {
@@ -32,7 +33,10 @@ export default function ContributionId() {
 
   if (isFetching || isLoading) return <Loading />;
 
-  if (error) return <Error href="/search" errorMsg={error.message} />;
+  if (error)
+    return (
+      <Error backType={CONST.BACK_TYPE.BROWSER_BACK} errorMsg={error.message} />
+    );
 
   return (
     <div>
