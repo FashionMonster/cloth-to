@@ -38,18 +38,20 @@ export default async function handler(req, res) {
     //投稿情報更新
     await updateContributionInfos(contributionInfo, trn);
 
-    //投稿画像ドメイン
-    const contributionImage = new ContributionImage({
-      contributionId: req.body.contributionId,
-      imageUrl1: uvl(req.body.imageUrl1),
-      imageUrl2: uvl(req.body.imageUrl2),
-      imageUrl3: uvl(req.body.imageUrl3),
-      imageUrl4: uvl(req.body.imageUrl4),
-      imageUrl5: uvl(req.body.imageUrl5),
-    });
+    if (req.body.imageUrl1 !== undefined) {
+      //投稿画像ドメイン
+      const contributionImage = new ContributionImage({
+        contributionId: req.body.contributionId,
+        imageUrl1: uvl(req.body.imageUrl1),
+        imageUrl2: uvl(req.body.imageUrl2),
+        imageUrl3: uvl(req.body.imageUrl3),
+        imageUrl4: uvl(req.body.imageUrl4),
+        imageUrl5: uvl(req.body.imageUrl5),
+      });
 
-    //投稿画像更新
-    await updateContributionImages(contributionImage, trn);
+      //投稿画像更新
+      await updateContributionImages(contributionImage, trn);
+    }
 
     await trn.commit();
 

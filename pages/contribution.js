@@ -147,6 +147,7 @@ export default function Contribute() {
               </div>
               <FileSelectBtn
                 register={register}
+                isRequired={true}
                 errors={errors.imageFiles}
                 selectFile={selectFile}
               />

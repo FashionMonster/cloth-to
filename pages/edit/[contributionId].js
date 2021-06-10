@@ -64,25 +64,27 @@ export default function ContributionId() {
 
   //投稿更新イベント
   const updateContribution = (data) => {
-    //拡張子チェック
-    for (const file of imgFile) {
-      if (!isImageExt(file.fileName)) {
-        setIsOpen(true);
-        modalMessage.current = CONST.ERR_MSG.WORNG_EXTENSION;
-        return;
-      }
-    }
-
     mutation.mutate(data);
   };
 
   const mutation = useMutation(async (formData) => {
-    //FireBase Storageに画像アップロード
-    const idList = uploadImage(imgFile);
+    if (imgFile.length !== 0) {
+      //拡張子チェック
+      for (const file of imgFile) {
+        if (!isImageExt(file.fileName)) {
+          setIsOpen(true);
+          modalMessage.current = CONST.ERR_MSG.WORNG_EXTENSION;
+          return;
+        }
+      }
 
-    //アップロード画像IDをフォームデータにセット
-    for (let i = 0; i < 5; i++) {
-      formData[`imageUrl${i + 1}`] = idList[i] === undefined ? "" : idList[i];
+      //FireBase Storageに画像アップロード
+      const idList = uploadImage(imgFile);
+
+      //アップロード画像IDをフォームデータにセット
+      for (let i = 0; i < 5; i++) {
+        formData[`imageUrl${i + 1}`] = idList[i] === undefined ? "" : idList[i];
+      }
     }
 
     //その他必要なデータをフォームデータにセット
@@ -162,6 +164,7 @@ export default function ContributionId() {
               </div>
               <FileSelectBtn
                 register={register}
+                isRequired={false}
                 errors={errors.imageFiles}
                 selectFile={selectFile}
               />
