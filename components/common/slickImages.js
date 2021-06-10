@@ -45,7 +45,7 @@ const SlickImages = () => {
                 width="1080px"
                 height="600px"
               />
-              <p className="w-1080 text-center text-xl font-semibold mb-2">
+              <p className="w-1080 text-center text-xl font-semibold text-purple-700 mb-2">
                 {obj.msg}
               </p>
             </div>

@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useRouter } from "next/router";
-import React, { useContext, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { AuthContext } from "../../components/common/auth/authProvider";
@@ -16,12 +16,14 @@ import { PreviewSubArea } from "../../components/common/preview/previewSubArea";
 import ContributionForm from "../../components/contributionPage/contributionForm";
 import { CONST } from "../../constants/const";
 import { fetchContributionDetail } from "../../utils/getContributionDetail/fetchContributionDetail";
+import { isImageExt } from "../../utils/isImageExt";
 import { readFile } from "../../utils/readFile";
 import { uploadImage } from "../../utils/uploadImage";
 
 export default function ContributionId() {
   const [imgFile, setImgFile] = useState([]);
   const [modalIsOpen, setIsOpen] = useState(false);
+  const modalMessage = useRef("");
   const {
     handleSubmit,
     register,
@@ -50,7 +52,11 @@ export default function ContributionId() {
     let fileList = [];
     for (const file of files) {
       const fileUrl = await readFile(file);
-      fileList.push({ imgFileBlob: file, imgFileUrl: fileUrl });
+      fileList.push({
+        imgFileBlob: file,
+        imgFileUrl: fileUrl,
+        fileName: file.name,
+      });
     }
 
     setImgFile(fileList);
@@ -58,6 +64,15 @@ export default function ContributionId() {
 
   //投稿更新イベント
   const updateContribution = (data) => {
+    //拡張子チェック
+    for (const file of imgFile) {
+      if (!isImageExt(file.fileName)) {
+        setIsOpen(true);
+        modalMessage.current = CONST.ERR_MSG.WORNG_EXTENSION;
+        return;
+      }
+    }
+
     mutation.mutate(data);
   };
 
@@ -76,6 +91,7 @@ export default function ContributionId() {
     await axios.post("../api/updateContribution", formData).then(() => {
       //処理結果を表示
       setIsOpen(true);
+      modalMessage.current = CONST.OK_MSG.FIN_UPDATE_CONTRIBUTION;
 
       //更新後のデータをリフェッチする
       setImgFile([]);
@@ -171,7 +187,7 @@ export default function ContributionId() {
       <ModalWindow
         modalIsOpen={modalIsOpen}
         setIsOpen={setIsOpen}
-        message={CONST.OK_MSG.FIN_UPDATE_CONTRIBUTION}
+        message={modalMessage.current}
       />
     </div>
   );

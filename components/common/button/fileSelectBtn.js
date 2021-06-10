@@ -14,7 +14,7 @@ const FileSelectBtn = (props) => {
         className="hidden"
         onChange={props.selectFile}
         ref={props.register({ required: true })}
-        accept=".png,.jpg,.gif"
+        accept=".png,.jpg,.jpeg,.gif"
       />
       {props.errors?.type === "required" && (
         <div className="text-red-600 text-sm relative left-0 top-1">

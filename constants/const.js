@@ -20,6 +20,7 @@ const CONST = {
     USER_DISABLED: "現在使用できないユーザーです",
     USER_NOT_FOUND: "存在しないユーザーです",
     WRONG_PASSWORD: "パスワードが誤っています",
+    WORNG_EXTENSION: ".jpeg .jpg .gif .png 以外のファイルは選択不可です",
     OTHER: "予期しないエラーです。管理者に連絡して下さい",
   },
 };
