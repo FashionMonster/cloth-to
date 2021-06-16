@@ -13,9 +13,9 @@ const CONST = {
     FIN_CREATE_GROUP: "グループ登録完了しました",
   },
   ERR_MSG: {
-    EMAIL_ALREADY_IN_USE: "ID(メールアドレス)は既に使用されています",
-    INVALID_EMAIL: "ID(メールアドレス)の形式が不正です",
-    OPERATION_NOT_ALLOWED: "TODO",
+    EMAIL_ALREADY_IN_USE: "メールアドレス(ID)は既に使用されています",
+    INVALID_EMAIL: "メールアドレス(ID)の形式が不正です",
+    OPERATION_NOT_ALLOWED: "ユーザー登録処理は現在許可されていません",
     WEAK_PASSWORD: "パスワードが脆弱です。変更して下さい",
     USER_DISABLED: "現在使用できないユーザーです",
     USER_NOT_FOUND: "入力したメールアドレス(ID)は存在しません",

@@ -106,6 +106,7 @@ export default function Signup() {
             <form
               onSubmit={handleSubmit(createUserAccount)}
               className=" row-start-2 row-end-3 m-auto grid grid-cols-2 gap-8"
+              novalidate="novalidate"
             >
               <label htmlFor="userName">ユーザー名</label>
               <InputText
