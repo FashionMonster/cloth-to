@@ -11,7 +11,7 @@ const chkCompositionDuplicate = (getValues, setError, clearErrors) => {
   ) {
     setError("composition1", {
       type: "duplicate",
-      message: "項目が重複しています",
+      message: "選択が重複しています",
     });
   } else {
     clearErrors(["composition1", "composition2", "composition3"]);

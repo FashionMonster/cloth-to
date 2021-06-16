@@ -4,14 +4,6 @@ import { InputText } from "../common/textBox/inputText";
 import { InputCompositionRatio } from "./inputCompositionRatio";
 import { SelectComposition } from "./selectComposition";
 
-const undefinedToBlank = (param) => {
-  if (param === undefined) {
-    return "";
-  } else {
-    return param;
-  }
-};
-
 export default function ContributionForm(props) {
   return (
     <>

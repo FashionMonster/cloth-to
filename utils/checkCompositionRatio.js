@@ -1,10 +1,11 @@
-const checkCompositionRatioTotal = (getValues, setError, clearErrors) => {
+const checkCompositionRatio = (getValues, setError, clearErrors) => {
   const allValues = getValues([
     "compositionRatio1",
     "compositionRatio2",
     "compositionRatio3",
   ]);
 
+  //数値変換
   const compRatio1Val = parseInt(
     allValues["compositionRatio1"] === "" ? 0 : allValues["compositionRatio1"]
   );
@@ -15,24 +16,25 @@ const checkCompositionRatioTotal = (getValues, setError, clearErrors) => {
     allValues["compositionRatio3"] === "" ? 0 : allValues["compositionRatio3"]
   );
 
+  //合計値が最大値を超えていないか
   if (compRatio1Val + compRatio2Val + compRatio3Val > 100) {
     setError("compositionRatio2", {
       type: "totalRatioMax",
-      message: "比率合計が100を超えてます",
+      message: "合計が100を超えてます",
     });
+    //0又はマイナスが含まれていないか
   } else if (
-    compRatio1Val + compRatio2Val + compRatio3Val < 1 &&
-    (allValues["compositionRatio1"] !== "" ||
-      allValues["compositionRatio2"] !== "" ||
-      allValues["compositionRatio3"] !== "")
+    (allValues["compositionRatio1"] !== "" && compRatio1Val < 1) ||
+    (allValues["compositionRatio2"] !== "" && compRatio1Val < 1) ||
+    (allValues["compositionRatio3"] !== "" && compRatio1Val < 1)
   ) {
     setError("compositionRatio2", {
-      type: "totalRatioNegative",
-      message: "比率合計がマイナス又は0です",
+      type: "ratioNegative",
+      message: "0以下は入力不可です",
     });
   } else {
     clearErrors(["compositionRatio2"]);
   }
 };
 
-export { checkCompositionRatioTotal };
+export { checkCompositionRatio };
