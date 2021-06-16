@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { makeDispMaterialName } from "../../utils/makeDispMaterialName";
 
 //一覧/検索ページ
 //検索結果表示
@@ -16,7 +17,7 @@ const SearchResult = (props) => {
         />
       </Link>
       <p className="font-medium w-200 text-center mt-4">
-        {props.data.materialName}
+        {makeDispMaterialName(props.data.materialName)}
       </p>
     </div>
   );

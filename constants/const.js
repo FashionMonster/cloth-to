@@ -18,7 +18,7 @@ const CONST = {
     OPERATION_NOT_ALLOWED: "TODO",
     WEAK_PASSWORD: "パスワードが脆弱です。変更して下さい",
     USER_DISABLED: "現在使用できないユーザーです",
-    USER_NOT_FOUND: "存在しないユーザーです",
+    USER_NOT_FOUND: "入力したメールアドレス(ID)は存在しません",
     WRONG_PASSWORD: "パスワードが誤っています",
     WORNG_EXTENSION: ".jpeg .jpg .gif .png 以外のファイルは選択不可です",
     OTHER: "予期しないエラーです。管理者に連絡して下さい",
