@@ -12,10 +12,10 @@ const InputCompositionRatio = (props) => {
         <div className="text-red-600 text-sm">必須入力です</div>
       )}
       {props.errors?.type === "max" && (
-        <div className="text-red-600 text-sm">上限は100です</div>
+        <div className="text-red-600 text-sm">最大値は100です</div>
       )}
       {props.errors?.type === "min" && (
-        <div className="text-red-600 text-sm">下限は1です</div>
+        <div className="text-red-600 text-sm">最小値は1です</div>
       )}
     </div>
   );

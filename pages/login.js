@@ -61,6 +61,7 @@ export default function Login() {
             <form
               onSubmit={handleSubmit(submit)}
               className=" row-start-2 row-end-3 grid grid-cols-2 gap-8 m-auto"
+              novalidate="novalidate"
             >
               <label htmlFor="email">メールアドレス（ID）</label>
               <InputEmail

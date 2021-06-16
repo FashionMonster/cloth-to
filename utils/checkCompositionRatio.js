@@ -20,7 +20,7 @@ const checkCompositionRatio = (getValues, setError, clearErrors) => {
   if (compRatio1Val + compRatio2Val + compRatio3Val > 100) {
     setError("compositionRatio2", {
       type: "totalRatioMax",
-      message: "合計が100を超えてます",
+      message: "合計最大値は100です",
     });
     //0又はマイナスが含まれていないか
   } else if (
@@ -30,7 +30,7 @@ const checkCompositionRatio = (getValues, setError, clearErrors) => {
   ) {
     setError("compositionRatio2", {
       type: "ratioNegative",
-      message: "0以下は入力不可です",
+      message: "最小値は1です",
     });
   } else {
     clearErrors(["compositionRatio2"]);
