@@ -15,7 +15,7 @@ import { InputPassword } from "../components/common/textBox/inputPassword";
 import { CONST } from "../constants/const";
 import { usePreviousValue } from "../utils/usePreviousValue";
 
-export default function Setting() {
+export default function LinkUserToGroup() {
   const { handleSubmit, register, errors } = useForm();
   const [modalIsOpen, setIsOpen] = useState(false);
   const [isUpdateSuccess, setIsUpdateSuccess] = useState(false);
@@ -41,7 +41,7 @@ export default function Setting() {
       if (res.data.errorCode === null) {
         //成功メッセージ表示設定
         setIsUpdateSuccess(true);
-        modalMessage.current = CONST.OK_MSG.FIN_UPDATE_USER;
+        modalMessage.current = CONST.OK_MSG.FIN_LINK_USER_TO_GROUP;
       } else if (res.data.errorCode === "WRONG_PASSWORD") {
         modalMessage.current = CONST.ERR_MSG.WRONG_PASSWORD;
       }
