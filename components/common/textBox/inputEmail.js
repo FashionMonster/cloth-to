@@ -14,6 +14,11 @@ const InputEmail = (props) => {
       {props.errors?.type === "required" && (
         <div className="text-red-600 text-sm relative">必須入力です</div>
       )}
+      {props.errors?.type === "pattern" && (
+        <div className="text-red-600 text-sm relative">
+          不正なメアド形式です
+        </div>
+      )}
     </div>
   );
 };

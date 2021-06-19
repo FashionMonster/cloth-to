@@ -123,7 +123,10 @@ export default function Signup() {
                 name="email"
                 id="email"
                 placeholder=""
-                register={register({ required: true })}
+                register={register({
+                  required: true,
+                  pattern: /^[a-zA-Z0-9_.+-]+@([a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]*.)+[a-zA-Z]{2,}$/,
+                })}
                 errors={errors.email}
                 width="48"
               />
@@ -133,7 +136,7 @@ export default function Signup() {
                 name="password"
                 id="password"
                 placeholder=""
-                register={register({ required: true })}
+                register={register({ required: true, minLength: 6 })}
                 errors={errors.password}
                 width="48"
               />
