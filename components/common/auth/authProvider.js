@@ -23,6 +23,15 @@ const AuthProvider = ({ children }) => {
         userName: res.userName,
         groupId: res.groupId,
       });
+
+      //グループ紐付け完了済の方はログイン後、検索画面へ遷移
+      if (res.groupId !== "" && res.groupId !== null) {
+        Router.push("/search");
+
+        //グループ紐付け未完了の場合
+      } else {
+        Router.push("/linkUserToGroup");
+      }
     });
   };
 

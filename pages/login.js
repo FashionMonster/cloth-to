@@ -1,4 +1,3 @@
-import Router from "next/router";
 import React, { useContext, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { AuthContext } from "../components/common/auth/authProvider";
@@ -22,9 +21,6 @@ export default function Login() {
       .then(() => {
         //コンテキストにユーザー情報をセット
         setLoginUserInfo();
-
-        //ログイン後画面遷移
-        Router.push("/search");
       })
       .catch((error) => {
         //モーダルを開く
