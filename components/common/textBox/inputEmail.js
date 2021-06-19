@@ -19,6 +19,9 @@ const InputEmail = (props) => {
           不正なメアド形式です
         </div>
       )}
+      {props.errors?.type === "maxLength" && (
+        <div className="text-red-600 text-sm relative">最大は255文字です</div>
+      )}
     </div>
   );
 };

@@ -9,6 +9,7 @@ const CONST = {
     FIN_CREATE_CONTRIBUTION: "投稿完了しました",
     FIN_UPDATE_CONTRIBUTION: "投稿更新完了しました",
     FIN_CREATE_USER: "ユーザー登録完了しました",
+    FIN_UPDATE_USER: "ユーザー情報更新完了しました",
     FIN_LINK_USER_TO_GROUP: "グループ紐付け完了しました",
     FIN_CREATE_GROUP: "グループ登録完了しました",
   },

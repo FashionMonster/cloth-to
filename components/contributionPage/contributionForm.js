@@ -1,5 +1,6 @@
 import { SelectCategory } from "../common/selectBox/selectCategory";
 import { SelectColor } from "../common/selectBox/selectColor";
+import { InputTextarea } from "../common/testarea/inputTextarea";
 import { InputText } from "../common/textBox/inputText";
 import { InputCompositionRatio } from "./inputCompositionRatio";
 import { SelectComposition } from "./selectComposition";
@@ -12,11 +13,12 @@ export default function ContributionForm(props) {
         name="materialName"
         id="materialName"
         placeholder="例：2020SS シャツ用生地"
-        register={props.register({ required: true })}
+        register={props.register({ required: true, maxLength: 50 })}
         errors={props.errors.materialName}
         width="408"
         isDisabled={props.isDisabled}
         defaultValue={props.data === undefined ? "" : props.data.materialName}
+        maxLength="50"
       />
 
       <label htmlFor="category">分類</label>
@@ -126,12 +128,14 @@ export default function ContributionForm(props) {
         name="fabricStructure"
         id="fabricStructure"
         placeholder="例：サテン"
-        register={props.register()}
+        register={props.register({ maxLength: 50 })}
+        errors={props.errors.fabricStructure}
         width="408"
         isDisabled={props.isDisabled}
         defaultValue={
           props.data === undefined ? "" : props.data.fabricStructure
         }
+        maxLength="50"
       />
 
       <label htmlFor="color">色</label>
@@ -149,10 +153,12 @@ export default function ContributionForm(props) {
         name="pattern"
         id="pattern"
         placeholder="例：ストライプ"
-        register={props.register()}
+        register={props.register({ maxLength: 50 })}
+        errors={props.errors.pattern}
         width="408"
         isDisabled={props.isDisabled}
         defaultValue={props.data === undefined ? "" : props.data.pattern}
+        maxLength="50"
       />
 
       <label htmlFor="processing">加工</label>
@@ -160,10 +166,12 @@ export default function ContributionForm(props) {
         name="processing"
         id="processing"
         placeholder="例：撥水加工、防汚加工"
-        register={props.register()}
+        register={props.register({ maxLength: 50 })}
+        errors={props.errors.processing}
         width="408"
         isDisabled={props.isDisabled}
         defaultValue={props.data === undefined ? "" : props.data.processing}
+        maxLength="50"
       />
 
       <label htmlFor="unitPrice">単価</label>
@@ -171,11 +179,12 @@ export default function ContributionForm(props) {
         name="unitPrice"
         id="unitPrice"
         placeholder="例：480"
-        register={props.register({ pattern: /^[0-9]+$/ })}
+        register={props.register({ maxLength: 12, pattern: /^[0-9]+$/ })}
         errors={props.errors.unitPrice}
         width="408"
         isDisabled={props.isDisabled}
         defaultValue={props.data === undefined ? "" : props.data.unitPrice}
+        maxLength="12"
       />
 
       <label htmlFor="supplier">仕入先</label>
@@ -183,21 +192,24 @@ export default function ContributionForm(props) {
         name="supplier"
         id="supplier"
         placeholder="例：株式会社 〇〇"
-        register={props.register()}
+        register={props.register({ maxLength: 50 })}
+        errors={props.errors.supplier}
         width="408"
         isDisabled={props.isDisabled}
         defaultValue={props.data === undefined ? "" : props.data.supplier}
+        maxLength="50"
       />
 
       <label htmlFor="comment">コメント</label>
-      <textarea
+      <InputTextarea
         name="comment"
-        className="h-112 border border-solid rounded-sm border-gray-400 disabled:bg-gray-100 disabled:text-black"
         id="comment"
-        placeholder="記載した内容以外の情報があれば記入します。"
-        ref={props.register()}
-        disabled={props.isDisabled}
-        defaultValue={props.data === undefined ? "" : props.data.comment}
+        placeholder="その他共有したい内容があればご入力ください。"
+        register={props.register({ maxLength: 200 })}
+        errors={props.errors.comment}
+        width="408"
+        isDisabled={props.isDisabled}
+        defaultValue={props.data === undefined ? "" : props.data.supplier}
       />
       <div />
     </>

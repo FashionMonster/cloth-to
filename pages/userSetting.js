@@ -105,9 +105,10 @@ export default function UserSetting() {
                 id="userName"
                 defaultValue={value.userName}
                 placeholder=""
-                register={register({ required: true })}
+                register={register({ required: true, maxLength: 20 })}
                 errors={errors.userName}
                 width="48"
+                maxLength="20"
               />
 
               <label htmlFor="email">メールアドレス（ID）</label>
@@ -119,6 +120,7 @@ export default function UserSetting() {
                 register={register({
                   required: true,
                   pattern: /^[a-zA-Z0-9_.+-]+@([a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]*.)+[a-zA-Z]{2,}$/,
+                  maxLength: 255,
                 })}
                 errors={errors.email}
                 width="48"
@@ -129,7 +131,11 @@ export default function UserSetting() {
                 name="password"
                 id="password"
                 placeholder=""
-                register={register({ required: true, minLength: 6 })}
+                register={register({
+                  required: true,
+                  minLength: 6,
+                  maxLength: 12,
+                })}
                 errors={errors.password}
                 width="48"
               />

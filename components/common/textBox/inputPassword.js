@@ -13,7 +13,10 @@ const InputPassword = (props) => {
         <div className="text-red-600 text-sm relative">必須入力です</div>
       )}
       {props.errors?.type === "minLength" && (
-        <div className="text-red-600 text-sm">最小桁数は６桁です</div>
+        <div className="text-red-600 text-sm">最小は6桁です</div>
+      )}
+      {props.errors?.type === "maxLength" && (
+        <div className="text-red-600 text-sm">最大は12桁です</div>
       )}
     </div>
   );
