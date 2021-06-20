@@ -72,7 +72,7 @@ export default function groupSetting() {
                 id="groupName"
                 placeholder=""
                 register={register({ required: true, maxLength: 20 })}
-                errors={errors.userName}
+                errors={errors.groupName}
                 width="48"
                 maxLength="20"
               />
