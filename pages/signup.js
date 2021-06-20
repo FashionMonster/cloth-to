@@ -31,8 +31,11 @@ export default function Signup() {
   };
 
   const mutation = useMutation(async (formData) => {
+    //パスワードを除いたオブジェクトを生成
+    const { password, ...postFormData } = formData;
+
     //DBにユーザー登録
-    const data = await axios.post("./api/signup", formData);
+    const data = await axios.post("./api/signup", postFormData);
 
     try {
       //firebaseにユーザー登録
@@ -40,7 +43,7 @@ export default function Signup() {
     } catch (error) {
       try {
         //DBに登録したユーザーを削除
-        await axios.post("./api/deleteUserInfo", formData);
+        await axios.post("./api/deleteUserInfo", postFormData);
       } catch (e) {
         //mutation.isErrorがキャッチする
         throw e;

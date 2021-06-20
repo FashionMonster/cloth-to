@@ -13,11 +13,11 @@ module.exports = (sequelize, DataTypes) => {
   GroupAccounts.init(
     {
       group_id: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(255),
         primaryKey: true,
       },
-      group_pass: DataTypes.STRING,
-      group_name: DataTypes.STRING,
+      group_pass: DataTypes.STRING(255),
+      group_name: DataTypes.STRING(20),
     },
     {
       sequelize,

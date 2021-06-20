@@ -1,19 +1,27 @@
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable("user_accounts", {
-      user_id: {
+    await queryInterface.createTable("contribution_images", {
+      contribution_id: {
         primaryKey: true,
+        type: Sequelize.INTEGER,
+        references: {
+          model: "contribution_infos",
+          key: "contribution_id",
+        },
+      },
+      image_url_1: {
         type: Sequelize.STRING,
       },
-      user_pass: {
-        allowNull: false,
+      image_url_2: {
         type: Sequelize.STRING,
       },
-      user_name: {
-        allowNull: false,
+      image_url_3: {
         type: Sequelize.STRING,
       },
-      group_id: {
+      image_url_4: {
+        type: Sequelize.STRING,
+      },
+      image_url_5: {
         type: Sequelize.STRING,
       },
       created_at: {
@@ -27,6 +35,6 @@ module.exports = {
     });
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable("user_accounts");
+    await queryInterface.dropTable("contribution_images");
   },
 };

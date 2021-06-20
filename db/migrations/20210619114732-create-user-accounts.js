@@ -1,17 +1,16 @@
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable("group_accounts", {
-      group_id: {
+    await queryInterface.createTable("user_accounts", {
+      user_id: {
         primaryKey: true,
-        type: Sequelize.STRING,
+        type: Sequelize.STRING(255),
       },
-      group_pass: {
+      user_name: {
         allowNull: false,
-        type: Sequelize.STRING,
+        type: Sequelize.STRING(20),
       },
-      group_name: {
-        allowNull: false,
-        type: Sequelize.STRING,
+      group_id: {
+        type: Sequelize.STRING(255),
       },
       created_at: {
         allowNull: false,
@@ -24,6 +23,6 @@ module.exports = {
     });
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable("group_accounts");
+    await queryInterface.dropTable("user_accounts");
   },
 };

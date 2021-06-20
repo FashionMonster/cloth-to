@@ -9,7 +9,6 @@ export function insertUserAccounts(param) {
   //insert処理
   return models.UserAccounts.create({
     user_id: param.userId,
-    user_pass: param.userPass,
     user_name: param.userName,
     group_id: param.groupId,
   })

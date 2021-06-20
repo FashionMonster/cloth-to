@@ -12,7 +12,7 @@ module.exports = {
           key: "group_id",
         },
         allowNull: false,
-        type: Sequelize.STRING,
+        type: Sequelize.STRING(20),
       },
       user_id: {
         references: {
@@ -20,11 +20,11 @@ module.exports = {
           key: "user_id",
         },
         allowNull: false,
-        type: Sequelize.STRING,
+        type: Sequelize.STRING(20),
       },
       material_name: {
         allowNull: false,
-        type: Sequelize.STRING,
+        type: Sequelize.STRING(50),
       },
       category: {
         type: Sequelize.INTEGER,
@@ -48,25 +48,25 @@ module.exports = {
         type: Sequelize.INTEGER,
       },
       fabric_structure: {
-        type: Sequelize.STRING,
+        type: Sequelize.STRING(50),
       },
       color: {
         type: Sequelize.INTEGER,
       },
       pattern: {
-        type: Sequelize.STRING,
+        type: Sequelize.STRING(50),
       },
       processing: {
-        type: Sequelize.STRING,
+        type: Sequelize.STRING(50),
       },
       unit_price: {
         type: Sequelize.INTEGER,
       },
       supplier: {
-        type: Sequelize.STRING,
+        type: Sequelize.STRING(50),
       },
       comment: {
-        type: Sequelize.STRING,
+        type: Sequelize.STRING(200),
       },
       is_deleted: {
         type: Sequelize.BOOLEAN,

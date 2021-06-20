@@ -30,7 +30,11 @@ const appLogInfo = (fileName, category, data) => {
 const makeReqDataLog = (data) => {
   var reqDataLog = "";
   for (let key in data) {
-    reqDataLog += `${key}：${data[key]}\r\n`;
+    if (key === "password") {
+      reqDataLog += `${key}：********\r\n`;
+    } else {
+      reqDataLog += `${key}：${data[key]}\r\n`;
+    }
   }
 
   return reqDataLog;
@@ -45,14 +49,22 @@ const makeGetDataLog = (data) => {
     for (let array of data) {
       //オブジェクトのキーの数だけループ
       for (let key in array) {
-        getDataLog += `${key}：${array[key]}\r\n`;
+        if (key === "password") {
+          getDataLog += `${key}：********\r\n`;
+        } else {
+          getDataLog += `${key}：${array[key]}\r\n`;
+        }
       }
     }
     //オブジェクトの場合
   } else if (typeof data === "object") {
     //オブジェクトのキーの数だけループ
     for (let key in data) {
-      getDataLog += `${key}：${data[key]}\r\n`;
+      if (key === "password") {
+        getDataLog += `${key}：********\r\n`;
+      } else {
+        getDataLog += `${key}：${data[key]}\r\n`;
+      }
     }
   }
 
