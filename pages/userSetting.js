@@ -37,8 +37,11 @@ export default function UserSetting() {
   };
 
   const mutation = useMutation(async (formData) => {
+    //パスワードを除いたオブジェクトを生成
+    const { password, ...postFormData } = formData;
+
     //DB更新(ID、名前)
-    const data = await axios.post("./api/updateUserInfo", formData);
+    const data = await axios.post("./api/updateUserInfo", postFormData);
 
     try {
       //firebase更新(ID、PW)
@@ -46,9 +49,9 @@ export default function UserSetting() {
     } catch (error) {
       //DB更新(元々のID、名前)
       const param = {
-        previousUserId: formData.email,
-        email: formData.previousUserId,
         userName: value.userInfo.userName,
+        email: formData.previousUserId,
+        previousUserId: formData.email,
       };
       await axios.post("./api/updateUserInfo", param);
 
@@ -97,7 +100,7 @@ export default function UserSetting() {
           <div className="col-start-2 col-end-3 grid grid-rows-form">
             <form
               onSubmit={handleSubmit(updateUserAccount)}
-              className=" row-start-2 row-end-3 grid grid-cols-2 gap-8 m-auto"
+              className="row-start-2 row-end-3 grid grid-cols-2 gap-8 m-auto"
             >
               <label htmlFor="userName">ユーザー名</label>
               <InputText
