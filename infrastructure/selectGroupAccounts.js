@@ -10,11 +10,9 @@ export function selectGroupAccounts(param) {
   //select処理
   return models.GroupAccounts.findByPk(param.groupId)
     .then((res) => {
-      appLogInfo(
-        CONST.FILE_NAME.SELECT_GROUP_ACCOUNTS,
-        "RESULT",
-        res.dataValues.group_pass
-      );
+      appLogInfo(CONST.FILE_NAME.SELECT_GROUP_ACCOUNTS, "RESULT", {
+        group_pass: res.dataValues.group_pass,
+      });
       appLogInfo(CONST.FILE_NAME.SELECT_GROUP_ACCOUNTS, "END");
 
       return res.dataValues.group_pass;

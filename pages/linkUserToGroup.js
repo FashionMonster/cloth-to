@@ -111,7 +111,11 @@ export default function LinkUserToGroup() {
               <InputPassword
                 name="password"
                 id="password"
-                register={register({ required: true })}
+                register={register({
+                  required: true,
+                  minLength: 6,
+                  maxLength: 12,
+                })}
                 errors={errors.password}
                 width="48"
               />

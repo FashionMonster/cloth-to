@@ -14,7 +14,7 @@ const SelectGroupName = (props) => {
         })}
       </select>
       {props.errors && (
-        <div className="text-red-600 text-sm relative">必須入力です</div>
+        <div className="text-red-600 text-sm relative">必須選択です</div>
       )}
     </div>
   );
