@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 import axios from "axios";
 import React, { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -14,7 +13,7 @@ import { InputPassword } from "../components/common/textBox/inputPassword";
 import { InputText } from "../components/common/textBox/inputText";
 import { CONST } from "../constants/const";
 
-export default function groupSetting() {
+export default function GroupSetting() {
   const { handleSubmit, register, errors } = useForm();
   const [modalIsOpen, setIsOpen] = useState(false);
   const modalMessage = useRef("");
