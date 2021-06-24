@@ -7,10 +7,10 @@ const SettingNav = () => {
   const router = useRouter();
 
   const defaultStyle =
-    "bg-purple-200 font-black h-12 leading-12 text-center border-l-2 border-r-2 hover:bg-purple-300";
+    "bg-purple-200 font-semibold h-12 leading-12 text-center border-l-2 border-r-2 hover:bg-purple-300";
 
   const activeStyle =
-    "bg-purple-300 font-black h-12 leading-12 text-center border-l-2 border-r-2";
+    "bg-purple-300 font-semibold h-12 leading-12 text-center border-l-2 border-r-2";
 
   return (
     <>

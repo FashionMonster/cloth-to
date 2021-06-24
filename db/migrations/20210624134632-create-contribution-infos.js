@@ -12,7 +12,7 @@ module.exports = {
           key: "group_id",
         },
         allowNull: false,
-        type: Sequelize.STRING(20),
+        type: Sequelize.STRING(255),
       },
       user_id: {
         references: {
@@ -20,7 +20,7 @@ module.exports = {
           key: "user_id",
         },
         allowNull: false,
-        type: Sequelize.STRING(20),
+        type: Sequelize.STRING(255),
       },
       material_name: {
         allowNull: false,

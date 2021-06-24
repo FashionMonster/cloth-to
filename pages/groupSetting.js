@@ -105,7 +105,7 @@ export default function groupSetting() {
                 width="48"
               />
               <div className="col-start-2 col-end-3 flex justify-center">
-                <SubmitBtn value="グループアカウント登録" width={40} />
+                <SubmitBtn value="グループアカウント登録" width={48} />
               </div>
             </form>
           </div>

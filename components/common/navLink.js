@@ -12,15 +12,15 @@ const NavLink = ({ href, isSettingNav, children }) => {
   //設定サブナビの場合
   if (isSettingNav) {
     defaultStyle =
-      "bg-purple-200 font-black h-12 leading-12 text-center hover:bg-purple-300 border-t-2";
+      "bg-purple-200 font-semibold h-12 leading-12 text-center hover:bg-purple-300 border-t-2";
     activeStyle =
-      "bg-purple-300 font-black h-12 leading-12 text-center border-t-2";
+      "bg-purple-300 font-semibold h-12 leading-12 text-center border-t-2";
     width = 266;
   } else {
     defaultStyle =
-      "bg-purple-200 font-black h-12 leading-12 text-center hover:bg-purple-300 border-l-2";
+      "bg-purple-200 font-semibold h-12 leading-12 text-center hover:bg-purple-300 border-l-2";
     activeStyle =
-      "bg-purple-300 font-black h-12 leading-12 text-center border-l-2";
+      "bg-purple-300 font-semibold h-12 leading-12 text-center border-l-2";
     width = 270;
   }
 

@@ -42,3 +42,6 @@ yarn-error.log*
 
 #logファイル
 /log
+
+#vscode
+/cloth-to.code-workspace
