@@ -27,6 +27,7 @@ module.exports = {
         type: Sequelize.STRING(50),
       },
       category: {
+        allowNull: false,
         type: Sequelize.INTEGER,
       },
       composition_1: {

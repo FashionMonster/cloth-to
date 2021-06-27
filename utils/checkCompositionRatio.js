@@ -25,8 +25,8 @@ const checkCompositionRatio = (getValues, setError, clearErrors) => {
     //0又はマイナスが含まれていないか
   } else if (
     (allValues["compositionRatio1"] !== "" && compRatio1Val < 1) ||
-    (allValues["compositionRatio2"] !== "" && compRatio1Val < 1) ||
-    (allValues["compositionRatio3"] !== "" && compRatio1Val < 1)
+    (allValues["compositionRatio2"] !== "" && compRatio2Val < 1) ||
+    (allValues["compositionRatio3"] !== "" && compRatio3Val < 1)
   ) {
     setError("compositionRatio2", {
       type: "ratioNegative",
