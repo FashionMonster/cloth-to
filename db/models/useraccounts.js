@@ -8,6 +8,10 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      UserAccounts.hasMany(models.ContributionInfos, {
+        foreignKey: "user_id",
+        sourceKey: "user_id",
+      });
     }
   }
   UserAccounts.init(

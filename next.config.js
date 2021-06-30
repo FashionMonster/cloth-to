@@ -8,4 +8,7 @@ module.exports = {
     FIREBASE_APP_ID: "1:674265672147:web:0fcadce30f68f49320e726",
     FIREBASE_MEASUREMENT_ID: "G-6CEN2X9MTV",
   },
+  images: {
+    domains: ["firebasestorage.googleapis.com"], //ドメインを指定
+  },
 };

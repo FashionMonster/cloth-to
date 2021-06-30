@@ -15,6 +15,12 @@ export function selectContributionInfos(conditions, offset, limit) {
         model: models.ContributionImages,
         attributes: ["image_url_1"],
       },
+      {
+        model: models.UserAccounts,
+        as: "UserAccounts",
+        required: false,
+        attributes: [],
+      },
     ],
     where: conditions,
     offset: offset,

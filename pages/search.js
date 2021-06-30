@@ -23,7 +23,7 @@ import { setQueryParam } from "../utils/getContributions/setQueryParam";
 export default function Search() {
   const router = useRouter();
   const value = useContext(AuthContext);
-  const { handleSubmit, register, errors } = useForm();
+  const { handleSubmit, register, errors, clearErrors } = useForm();
   const [category, setCategory] = useState("1");
 
   const { isFetching, isLoading, error, data } = useQuery(
@@ -72,6 +72,7 @@ export default function Search() {
               <SelectCategory
                 onChange={(e) => {
                   setCategory(e.target.value);
+                  clearErrors();
                 }}
                 register={register()}
               />

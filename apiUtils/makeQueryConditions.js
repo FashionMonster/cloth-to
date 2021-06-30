@@ -53,10 +53,12 @@ const makeQueryConditions = (param) => {
       }
       break;
     case "9":
-      conditions = { supplier: { [op.like]: param.keyword } };
+      conditions = { supplier: { [op.like]: `%${param.keyword}%` } };
       break;
     case "10":
-      conditions = { user_name: { [op.like]: param.keyword } };
+      conditions = {
+        "$UserAccounts.user_name$": { [op.like]: `%${param.keyword}%` },
+      };
       break;
     default:
   }
@@ -82,16 +84,16 @@ function makeCompareComposition(param) {
       conditions = {
         [op.or]: [
           {
-            compositon_1: param.keyword,
-            compositon_ratio_1: param.compositonRatio,
+            composition_1: param.keyword,
+            composition_ratio_1: param.compositionRatio,
           },
           {
-            compositon_2: param.keyword,
-            compositon_ratio_2: param.compositonRatio,
+            composition_2: param.keyword,
+            composition_ratio_2: param.compositionRatio,
           },
           {
-            compositon_3: param.keyword,
-            compositon_ratio_3: param.compositonRatio,
+            composition_3: param.keyword,
+            composition_ratio_3: param.compositionRatio,
           },
         ],
       };
@@ -101,16 +103,16 @@ function makeCompareComposition(param) {
       conditions = {
         [op.or]: [
           {
-            compositon_1: param.keyword,
-            compositon_ratio_1: { [op.gte]: param.compositonRatio },
+            composition_1: param.keyword,
+            composition_ratio_1: { [op.gte]: param.compositionRatio },
           },
           {
-            compositon_2: param.keyword,
-            compositon_ratio_2: { [op.gte]: param.compositonRatio },
+            composition_2: param.keyword,
+            composition_ratio_2: { [op.gte]: param.compositionRatio },
           },
           {
-            compositon_3: param.keyword,
-            compositon_ratio_3: { [op.gte]: param.compositonRatio },
+            composition_3: param.keyword,
+            composition_ratio_3: { [op.gte]: param.compositionRatio },
           },
         ],
       };
@@ -120,16 +122,16 @@ function makeCompareComposition(param) {
       conditions = {
         [op.or]: [
           {
-            compositon_1: param.keyword,
-            compositon_ratio_1: { [op.lte]: param.compositonRatio },
+            composition_1: param.keyword,
+            composition_ratio_1: { [op.lte]: param.compositionRatio },
           },
           {
-            compositon_2: param.keyword,
-            compositon_ratio_2: { [op.lte]: param.compositonRatio },
+            composition_2: param.keyword,
+            composition_ratio_2: { [op.lte]: param.compositionRatio },
           },
           {
-            compositon_3: param.keyword,
-            compositon_ratio_3: { [op.lte]: param.compositonRatio },
+            composition_3: param.keyword,
+            composition_ratio_3: { [op.lte]: param.compositionRatio },
           },
         ],
       };

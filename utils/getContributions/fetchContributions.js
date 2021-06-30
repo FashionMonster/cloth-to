@@ -10,7 +10,7 @@ const fetchContributions = async (apiPath, router, userInfo) => {
 
   //URL直叩きの場合
   if (router.query.page === undefined) {
-    //usecontext()のデータ取得はフェッチ後になるので、以下で再取得
+    //useContext()のデータ取得はフェッチ後になるので、以下で再取得
     const userInfo = await getUserInfo();
 
     const urlData = queryString.parseUrl(router.asPath, {
@@ -20,23 +20,27 @@ const fetchContributions = async (apiPath, router, userInfo) => {
     reqData = {
       page: urlData.query.page,
       groupId: userInfo.groupId,
-      userId: userInfo.userId,
       searchCategory: urlData.query.searchCategory,
       keyword: urlData.query.keyword,
       compositionRatio: urlData.query.compositionRatio,
       compareCondition: urlData.query.compareCondition,
     };
+
     //通常の遷移
   } else {
     reqData = {
       page: router.query.page,
       groupId: userInfo.groupId,
-      userId: userInfo.userId,
       searchCategory: router.query.searchCategory,
       keyword: router.query.keyword,
       compositionRatio: router.query.compositionRatio,
       compareCondition: router.query.compareCondition,
     };
+  }
+
+  //履歴・編集での検索処理で必要になる追加データ
+  if (router.pathname === "/contributionHistory") {
+    reqData.userId = userInfo.userId;
   }
 
   const { data } = await axios

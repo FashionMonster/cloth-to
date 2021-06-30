@@ -12,6 +12,11 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: "contribution_id",
         targetKey: "contribution_id",
       });
+      ContributionInfos.belongsTo(models.UserAccounts, {
+        as: "UserAccounts",
+        foreignKey: "user_id",
+        targetKey: "user_id",
+      });
     }
   }
   ContributionInfos.init(

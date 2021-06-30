@@ -21,7 +21,7 @@ const InputText = (props) => {
         </div>
       )}
       {props.errors?.type === "pattern" && (
-        <div className="text-red-600 text-sm">半角数字以外入力不可です</div>
+        <div className="text-red-600 text-sm">半角数字のみ入力可です</div>
       )}
     </div>
   );

@@ -8,14 +8,23 @@ export function selectCountContributionInfos(conditions) {
 
   //select処理
   return models.ContributionInfos.count({
+    include: [
+      {
+        model: models.ContributionImages,
+        attributes: ["image_url_1"],
+      },
+      {
+        model: models.UserAccounts,
+        as: "UserAccounts",
+        required: false,
+      },
+    ],
     where: conditions,
   })
     .then((res) => {
-      appLogInfo(
-        CONST.FILE_NAME.SELECT_COUNT_CONTRIBUTION_INFOS,
-        "RESULT",
-        res
-      );
+      appLogInfo(CONST.FILE_NAME.SELECT_COUNT_CONTRIBUTION_INFOS, "RESULT", {
+        count: res,
+      });
       appLogInfo(CONST.FILE_NAME.SELECT_COUNT_CONTRIBUTION_INFOS, "END");
       return res;
     })
