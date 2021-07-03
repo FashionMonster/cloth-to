@@ -43,8 +43,11 @@ const loginData = () => {
 
 //ユーザー名、グループID取得
 const getUserAccount = (param) => {
+  const newAxios = axios.create({
+    baseURL: window.location.protocol + "//" + window.location.host,
+  });
   return new Promise((resolve) => {
-    axios
+    newAxios
       .get("./api/getUserInfo", {
         params: {
           email: param,

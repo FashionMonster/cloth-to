@@ -4,7 +4,7 @@ import { appLogInfo } from "../apiUtils/appLogInfo";
 
 const models = require("../db/models");
 
-export function selectContributionInfosDetail(param) {
+export function selectContributionInfosDetail(conditions) {
   appLogInfo(CONST.FILE_NAME.SELECT_CONTRIBUTION_INFOS_DETAIL, "START");
 
   //select処理
@@ -38,12 +38,7 @@ export function selectContributionInfosDetail(param) {
         ],
       },
     ],
-    where: {
-      group_id: param.groupId,
-      user_id: param.userId,
-      contribution_id: param.contributionId,
-      is_deleted: false,
-    },
+    where: conditions,
   })
     .then((res) => {
       const resData = getResultData(res);

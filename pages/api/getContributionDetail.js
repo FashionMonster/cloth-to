@@ -11,7 +11,19 @@ export default async function handler(req, res) {
   );
 
   try {
-    const contributionDetail = await selectContributionInfosDetail(req.query);
+    //検索条件生成
+    let conditions = {
+      group_id: req.query.groupId,
+      contribution_id: req.query.contributionId,
+      is_deleted: false,
+    };
+
+    //編集画面の場合に必要なデータ
+    if (req.query.userId !== undefined) {
+      conditions.user_id = req.query.userId;
+    }
+
+    const contributionDetail = await selectContributionInfosDetail(conditions);
 
     appLogInfo(CONST.FILE_NAME.GET_CONTRIBUTION_DETAIL, "END");
 

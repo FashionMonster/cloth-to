@@ -1,8 +1,7 @@
 import { useRouter } from "next/router";
-import React, { useContext } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
 import { useQuery } from "react-query";
-import { AuthContext } from "../../components/common/auth/authProvider";
 import { BackBtn } from "../../components/common/button/backBtn";
 import { Error } from "../../components/common/error";
 import { Header } from "../../components/common/header";
@@ -24,11 +23,10 @@ export default function ContributionId() {
     clearErrors,
   } = useForm();
   const router = useRouter();
-  const value = useContext(AuthContext);
 
   const { isFetching, isLoading, error, data } = useQuery(
     ["contributionDetail", router.asPath],
-    () => fetchContributionDetail(router, value.userInfo)
+    () => fetchContributionDetail(router)
   );
 
   if (isFetching || isLoading) return <Loading />;

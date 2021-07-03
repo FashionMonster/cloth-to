@@ -209,7 +209,7 @@ export default function ContributionForm(props) {
         errors={props.errors.comment}
         width="408"
         isDisabled={props.isDisabled}
-        defaultValue={props.data === undefined ? "" : props.data.supplier}
+        defaultValue={props.data === undefined ? "" : props.data.comment}
       />
       <div />
     </>

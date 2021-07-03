@@ -1,30 +1,27 @@
 import axios from "axios";
-import queryString from "query-string";
 import { downloadImage } from "../downloadImage";
+import { getUserInfo } from "../getUserInfo";
 
 //データフェッチ
-async function fetchContributionDetail(router, userInfo) {
+const fetchContributionDetail = async (router) => {
   //リクエストデータ
   let reqData;
 
-  //URL直叩きの場合
-  if (router.query.contributionId === undefined) {
-    const urlData = queryString.parseUrl(router.asPath, {
-      parseFragmentIdentifier: true,
-    });
+  //useContext()のデータ取得はフェッチ後になるので、再取得
+  const userInfo = await getUserInfo();
 
-    reqData = {
-      groupId: userInfo.groupId,
-      userId: userInfo.userId,
-      contributionId: urlData.query.contributionId,
-    };
-    //通常の遷移
-  } else {
-    reqData = {
-      groupId: userInfo.groupId,
-      userId: userInfo.userId,
-      contributionId: router.query.contributionId,
-    };
+  //パスに含まれる投稿IDを取得
+  const urlParamNum = window.location.href.lastIndexOf("/") + 1;
+  const contributionId = window.location.href.substr(urlParamNum);
+
+  reqData = {
+    groupId: userInfo.groupId,
+    contributionId: contributionId,
+  };
+
+  //編集画面のデータ取得で必要になる追加データ
+  if (router.pathname === "/edit") {
+    reqData.userId = userInfo.userId;
   }
 
   const { data } = await axios.get("../api/getContributionDetail", {
@@ -44,6 +41,6 @@ async function fetchContributionDetail(router, userInfo) {
   data.imgFileUrl = imgFileUrlArray;
 
   return data;
-}
+};
 
 export { fetchContributionDetail };
