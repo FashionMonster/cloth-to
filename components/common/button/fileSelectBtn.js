@@ -13,7 +13,6 @@ const FileSelectBtn = (props) => {
         id="uploadBtn"
         className="hidden"
         onChange={props.selectFile}
-        // ref={props.register({ required: true })}
         ref={props.register({ required: props.isRequired })}
         accept=".png,.jpg,.jpeg,.gif"
       />

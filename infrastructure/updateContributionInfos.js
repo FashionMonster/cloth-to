@@ -25,8 +25,7 @@ export function updateContributionInfos(param, trn) {
       supplier: param.supplier,
       comment: param.comment,
     },
-    { where: { contribution_id: param.contributionId } },
-    { transaction: trn }
+    { where: { contribution_id: param.contributionId }, transaction: trn }
   )
     .then(() => {
       appLogInfo(CONST.FILE_NAME.UPDATE_CONTRIBUTION_INFOS, "END");

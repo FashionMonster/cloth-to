@@ -16,8 +16,7 @@ export function updateContributionImages(param, trn) {
       image_url_4: param.imageUrl4,
       image_url_5: param.imageUrl5,
     },
-    { where: { contribution_id: param.contributionId } },
-    { transaction: trn }
+    { where: { contribution_id: param.contributionId }, transaction: trn }
   )
     .then(() => {
       appLogInfo(CONST.FILE_NAME.UPDATE_CONTRIBUTION_IMAGES, "END");

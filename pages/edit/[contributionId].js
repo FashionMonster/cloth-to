@@ -41,7 +41,6 @@ export default function ContributionId() {
     () => fetchContributionDetail(router, value.userInfo)
   );
 
-  //ファイル選択イベント
   const selectFile = async (e) => {
     e.preventDefault();
 
@@ -50,13 +49,22 @@ export default function ContributionId() {
 
     //ファイル、ファイル名のセット
     let fileList = [];
-    for (const file of files) {
-      const fileUrl = await readFile(file);
-      fileList.push({
-        imgFileBlob: file,
-        imgFileUrl: fileUrl,
-        fileName: file.name,
-      });
+    for (let i = 0; i < 5; i++) {
+      //ファイルがある場合
+      if (files.length > i) {
+        const fileUrl = await readFile(files[i]);
+        fileList.push({
+          imgFileBlob: files[i],
+          imgFileUrl: fileUrl,
+          fileName: files[i].name,
+        });
+      } else {
+        fileList.push({
+          imgFileBlob: null,
+          imgFileUrl: "",
+          fileName: "",
+        });
+      }
     }
 
     setImgFile(fileList);
@@ -68,23 +76,23 @@ export default function ContributionId() {
   };
 
   const mutation = useMutation(async (formData) => {
-    if (imgFile.length !== 0) {
-      //拡張子チェック
-      for (const file of imgFile) {
+    //拡張子チェック
+    for (const file of imgFile) {
+      if (file.fileName !== "") {
         if (!isImageExt(file.fileName)) {
           setIsOpen(true);
           modalMessage.current = CONST.ERR_MSG.WORNG_EXTENSION;
           return;
         }
       }
+    }
 
-      //FireBase Storageに画像アップロード
-      const idList = uploadImage(imgFile);
+    //FireBase Storageに画像アップロード
+    const idList = uploadImage(imgFile);
 
-      //アップロード画像IDをフォームデータにセット
-      for (let i = 0; i < 5; i++) {
-        formData[`imageUrl${i + 1}`] = idList[i] === undefined ? "" : idList[i];
-      }
+    //アップロード画像IDをフォームデータにセット
+    for (let i = 0; i < 5; i++) {
+      formData[`imageUrl${i + 1}`] = idList[i] === undefined ? "" : idList[i];
     }
 
     //その他必要なデータをフォームデータにセット
