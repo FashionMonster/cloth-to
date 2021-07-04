@@ -23,10 +23,14 @@ export default function LinkUserToGroup() {
   const modalMessage = useRef("");
   const value = useContext(AuthContext);
 
-  const query = useQuery("allGroupInfo", async () => {
-    const { data } = await axios.get("./api/getAllGroupInfo");
-    return data;
-  });
+  const query = useQuery(
+    "allGroupInfo",
+    async () => {
+      const { data } = await axios.get("./api/getAllGroupInfo");
+      return data;
+    },
+    { refetchOnMount: "always" } //登録されたグループアカウントをすぐ反映するため
+  );
 
   //グループ紐づけイベント
   const linkUserToGroups = async (data) => {

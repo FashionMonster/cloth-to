@@ -25,6 +25,13 @@ export default async function handler(req, res) {
     });
   } catch (e) {
     //画面にエラー情報を返却
-    throw e;
+    //キー重複した場合
+    if (e.parent.code === "23505") {
+      res.json({
+        errorCode: e.parent.code,
+      });
+    } else {
+      throw e;
+    }
   }
 }
