@@ -75,39 +75,48 @@ export default function ContributionId() {
     mutation.mutate(data);
   };
 
-  const mutation = useMutation(async (formData) => {
-    //拡張子チェック
-    for (const file of imgFile) {
-      if (file.fileName !== "") {
-        if (!isImageExt(file.fileName)) {
-          setIsOpen(true);
-          modalMessage.current = CONST.ERR_MSG.WORNG_EXTENSION;
-          return;
+  const mutation = useMutation(
+    async (formData) => {
+      //拡張子チェック
+      for (const file of imgFile) {
+        if (file.fileName !== "") {
+          if (!isImageExt(file.fileName)) {
+            setIsOpen(true);
+            modalMessage.current = CONST.ERR_MSG.WORNG_EXTENSION;
+            return;
+          }
         }
       }
+
+      //FireBase Storageに画像アップロード
+      const idList = uploadImage(imgFile);
+
+      //アップロード画像IDをフォームデータにセット
+      for (let i = 0; i < 5; i++) {
+        formData[`imageUrl${i + 1}`] = idList[i] === undefined ? "" : idList[i];
+      }
+
+      //その他必要なデータをフォームデータにセット
+      formData.contributionId = router.query.contributionId;
+
+      await axios.post("../api/updateContribution", formData).then(() => {
+        //処理結果を表示
+        setIsOpen(true);
+        modalMessage.current = CONST.OK_MSG.FIN_UPDATE_CONTRIBUTION;
+
+        //更新後のデータをリフェッチする
+        setImgFile([]);
+      });
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries("editPath");
+        queryClient.invalidateQueries("searchPath");
+        queryClient.invalidateQueries("contributionHistoryPath");
+        queryClient.invalidateQueries("contributionDetail");
+      },
     }
-
-    //FireBase Storageに画像アップロード
-    const idList = uploadImage(imgFile);
-
-    //アップロード画像IDをフォームデータにセット
-    for (let i = 0; i < 5; i++) {
-      formData[`imageUrl${i + 1}`] = idList[i] === undefined ? "" : idList[i];
-    }
-
-    //その他必要なデータをフォームデータにセット
-    formData.contributionId = router.query.contributionId;
-
-    await axios.post("../api/updateContribution", formData).then(() => {
-      //処理結果を表示
-      setIsOpen(true);
-      modalMessage.current = CONST.OK_MSG.FIN_UPDATE_CONTRIBUTION;
-
-      //更新後のデータをリフェッチする
-      setImgFile([]);
-      queryClient.invalidateQueries("editPath");
-    });
-  });
+  );
 
   if (isFetching || isLoading || mutation.isFetching || mutation.isLoading)
     return <Loading />;

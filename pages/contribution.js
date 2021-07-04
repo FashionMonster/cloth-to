@@ -2,7 +2,7 @@ import axios from "axios";
 import Head from "next/Head";
 import React, { useContext, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useMutation } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 import { AuthContext } from "../components/common/auth/authProvider";
 import { FileSelectBtn } from "../components/common/button/fileSelectBtn";
 import { SubmitBtn } from "../components/common/button/submitBtn";
@@ -32,6 +32,7 @@ export default function Contribute() {
     setError,
     clearErrors,
   } = useForm();
+  const queryClient = useQueryClient();
 
   //ファイル選択イベント
   const selectFile = async (e) => {
@@ -68,26 +69,34 @@ export default function Contribute() {
     mutation.mutate(data);
   };
 
-  const mutation = useMutation((formData) => {
-    //FireBase Storageに画像アップロード
-    const idList = uploadImage(imgFile);
+  const mutation = useMutation(
+    (formData) => {
+      //FireBase Storageに画像アップロード
+      const idList = uploadImage(imgFile);
 
-    for (let i = 0; i < 5; i++) {
-      formData[`imageUrl${i + 1}`] = idList[i] === undefined ? "" : idList[i];
+      for (let i = 0; i < 5; i++) {
+        formData[`imageUrl${i + 1}`] = idList[i] === undefined ? "" : idList[i];
+      }
+
+      //フォームデータ以外のデータをセット
+      formData.isInit = false;
+      formData.userId = value.userInfo.userId;
+      formData.groupId = value.userInfo.groupId;
+
+      const data = axios.post("./api/insertContribution", formData).then(() => {
+        setImgFile([]); //初期化
+        setIsOpen(true);
+        modalMessage.current = CONST.OK_MSG.FIN_CREATE_CONTRIBUTION;
+      });
+      return data;
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries("searchPath");
+        queryClient.invalidateQueries("contributionHistoryPath");
+      },
     }
-
-    //フォームデータ以外のデータをセット
-    formData.isInit = false;
-    formData.userId = value.userInfo.userId;
-    formData.groupId = value.userInfo.groupId;
-
-    const data = axios.post("./api/insertContribution", formData).then(() => {
-      setImgFile([]); //初期化
-      setIsOpen(true);
-      modalMessage.current = CONST.OK_MSG.FIN_CREATE_CONTRIBUTION;
-    });
-    return data;
-  });
+  );
 
   if (mutation.isFetching || mutation.isLoading) return <Loading />;
 
