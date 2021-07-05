@@ -26,6 +26,11 @@ const fetchContributions = async (apiPath, router, userInfo) => {
       compareCondition: urlData.query.compareCondition,
     };
 
+    //履歴・編集での検索処理で必要になる追加データ
+    if (router.pathname === "/contributionHistory") {
+      reqData.userId = userInfo.userId;
+    }
+
     //通常の遷移
   } else {
     reqData = {
@@ -36,11 +41,11 @@ const fetchContributions = async (apiPath, router, userInfo) => {
       compositionRatio: router.query.compositionRatio,
       compareCondition: router.query.compareCondition,
     };
-  }
 
-  //履歴・編集での検索処理で必要になる追加データ
-  if (router.pathname === "/contributionHistory") {
-    reqData.userId = userInfo.userId;
+    //履歴・編集での検索処理で必要になる追加データ
+    if (router.pathname === "/contributionHistory") {
+      reqData.userId = userInfo.userId;
+    }
   }
 
   const { data } = await axios
