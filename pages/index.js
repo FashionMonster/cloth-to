@@ -35,13 +35,13 @@ export default function Index() {
                 <div className="grid grid-cols-indexUl">
                   <div className=" leading-16">
                     <li className="h-16">
-                      ・あなたが持つ仕入先や素材・製品に関する情報を周りに共有できていない
+                      ・仕入先や素材・製品に関する情報を周りに共有できていない
                     </li>
                     <li className="h-16">
-                      ・他の人が持つ仕入先や素材・製品に関する情報を知ることが難しい
+                      ・他社員の仕入先や素材・製品に関する情報を知ることが難しい
                     </li>
                     <li className="h-16">
-                      ・ミーティングで情報共有をしているけど、不必要な情報も多く時間を浪費している
+                      ・ミーティングで情報共有しても不必要な情報も多く時間を浪費している
                     </li>
                   </div>
                   <Image
