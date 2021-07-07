@@ -1,7 +1,8 @@
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useContext } from "react";
 import { useForm } from "react-hook-form";
 import { useQuery } from "react-query";
+import { AuthContext } from "../../components/common/auth/authProvider";
 import { BackBtn } from "../../components/common/button/backBtn";
 import { Error } from "../../components/common/error";
 import { Header } from "../../components/common/header";
@@ -14,6 +15,7 @@ import { CONST } from "../../constants/const";
 import { fetchContributionDetail } from "../../utils/getContributionDetail/fetchContributionDetail";
 
 export default function ContributionId() {
+  const value = useContext(AuthContext);
   const {
     handleSubmit,
     register,
@@ -30,6 +32,12 @@ export default function ContributionId() {
   );
 
   if (isFetching || isLoading) return <Loading />;
+
+  //ログインしていない場合に、画面が見えないようにする
+  //応急処置なので、対応予定
+  if (value.userInfo.userId === "") {
+    return <></>;
+  }
 
   if (error)
     return (

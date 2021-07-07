@@ -121,6 +121,12 @@ export default function ContributionId() {
   if (isFetching || isLoading || mutation.isFetching || mutation.isLoading)
     return <Loading />;
 
+  //ログインしていない場合に、画面が見えないようにする
+  //応急処置なので、対応予定
+  if (value.userInfo.userId === "") {
+    return <></>;
+  }
+
   if (error)
     return (
       <Error backType={CONST.BACK_TYPE.BROWSER_BACK} errorMsg={error.message} />

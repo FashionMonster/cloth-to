@@ -25,6 +25,7 @@ export default function ContributionHistory() {
   const value = useContext(AuthContext);
   const { handleSubmit, register, errors } = useForm();
   const [category, setCategory] = useState("1");
+
   const { isFetching, isLoading, error, data } = useQuery(
     ["contributionHistoryPath", router.asPath],
     () =>
@@ -45,6 +46,12 @@ export default function ContributionHistory() {
   };
 
   if (isFetching || isLoading) return <Loading />;
+
+  //ログインしていない場合に、画面が見えないようにする
+  //応急処置なので、対応予定
+  if (value.userInfo.userId === "") {
+    return <></>;
+  }
 
   if (error)
     return (

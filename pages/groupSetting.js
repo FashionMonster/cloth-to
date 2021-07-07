@@ -1,7 +1,8 @@
 import axios from "axios";
-import React, { useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useMutation } from "react-query";
+import { AuthContext } from "../components/common/auth/authProvider";
 import { SubmitBtn } from "../components/common/button/submitBtn";
 import { Error } from "../components/common/error";
 import { Header } from "../components/common/header";
@@ -17,6 +18,7 @@ export default function GroupSetting() {
   const { handleSubmit, register, errors } = useForm();
   const [modalIsOpen, setIsOpen] = useState(false);
   const modalMessage = useRef("");
+  const value = useContext(AuthContext);
 
   //グループアカウント登録イベント
   const createGroupAccount = async (data) => {
@@ -36,6 +38,12 @@ export default function GroupSetting() {
   );
 
   if (mutation.isFetching || mutation.isLoading) return <Loading />;
+
+  //ログインしていない場合に、画面が見えないようにする
+  //応急処置なので、対応予定
+  if (value.userInfo.userId === "") {
+    return <></>;
+  }
 
   if (mutation.isError)
     return (
